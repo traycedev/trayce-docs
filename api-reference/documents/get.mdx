@@ -1,7 +1,7 @@
 ---
-title: "GET /documents/{id} — Retrieve a Document Record"
+title: "GET /documents/{id} — Retrieve a Document Metadata"
 sidebarTitle: "Get Document"
-description: "Retrieve the metadata and current status of a document request or sent document by its ID. Does not return the file contents."
+description: "Retrieve the metadata and current status of a document request or sent document record by ID. File contents are never exposed via the API."
 ---
 
 Use this endpoint to check the current state of a document request or a sent document. The response includes the record's status, timestamps, recipient details, and any associated metadata. It does **not** return the actual file contents — Trayce never exposes raw document files via the API in order to protect vault holder privacy and maintain end-to-end encryption guarantees.
@@ -15,7 +15,7 @@ GET https://api.trayce.io/v1/documents/{id}
 **Headers**
 
 ```
-Authorization: Bearer <api_key>
+Authorization: Bearer sk_live_your_api_key_here
 ```
 
 ---
@@ -93,7 +93,7 @@ The `status` field reflects the current state of the document record in its life
 ```bash cURL
 curl --request GET \
   --url https://api.trayce.io/v1/documents/docreq_01hx9k3m7bfz2v6pq8n4yw5tce \
-  --header 'Authorization: Bearer <api_key>'
+  --header 'Authorization: Bearer sk_live_your_api_key_here'
 ```
 
 </CodeGroup>

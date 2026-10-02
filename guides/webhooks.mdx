@@ -1,5 +1,5 @@
 ---
-title: "Receive Real-Time Events with Trayce Webhooks"
+title: "Configure Trayce Webhooks for Real-Time Notifications"
 sidebarTitle: "Webhooks"
 description: "Configure Trayce webhooks to receive real-time notifications when verifications complete, documents are approved, and other key events occur."
 ---
@@ -160,8 +160,8 @@ app.post('/webhooks/trayce', express.raw({ type: 'application/json' }), (req, re
 ```python Python
 import hmac
 import hashlib
+import os
 import time
-import json
 
 def verify_trayce_signature(raw_body: str, signature_header: str, secret: str) -> bool:
     # Parse the header

@@ -1,10 +1,16 @@
 ---
-title: "Trayce Webhook Event Types Reference"
+title: "Webhook Events Reference — All Event Types and Payloads"
 sidebarTitle: "Events"
 description: "Complete list of Trayce webhook events, their payloads, and when they fire. Subscribe to specific events when registering your webhook endpoint."
 ---
 
-This reference lists every event type Trayce can emit, when each one fires, and an example of the `data` object delivered with it. Use these event names when registering a webhook endpoint to control which events are delivered to your server.
+This reference lists every event type Trayce can emit, when each one fires, and an example of the `data` object delivered with it. Use these event names when registering a webhook endpoint to control which events are delivered to your server. You can also retrieve this list programmatically via the API:
+
+```
+GET https://api.trayce.io/v1/webhooks/events
+```
+
+This endpoint returns the full set of supported event type strings for your integration, which is useful for dynamically populating subscription forms or validating event names in your code.
 
 <Tip>
   Subscribe only to the event types your integration actually needs. Receiving a high volume of irrelevant events can strain your server and complicate your event-handling logic. You can always update your subscription by deleting and recreating the webhook with a revised `events` array.
@@ -25,9 +31,14 @@ Fires when a new verification session is created for a user.
 ```json
 {
   "id": "ver_04lq3n6r1eib5y9tt7sszx8whf",
-  "status": "created",
-  "user_id": "usr_99ab12cd34ef56gh78ij",
-  "created_at": "2024-05-12T08:00:00Z"
+  "type": "kyc",
+  "status": "pending",
+  "subject": {
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com"
+  },
+  "created_at": "2024-05-12T08:00:00Z",
+  "expires_at": "2024-05-15T08:00:00Z"
 }
 ```
 
@@ -76,8 +87,8 @@ Fires when the review is complete and a result is available. Check `result` to d
 
 | `result` value | Meaning |
 |---|---|
-| `approved` | The user passed all verification checks. |
-| `declined` | The user did not meet the required verification criteria. |
+| `approved` | The subject passed all verification checks. |
+| `rejected` | The subject did not meet the required verification criteria. |
 | `manual_review` | The result requires human review before a final decision is made. |
 
 ---

@@ -1,7 +1,7 @@
 ---
-title: "POST /documents/send — Send a Document"
+title: "POST /documents/send — Send a Document to a Vault Holder"
 sidebarTitle: "Send Document"
-description: "Send a document to a Trayce vault holder. The file is encrypted and delivered to their vault, where they can view and store it."
+description: "Deliver a document directly to a Trayce vault holder. The file is encrypted in transit and at rest, then placed into their secure vault."
 ---
 
 Use this endpoint to proactively deliver a document to a Trayce vault holder. The uploaded file is encrypted in transit and at rest, then placed directly into the recipient's Trayce vault. The recipient is notified and can view or download the document from their vault. This is useful for sending contracts, onboarding packs, certificates, or any document the recipient needs to retain securely.
@@ -15,7 +15,7 @@ POST https://api.trayce.io/v1/documents/send
 **Headers**
 
 ```
-Authorization: Bearer <api_key>
+Authorization: Bearer sk_live_your_api_key_here
 Content-Type: multipart/form-data
 ```
 
@@ -99,7 +99,7 @@ A `201 Created` response is returned on success.
 ```bash cURL
 curl --request POST \
   --url https://api.trayce.io/v1/documents/send \
-  --header 'Authorization: Bearer <api_key>' \
+  --header 'Authorization: Bearer sk_live_your_api_key_here' \
   --form 'recipient_email=jane.doe@example.com' \
   --form 'document_type=diploma' \
   --form 'file=@/path/to/certificate.pdf' \

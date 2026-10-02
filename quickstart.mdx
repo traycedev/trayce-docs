@@ -1,5 +1,5 @@
 ---
-title: "Get Started with the Trayce API in Minutes"
+title: "Quickstart: Make Your First Trayce API Call in Minutes"
 sidebarTitle: "Quickstart"
 description: "Learn how to authenticate, make your first verification request, and handle the response using the Trayce REST API in under 10 minutes."
 ---
@@ -44,12 +44,12 @@ Before you start, make sure you have:
   </Step>
 
   <Step title="Make Your First Verification Request">
-    Submit a KYC verification by posting to `POST /verifications`. You'll provide the type of verification, the subject's basic details, and any supporting document references.
+    Submit a KYC verification by posting to `POST /verifications`. You'll provide the type of verification, the subject's basic details, and any supporting document references. The examples below use the **sandbox base URL** (`https://sandbox.api.trayce.io/v1`) — swap in `https://api.trayce.io/v1` when you're ready to go to production.
 
     <CodeGroup>
       ```bash curl
       curl --request POST \
-        --url https://api.trayce.io/v1/verifications \
+        --url https://sandbox.api.trayce.io/v1/verifications \
         --header "Authorization: Bearer $TRAYCE_API_KEY" \
         --header "Content-Type: application/json" \
         --data '{
@@ -72,7 +72,7 @@ Before you start, make sure you have:
       ```
 
       ```javascript JavaScript
-      const response = await fetch("https://api.trayce.io/v1/verifications", {
+      const response = await fetch("https://sandbox.api.trayce.io/v1/verifications", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${process.env.TRAYCE_API_KEY}`,
@@ -131,7 +131,7 @@ Before you start, make sure you have:
     <CodeGroup>
       ```bash curl
       curl --request GET \
-        --url https://api.trayce.io/v1/verifications/ver_9Kp2mXqRtL5nZwJcFd3hYe \
+        --url https://sandbox.api.trayce.io/v1/verifications/ver_9Kp2mXqRtL5nZwJcFd3hYe \
         --header "Authorization: Bearer $TRAYCE_API_KEY"
       ```
 
@@ -139,7 +139,7 @@ Before you start, make sure you have:
       const verificationId = "ver_9Kp2mXqRtL5nZwJcFd3hYe";
 
       const response = await fetch(
-        `https://api.trayce.io/v1/verifications/${verificationId}`,
+        `https://sandbox.api.trayce.io/v1/verifications/${verificationId}`,
         {
           headers: {
             Authorization: `Bearer ${process.env.TRAYCE_API_KEY}`,

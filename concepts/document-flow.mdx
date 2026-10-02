@@ -1,5 +1,5 @@
 ---
-title: "Document Exchange Flow in Trayce"
+title: "Document Exchange in Trayce: Requests and Deliveries"
 sidebarTitle: "Document Flow"
 description: "Learn how document requests and deliveries work between your platform and Trayce vault holders, including consent, encryption, and delivery confirmation."
 ---
@@ -16,16 +16,18 @@ Use the document request flow when you need a user to share a specific document 
 2. Trayce sends a push notification to the vault holder's device, identifying your business and describing the request.
 3. The vault holder opens the Trayce Vault app, reviews the full request details, and chooses to **approve** or **deny**.
 4. If approved, Trayce processes the document (extracting and validating data as configured) and delivers the result — or the document itself, if explicit sharing was consented to — to your platform via **webhook**.
-5. The result is also queryable at any time via `GET /documents/request/{request_id}`.
+5. The result is also queryable at any time via `GET /documents/{id}`, where `id` is the document ID returned in the initial response or delivered via webhook.
 
 ```bash
-POST /documents/request
-{
-  "user_id": "usr_01h8x...",
-  "document_type": "passport",
-  "purpose": "Identity verification for account opening",
-  "expires_in": 72
-}
+curl -X POST https://api.trayce.io/v1/documents/request \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "usr_01h8x...",
+    "document_type": "passport",
+    "purpose": "Identity verification for account opening",
+    "expires_in": 72
+  }'
 ```
 
 ## Sending a Document
@@ -37,16 +39,18 @@ Use the document send flow when you need to deliver a document to a vault holder
 1. Your backend calls `POST /documents/send`, attaching the document (or a reference to it) and specifying the recipient vault holder.
 2. Trayce encrypts the document and routes it securely to the target Vault.
 3. The vault holder receives a push notification and can access the document within their Vault app.
-4. Trayce returns a delivery confirmation to your platform, either via webhook or by polling `GET /documents/send/{send_id}`.
+4. Trayce returns a delivery confirmation to your platform, either via webhook or by polling `GET /documents/{id}`, where `id` is the document ID returned in the initial response.
 
 ```bash
-POST /documents/send
-{
-  "user_id": "usr_01h8x...",
-  "document_type": "signed_contract",
-  "file": "<base64-encoded-content>",
-  "description": "Your countersigned service agreement, dated 2025-06-01"
-}
+curl -X POST https://api.trayce.io/v1/documents/send \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": "usr_01h8x...",
+    "document_type": "signed_contract",
+    "file": "<base64-encoded-content>",
+    "description": "Your countersigned service agreement, dated 2025-06-01"
+  }'
 ```
 
 ## Document States

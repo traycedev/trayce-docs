@@ -1,7 +1,7 @@
 ---
 title: "POST /verifications — Create a Verification Request"
 sidebarTitle: "Create Verification"
-description: "Create a KYC, KYB, diploma, or civil status verification. Returns a verification object with an ID and pending status."
+description: "Initiate a KYC, KYB, diploma, or civil status verification request. Returns a verification object with a unique ID and pending status."
 ---
 
 Use this endpoint to initiate a new identity or document verification. Trayce supports four verification types: **KYC** (Know Your Customer — individual identity), **KYB** (Know Your Business — company identity), **diploma** (academic credential verification), and **civil_status** (birth, marriage, and civil registry checks). After creation, the returned verification `id` can be shared with the subject via your application or polled directly using [GET /verifications/{id}](/api-reference/verifications/get).
@@ -77,7 +77,7 @@ POST https://api.trayce.io/v1/verifications
 </ParamField>
 
 <ParamField body="callback_url" type="string">
-  A valid HTTPS URL to which Trayce will deliver webhook events when the verification status changes. Must begin with `https://`. See the [Webhooks](/api-reference/webhooks) guide for event payload details.
+  A valid HTTPS URL to which Trayce will deliver webhook events when the verification status changes. Must begin with `https://`. See the [Webhooks overview](/api-reference/webhooks/overview) for event payload details.
 </ParamField>
 
 <ParamField body="metadata" type="object">
@@ -147,8 +147,6 @@ curl --request POST \
   }'
 ```
 
-</CodeGroup>
-
 ```json Response
 {
   "id": "ver_01HXYZ9ABCDE",
@@ -168,6 +166,8 @@ curl --request POST \
   }
 }
 ```
+
+</CodeGroup>
 
 <Note>
   In the **sandbox environment** (`https://sandbox.api.trayce.io/v1`), verifications return instant mock results rather than entering a real review workflow. Use sandbox `sk_test_` keys during development to simulate `approved`, `rejected`, and `manual_review` outcomes without triggering live checks. Use the sandbox environment during development to iterate quickly without affecting production data.

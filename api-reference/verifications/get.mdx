@@ -1,7 +1,7 @@
 ---
-title: "GET /verifications/{id} — Retrieve a Verification"
+title: "GET /verifications/{id} — Retrieve a Verification Record"
 sidebarTitle: "Get Verification"
-description: "Retrieve a verification by its ID. Returns current status, result, and details when the verification has completed."
+description: "Retrieve the current status, result, and type-specific details of a single verification by its unique ID. Useful for polling verification outcomes."
 ---
 
 Retrieve the current state of a single verification using its unique ID. This endpoint returns the full verification object, including result and type-specific details once the verification has reached `completed` status. You can use this endpoint to poll for updates, though [webhooks](/api-reference/webhooks) are the recommended approach for production systems.
@@ -92,6 +92,8 @@ GET https://api.trayce.io/v1/verifications/{id}
 
 ## Example
 
+<CodeGroup>
+
 ```bash cURL
 curl --request GET \
   --url https://api.trayce.io/v1/verifications/ver_01HXYZ9ABCDE \
@@ -125,6 +127,8 @@ curl --request GET \
   }
 }
 ```
+
+</CodeGroup>
 
 ## Verification Statuses
 

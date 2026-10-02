@@ -1,5 +1,5 @@
 ---
-title: "POST /documents/request — Request a Document"
+title: "POST /documents/request — Request a Document from Vault"
 sidebarTitle: "Request Document"
 description: "Send a document request to a Trayce vault holder. The recipient is notified and can approve or reject sharing the document with your organization."
 ---
@@ -15,7 +15,7 @@ POST https://api.trayce.io/v1/documents/request
 **Headers**
 
 ```
-Authorization: Bearer <api_key>
+Authorization: Bearer sk_live_your_api_key_here
 Content-Type: application/json
 ```
 
@@ -115,7 +115,7 @@ A `201 Created` response is returned on success.
 ```bash cURL
 curl --request POST \
   --url https://api.trayce.io/v1/documents/request \
-  --header 'Authorization: Bearer <api_key>' \
+  --header 'Authorization: Bearer sk_live_your_api_key_here' \
   --header 'Content-Type: application/json' \
   --data '{
     "recipient": {

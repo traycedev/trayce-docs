@@ -1,7 +1,7 @@
 ---
-title: "GET /verifications — List All Verifications"
+title: "GET /verifications — List and Filter Verifications"
 sidebarTitle: "List Verifications"
-description: "Retrieve a paginated list of verifications for your organization. Filter by type, status, or date range to find specific records."
+description: "Retrieve a cursor-paginated list of verifications for your organization. Filter by type, status, or date range to find specific records quickly."
 ---
 
 Retrieve a paginated list of all verifications belonging to your organization. Results are returned in reverse-chronological order (newest first). Use the query parameters to filter down to specific verification types, statuses, or date ranges, and use cursor-based pagination to page through large result sets.
@@ -72,8 +72,6 @@ curl --request GET \
   --header 'Authorization: Bearer sk_live_your_api_key_here'
 ```
 
-</CodeGroup>
-
 ```json Response
 {
   "data": [
@@ -118,6 +116,8 @@ curl --request GET \
   }
 }
 ```
+
+</CodeGroup>
 
 To fetch the next page, pass the returned `cursor` value:
 

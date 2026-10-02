@@ -1,5 +1,5 @@
 ---
-title: "Authenticate with the Trayce API"
+title: "Trayce API Authentication: Keys, OAuth 2.0 and Security"
 sidebarTitle: "Authentication"
 description: "Trayce supports API key and OAuth 2.0 authentication. Learn how to generate credentials, pass them in requests, and handle auth errors."
 ---
@@ -90,14 +90,14 @@ Access tokens expire after the number of seconds indicated by `expires_in` (typi
 
 Trayce provides separate environments for development and production. The environment is determined by the **prefix of your API key**.
 
-| Key Prefix | Environment | Behaviour |
-|---|---|---|
-| `sk_test_` | Sandbox | Simulated verifications, no real data touched, no billing impact |
-| `sk_live_` | Production | Real verifications, live identity checks, billed per request |
+| Key Prefix | Environment | Base URL | Behaviour |
+|---|---|---|---|
+| `sk_test_` | Sandbox | `https://sandbox.api.trayce.io/v1` | Simulated verifications, no real data touched, no billing impact |
+| `sk_live_` | Production | `https://api.trayce.io/v1` | Real verifications, live identity checks, billed per request |
 
 Always develop and test against the sandbox environment. Sandbox verifications process immediately using simulated outcomes, so you can test your integration logic, webhook handling, and error paths without any risk to real data or production billing.
 
-When you're ready to go live, generate a `sk_live_` key in the Business Portal and update your environment configuration. No other code changes are required — the API surface is identical across both environments.
+When you're ready to go live, generate a `sk_live_` key in the Business Portal, update your base URL to `https://api.trayce.io/v1`, and swap in your production key. No other code changes are required — the API surface is identical across both environments.
 
 ---
 

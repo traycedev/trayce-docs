@@ -33,15 +33,16 @@ The Business Portal is the web dashboard available to your team at [app.trayce.i
 
 The Trayce REST API is how your product communicates with the platform programmatically. All verification requests, document exchanges, status queries, and webhook configurations are available through the API. Every API call is authenticated, every action is logged, and every response is consistently structured so you can build reliable, predictable integrations.
 
-## Base URL
+## Base URLs
 
-All API requests are made to the following base URL:
+Trayce provides separate environments for development and production. Use the sandbox URL while building and testing your integration, and the production URL when you go live.
 
-```
-https://api.trayce.io/v1
-```
+| Environment | Base URL |
+|---|---|
+| **Production** | `https://api.trayce.io/v1` |
+| **Sandbox** | `https://sandbox.api.trayce.io/v1` |
 
-Append the relevant endpoint path to this base URL for every request. For example, to create a verification: `POST https://api.trayce.io/v1/verifications`.
+Append the relevant endpoint path to the appropriate base URL for every request. For example, to create a verification in the sandbox: `POST https://sandbox.api.trayce.io/v1/verifications`.
 
 <Note>
   All calls to the Trayce API must include a valid `Authorization: Bearer <token>` header. Unauthenticated requests will receive a `401 Unauthorized` response. See the [Authentication](/authentication) page for full details on API keys and OAuth 2.0.
