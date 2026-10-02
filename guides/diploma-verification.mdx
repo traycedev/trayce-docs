@@ -1,0 +1,143 @@
+---
+title: "Verify Academic Diplomas and Credentials with Trayce"
+sidebarTitle: "Diploma Verification"
+description: "Use the Trayce API to verify the authenticity of diplomas, degrees, and professional certifications submitted by individuals via their Vault."
+---
+
+Credential fraud is a persistent challenge across hiring, lending, and licensing workflows. Trayce's diploma verification flow allows you to confirm that a degree or professional certification claimed by an individual is genuine — without relying on paper copies or manual outreach to institutions. HR teams use it to screen new hires, fintechs use it to assess borrower profiles, and education platforms use it to gate access to advanced programs. The individual is notified in their Trayce Vault, uploads their credential, and Trayce authenticates it against institution databases and document integrity markers.
+
+<Steps>
+
+  <Step title="Create a Diploma Verification">
+    Initiate a diploma verification by sending a `POST` request to `/verifications` with `type: "diploma"`. You can pass optional hints in the `diploma` object to guide the verification — if the individual has already told you what degree they hold, including those details improves matching speed and accuracy.
+
+    ```bash Request
+    curl -X POST https://api.trayce.io/v1/verifications \
+      -H "Authorization: Bearer <api_key>" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "type": "diploma",
+        "subject": {
+          "name": "Claire Martin",
+          "email": "claire.martin@example.com"
+        },
+        "diploma": {
+          "level": "master",
+          "institution": "Université Paris-Saclay",
+          "graduation_year": 2021
+        },
+        "callback_url": "https://yourapp.com/webhooks/trayce",
+        "metadata": {
+          "application_id": "app_7723"
+        }
+      }'
+    ```
+
+    ```json Response
+    {
+      "id": "ver_05R2MN8BVKJ4DYZX0WQTL9PCF",
+      "type": "diploma",
+      "status": "pending",
+      "subject": {
+        "name": "Claire Martin",
+        "email": "claire.martin@example.com"
+      },
+      "diploma": {
+        "level": "master",
+        "institution": "Université Paris-Saclay",
+        "graduation_year": 2021
+      },
+      "callback_url": "https://yourapp.com/webhooks/trayce",
+      "metadata": {
+        "application_id": "app_7723"
+      },
+      "created_at": "2024-07-15T14:05:19Z"
+    }
+    ```
+
+    Store the `id` to track this verification throughout its lifecycle.
+  </Step>
+
+  <Step title="User Submits Diploma">
+    The subject receives a push notification in their Trayce Vault app (or an email/SMS link if they haven't set up the app). Trayce presents them with your verification request, including your organization's name and the stated purpose.
+
+    The vault holder then:
+
+    1. Reviews and consents to the credential sharing request.
+    2. Selects or uploads their diploma document from their Vault (PDF scan, official digital credential, or a photo of the physical document).
+    3. Optionally adds supplementary documents such as transcripts or award certificates if prompted.
+
+    All document handling occurs within the Vault — your systems receive only the structured verification result.
+  </Step>
+
+  <Step title="Trayce Authenticates the Credential">
+    Once the document is submitted, Trayce performs a multi-layer authentication process:
+
+    - **Document integrity check** — visual and metadata analysis to detect signs of tampering or forgery.
+    - **Institution database lookup** — the credential is cross-referenced against Trayce's network of connected academic registries and partner institutions.
+    - **Data consistency check** — extracted fields (name, degree level, institution, graduation year) are compared against the hints you provided and against registry data where available.
+
+    Most verifications complete within a few minutes. For institutions not yet in Trayce's automatic lookup network, the verification may enter a `"review"` state for manual processing — see the note at the bottom of this page.
+  </Step>
+
+  <Step title="Read the Result">
+    Retrieve the verification to access the outcome and extracted credential details.
+
+    ```bash Request
+    curl https://api.trayce.io/v1/verifications/ver_05R2MN8BVKJ4DYZX0WQTL9PCF \
+      -H "Authorization: Bearer <api_key>"
+    ```
+
+    ```json Response
+    {
+      "id": "ver_05R2MN8BVKJ4DYZX0WQTL9PCF",
+      "type": "diploma",
+      "status": "completed",
+      "result": "approved",
+      "subject": {
+        "name": "Claire Martin",
+        "email": "claire.martin@example.com"
+      },
+      "details": {
+        "institution": "Université Paris-Saclay",
+        "institution_country": "FR",
+        "degree_level": "master",
+        "field_of_study": "Computer Science",
+        "graduation_year": 2021,
+        "credential_id": "UPS-2021-MSC-088742",
+        "verified_at": "2024-07-15T14:11:32Z"
+      },
+      "metadata": {
+        "application_id": "app_7723"
+      },
+      "created_at": "2024-07-15T14:05:19Z",
+      "updated_at": "2024-07-15T14:11:32Z"
+    }
+    ```
+
+    A `result` of `"approved"` confirms the credential is authentic and consistent with the individual's claims. A `result` of `"rejected"` indicates a failed authenticity check — inspect `details.rejection_reason` for specifics (e.g. `"document_tampered"`, `"institution_mismatch"`, `"graduation_year_mismatch"`).
+  </Step>
+
+</Steps>
+
+---
+
+## Supported Credential Types
+
+Trayce diploma verification supports the following credential categories. Pass the corresponding value in the `diploma.level` field as a hint, or leave it blank to allow Trayce to determine the level from the submitted document.
+
+| Credential Type | `diploma.level` value | Description |
+|---|---|---|
+| Bachelor's degree | `"bachelor"` | Three or four-year undergraduate university degree. |
+| Master's degree | `"master"` | Postgraduate degree (MSc, MA, MBA, MEng, etc.). |
+| Doctorate / PhD | `"phd"` | Doctoral research degree conferred by a university. |
+| Vocational qualification | `"vocational"` | BTS, BEP, CAP, and equivalent vocational diplomas. |
+| Professional certification | `"certification"` | Industry-issued professional certifications (e.g. CPA, PMP, AWS Certified). |
+
+For professional certifications, include the issuing body in `diploma.institution` (e.g. `"Project Management Institute"`) to enable issuer-specific validation where supported.
+
+---
+
+<Note>
+  Trayce performs automatic verification for a continuously growing network of universities, grandes écoles, and certification bodies. For institutions not yet covered by automatic lookup, the verification transitions to `status: "review"` and a Trayce analyst manually validates the credential within 1–2 business days. You will receive a `verification.completed` webhook event once the review concludes, and the result will be the same `approved` / `rejected` structure. You can query `details.verification_method` to see whether a result was produced automatically (`"automated"`) or via manual review (`"manual"`).
+</Note>

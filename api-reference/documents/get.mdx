@@ -1,0 +1,119 @@
+---
+title: "GET /documents/{id} — Retrieve a Document Record"
+sidebarTitle: "Get Document"
+description: "Retrieve the metadata and current status of a document request or sent document by its ID. Does not return the file contents."
+---
+
+Use this endpoint to check the current state of a document request or a sent document. The response includes the record's status, timestamps, recipient details, and any associated metadata. It does **not** return the actual file contents — Trayce never exposes raw document files via the API in order to protect vault holder privacy and maintain end-to-end encryption guarantees.
+
+## Endpoint
+
+```
+GET https://api.trayce.io/v1/documents/{id}
+```
+
+**Headers**
+
+```
+Authorization: Bearer <api_key>
+```
+
+---
+
+## Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the document record to retrieve. This is the `id` returned when you created the document request (`POST /documents/request`) or sent a document (`POST /documents/send`).
+</ParamField>
+
+---
+
+## Response
+
+A `200 OK` response is returned on success.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the document record.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Whether this record originated from a document request or a sent document. Either `request` or `send`.
+</ResponseField>
+
+<ResponseField name="document_type" type="string">
+  The category of document (e.g., `passport`, `diploma`). See the full enum in the [Request Document](/api-reference/documents/request) reference.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current lifecycle status of this record. See [Document Statuses](#document-statuses) below.
+</ResponseField>
+
+<ResponseField name="recipient" type="object">
+  An object containing the recipient's contact details (email and/or phone number) as originally provided.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the record was created.
+</ResponseField>
+
+<ResponseField name="updated_at" type="string">
+  ISO 8601 timestamp of the most recent status change.
+</ResponseField>
+
+<ResponseField name="approved_at" type="string">
+  ISO 8601 timestamp of when the vault holder approved the document request. Only present when `status` is `approved` or `delivered`, and `type` is `request`.
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  The free-form metadata object provided when the record was created, returned as-is.
+</ResponseField>
+
+---
+
+## Document Statuses
+
+The `status` field reflects the current state of the document record in its lifecycle.
+
+| Status | Applies To | Description |
+|---|---|---|
+| `pending` | `request` | The request has been sent and is awaiting action from the vault holder. |
+| `approved` | `request` | The vault holder consented to the request; the document is on its way to your organization. |
+| `rejected` | `request` | The vault holder explicitly declined the document request. |
+| `delivered` | `request`, `send` | The document has been successfully received by the business (for requests) or confirmed received by the vault holder (for sends). |
+| `expired` | `request` | The request timed out before the vault holder responded. |
+| `sent` | `send` | The document has been dispatched and is awaiting delivery confirmation from the recipient's vault. |
+| `failed` | `request`, `send` | The operation could not be completed due to a delivery error or vault issue. |
+
+---
+
+## Example
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.trayce.io/v1/documents/docreq_01hx9k3m7bfz2v6pq8n4yw5tce \
+  --header 'Authorization: Bearer <api_key>'
+```
+
+</CodeGroup>
+
+**Response**
+
+```json
+{
+  "id": "docreq_01hx9k3m7bfz2v6pq8n4yw5tce",
+  "type": "request",
+  "document_type": "passport",
+  "status": "approved",
+  "recipient": {
+    "email": "jane.doe@example.com"
+  },
+  "created_at": "2024-05-12T09:15:00Z",
+  "updated_at": "2024-05-12T11:42:00Z",
+  "approved_at": "2024-05-12T11:42:00Z",
+  "metadata": {
+    "internal_case_id": "HR-20240512"
+  }
+}
+```

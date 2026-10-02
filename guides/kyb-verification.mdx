@@ -1,0 +1,183 @@
+---
+title: "Run KYB Business Verification with Trayce"
+sidebarTitle: "KYB Verification"
+description: "Learn how to verify a company's legal existence, registration status, and beneficial owners using the Trayce KYB verification API."
+---
+
+Before onboarding a business partner, vendor, or corporate client, you need confidence that the entity is legally registered, in good standing, and that you know who ultimately controls it. Trayce's KYB (Know Your Business) verification flow cross-references official company registries across supported countries, validates registration numbers and VAT identifiers, and surfaces the beneficial ownership structure — all through a single API call.
+
+<Steps>
+
+  <Step title="Create a KYB Verification">
+    Initiate a KYB check by sending a `POST` request to `/verifications` with `type: "kyb"` and a `company` object describing the entity you want to verify.
+
+    ```bash Request
+    curl -X POST https://api.trayce.io/v1/verifications \
+      -H "Authorization: Bearer <api_key>" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "type": "kyb",
+        "company": {
+          "name": "Acme Technologies SAS",
+          "registration_number": "823 456 789",
+          "country": "FR",
+          "vat_number": "FR40823456789"
+        },
+        "callback_url": "https://yourapp.com/webhooks/trayce",
+        "metadata": {
+          "internal_org_id": "org_4410"
+        }
+      }'
+    ```
+
+    ```json Response
+    {
+      "id": "ver_02K7PQ9NYWR5UCXS1AMTD3GBE",
+      "type": "kyb",
+      "status": "pending",
+      "company": {
+        "name": "Acme Technologies SAS",
+        "registration_number": "823 456 789",
+        "country": "FR",
+        "vat_number": "FR40823456789"
+      },
+      "callback_url": "https://yourapp.com/webhooks/trayce",
+      "metadata": {
+        "internal_org_id": "org_4410"
+      },
+      "created_at": "2024-07-15T11:00:04Z"
+    }
+    ```
+
+    Store the returned `id` to track and retrieve the verification result.
+  </Step>
+
+  <Step title="Submit Supporting Documents">
+    For certain jurisdictions or risk tiers, Trayce may require additional documentary evidence — such as a certified company registration certificate, articles of association, or a proof of registered address. When this is needed, `status` will transition to `"documents_required"` and the `required_documents` array in the verification response will list what is needed.
+
+    To request those documents from the company's authorized representative, call `POST /documents/request`:
+
+    ```bash Request
+    curl -X POST https://api.trayce.io/v1/documents/request \
+      -H "Authorization: Bearer <api_key>" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "recipient": {
+          "email": "legal@acmetechnologies.fr"
+        },
+        "document_type": "company_registration",
+        "reason": "Required to complete KYB verification for Acme Technologies SAS.",
+        "expires_in": 259200
+      }'
+    ```
+
+    The authorized representative receives a secure request in their Trayce Vault. Once they approve and share the document, it is automatically attached to the verification and processing resumes. See the [Document Exchange guide](/guides/document-request) for full details on the document request flow.
+  </Step>
+
+  <Step title="Check Verification Status">
+    You can receive the verification outcome by polling the endpoint or by listening for the `verification.completed` webhook event.
+
+    **Option A — Poll the verification:**
+
+    ```bash
+    curl https://api.trayce.io/v1/verifications/ver_02K7PQ9NYWR5UCXS1AMTD3GBE \
+      -H "Authorization: Bearer <api_key>"
+    ```
+
+    The `status` field progresses through `pending` → `in_progress` → `completed` (or `failed`). For verifications requiring documents, you may also see `documents_required` as an intermediate state.
+
+    **Option B — Webhook event:**
+
+    When processing finishes, Trayce sends a `verification.completed` event to your `callback_url`. See the [Webhooks guide](/guides/webhooks) for payload structure and how to verify webhook signatures.
+  </Step>
+
+  <Step title="Read the Result">
+    Retrieve the completed verification to access the full business profile and beneficial ownership data.
+
+    ```bash Request
+    curl https://api.trayce.io/v1/verifications/ver_02K7PQ9NYWR5UCXS1AMTD3GBE \
+      -H "Authorization: Bearer <api_key>"
+    ```
+
+    ```json Response
+    {
+      "id": "ver_02K7PQ9NYWR5UCXS1AMTD3GBE",
+      "type": "kyb",
+      "status": "completed",
+      "result": "approved",
+      "company": {
+        "name": "Acme Technologies SAS",
+        "registration_number": "823 456 789",
+        "country": "FR",
+        "vat_number": "FR40823456789"
+      },
+      "details": {
+        "company_name": "ACME TECHNOLOGIES SAS",
+        "registration_number": "823 456 789",
+        "legal_form": "SAS",
+        "registered_at": "2018-04-12",
+        "registered_address": "14 Rue de la Paix, 75001 Paris, France",
+        "status": "active",
+        "beneficial_owners": [
+          {
+            "name": "Marc Dupont",
+            "ownership_percentage": 60.0,
+            "role": "President"
+          },
+          {
+            "name": "Sophie Laurent",
+            "ownership_percentage": 40.0,
+            "role": "Shareholder"
+          }
+        ]
+      },
+      "metadata": {
+        "internal_org_id": "org_4410"
+      },
+      "created_at": "2024-07-15T11:00:04Z",
+      "updated_at": "2024-07-15T11:03:47Z"
+    }
+    ```
+
+    A `result` of `"approved"` confirms the company is legally registered and active. A `result` of `"rejected"` means the entity could not be verified — inspect `details.rejection_reason` for the specific cause.
+  </Step>
+
+</Steps>
+
+---
+
+## KYB Request Parameters
+
+<ParamField body="type" type="string" required>
+  Must be `"kyb"` to initiate a KYB business verification.
+</ParamField>
+
+<ParamField body="company.name" type="string" required>
+  The full legal name of the company as registered with the relevant authority (e.g. `"Acme Technologies SAS"`).
+</ParamField>
+
+<ParamField body="company.registration_number" type="string" required>
+  The official company registration number (e.g. SIRET/SIREN in France, Companies House number in the UK, EIN in the US). Formatting conventions vary by country — pass the number as it appears on official documents.
+</ParamField>
+
+<ParamField body="company.country" type="string" required>
+  The ISO 3166-1 alpha-2 country code of the jurisdiction in which the company is registered (e.g. `"FR"`, `"GB"`, `"DE"`).
+</ParamField>
+
+<ParamField body="company.vat_number" type="string">
+  The company's VAT identification number. Optional but recommended — providing it improves match accuracy for European entities.
+</ParamField>
+
+<ParamField body="callback_url" type="string">
+  An HTTPS URL to which Trayce will POST webhook events for this verification. If omitted, poll the verification endpoint for status updates.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  A free-form key-value object for your internal reference (e.g. `internal_org_id`). Returned as-is in all responses and webhook payloads for this verification.
+</ParamField>
+
+---
+
+<Tip>
+  For thorough due diligence, combine KYB with individual KYC checks on each beneficial owner. Once your KYB verification returns a `beneficial_owners` array, pass each owner's `name` and contact details into a separate `POST /verifications` call with `type: "kyc"`. This gives you a complete picture of both the legal entity and the real people behind it — a common requirement under AML/CFT compliance frameworks.
+</Tip>

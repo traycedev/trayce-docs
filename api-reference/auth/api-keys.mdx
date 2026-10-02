@@ -1,0 +1,106 @@
+---
+title: "Trayce API Key Authentication Reference"
+sidebarTitle: "API Keys"
+description: "Use API keys to authenticate Trayce API requests. Learn how to generate keys, pass them as Bearer tokens, and manage key permissions."
+---
+
+API keys are the simplest way to authenticate requests to the Trayce API. Each key is tied to your organization and carries a defined set of permission scopes. You can create multiple keys for different environments, services, or team members — and revoke any of them independently without affecting the others.
+
+## Generating an API Key
+
+To generate a new API key, navigate to the **Business Portal** and follow these steps:
+
+1. Go to **Settings** → **API Keys**.
+2. Click **Create Key**.
+3. Enter a descriptive **name** for the key (e.g., `production-backend`, `ci-pipeline`).
+4. Choose a **permission scope** — either **Read-Only** (suitable for dashboards or reporting services) or **Full Access** (required for creating and managing verifications).
+5. Click **Generate**. Copy your key immediately — it will not be shown again.
+
+<Warning>
+  Store your API key in a secure location as soon as it is generated. Trayce does not store the raw key value and cannot recover it for you. If you lose a key, you must rotate it.
+</Warning>
+
+## Using Your API Key
+
+Pass your API key as a Bearer token in the `Authorization` header of every request.
+
+```
+Authorization: Bearer <your_api_key>
+```
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.trayce.io/v1/verifications \
+  --header 'Authorization: Bearer sk_live_your_api_key_here'
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.trayce.io/v1/verifications', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer sk_live_your_api_key_here',
+    'Content-Type': 'application/json',
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+headers = {
+    "Authorization": "Bearer sk_live_your_api_key_here",
+    "Content-Type": "application/json",
+}
+
+response = requests.get("https://api.trayce.io/v1/verifications", headers=headers)
+print(response.json())
+```
+
+</CodeGroup>
+
+## Key Prefixes
+
+Trayce API keys use a prefix to indicate the environment they belong to:
+
+| Prefix | Environment | Base URL |
+|---|---|---|
+| `sk_test_` | Sandbox | `https://sandbox.api.trayce.io/v1` |
+| `sk_live_` | Production | `https://api.trayce.io/v1` |
+
+<Warning>
+  Never use `sk_live_` production keys in test or development code. A live key used in a misconfigured integration could trigger real verification workflows, charge your account, or expose sensitive customer data.
+</Warning>
+
+## Key Scopes
+
+When creating an API key, you assign it one or more scopes that govern what the key is permitted to do. Requests made with a key that lacks the required scope will receive a `403 Forbidden` response.
+
+| Scope | Description |
+|---|---|
+| `verifications:read` | List and retrieve verification records |
+| `verifications:write` | Create, update, and cancel verifications |
+| `documents:read` | Retrieve uploaded documents associated with a verification |
+| `documents:write` | Upload and delete documents |
+| `webhooks:manage` | Create, update, and delete webhook endpoints |
+
+Assign only the scopes your integration actually needs. Following the principle of least privilege reduces the blast radius of a compromised key.
+
+## Rotating Keys
+
+You can rotate an API key at any time from the Business Portal without causing downtime, as long as you follow this zero-downtime procedure:
+
+1. **Create a new key** with the same name and scopes as the key you want to replace.
+2. **Deploy the new key** to all applications, services, and CI pipelines that use it.
+3. **Verify** that all systems are operating normally with the new key.
+4. **Delete the old key** from **Settings** → **API Keys**.
+
+The old key continues to work until you explicitly delete it, so there is no race condition between steps 2 and 4.
+
+<Warning>
+  Never commit API keys to version control. Use environment variables, a secrets manager (e.g., AWS Secrets Manager, HashiCorp Vault, or Doppler), or your CI/CD platform's secret storage instead. If a key is ever accidentally committed, revoke it immediately from the Business Portal — treat it as compromised regardless of whether the repository is public or private.
+</Warning>

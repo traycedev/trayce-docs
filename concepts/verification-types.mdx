@@ -1,0 +1,117 @@
+---
+title: "Verification Types Supported by Trayce"
+sidebarTitle: "Verification Types"
+description: "Trayce supports KYC identity checks, KYB company checks, diploma verification, and civil status document validation. Learn what each type covers."
+---
+
+Trayce supports four core verification types, each designed for a distinct compliance or operational use case. All types share the same underlying request lifecycle — you initiate the check via the API or Business Portal, the vault holder consents, and Trayce returns a structured result. What differs is the document category, the checks performed, and the result fields returned.
+
+<Tabs>
+  <Tab title="KYC">
+    ## KYC — Know Your Customer
+
+    KYC verification confirms the real-world identity of an individual using a government-issued identity document combined with a biometric liveness check. Trayce extracts and validates data from the document, compares it against the liveness capture, and checks the document's authenticity markers.
+
+    **What Trayce checks:**
+    - Document authenticity (chip data, security features, expiry)
+    - Face match between the document photo and the liveness capture
+    - Name, date of birth, nationality, and document number extraction
+    - Sanctions and PEP (Politically Exposed Person) screening (available as an add-on)
+
+    **Supported documents:**
+    - National identity card
+    - Passport
+    - Driver's license (where accepted as a primary ID)
+
+    **Common use cases:**
+    - Customer onboarding for financial products
+    - AML (Anti-Money Laundering) compliance
+    - Age verification
+    - Remote account opening for banks, fintechs, and exchanges
+  </Tab>
+  <Tab title="KYB">
+    ## KYB — Know Your Business
+
+    KYB verification confirms the legal existence of a company and validates its registration details, directors, and beneficial owners. Trayce cross-references submitted documents against official company registries where available, and returns a structured result covering the entity's standing.
+
+    **What Trayce checks:**
+    - Company registration number and legal name
+    - Registered address and jurisdiction
+    - Director and beneficial owner identities (linked to KYC checks where required)
+    - Company status (active, dissolved, suspended)
+
+    **Supported documents:**
+    - Articles of incorporation / certificate of incorporation
+    - Company registry extract
+    - Beneficial ownership declaration
+    - VAT or tax registration certificate
+
+    **Common use cases:**
+    - B2B onboarding and supplier verification
+    - Corporate account opening
+    - Grant and tender eligibility checks
+    - Marketplace seller verification
+  </Tab>
+  <Tab title="Diploma Verification">
+    ## Diploma Verification
+
+    Diploma verification confirms the authenticity of academic and professional credentials. Trayce validates the document's format and security features, and where supported, cross-references with issuing institution records or accreditation databases.
+
+    **What Trayce checks:**
+    - Document authenticity and institution details
+    - Degree type, field of study, and graduation date
+    - Holder name and match against identity documents (optional)
+    - Accreditation status of the issuing institution (where available)
+
+    **Supported credential types:**
+    - Bachelor's degree
+    - Master's degree
+    - Doctoral (PhD) certificate
+    - Professional certifications and trade qualifications
+    - Continuing education certificates
+
+    **Common use cases:**
+    - HR background checks and pre-hire credential screening
+    - Education platform enrollment verification
+    - Regulated profession licensing (medical, legal, engineering)
+    - Scholarship and grant eligibility
+  </Tab>
+  <Tab title="Civil Status">
+    ## Civil Status Verification
+
+    Civil status verification validates official civil registry documents — birth certificates, marriage certificates, family records, and related documents. These checks confirm the document's authenticity and extract structured data for downstream use in legal, insurance, or government workflows.
+
+    **What Trayce checks:**
+    - Document authenticity and issuing authority
+    - Key data fields (names, dates, registration numbers)
+    - Document integrity (unaltered, unexpired where applicable)
+
+    **Supported document types:**
+    - Birth certificate
+    - Marriage certificate
+    - Divorce decree
+    - Death certificate
+    - Family record book (livret de famille)
+
+    **Common use cases:**
+    - Insurance policy underwriting and claims processing
+    - Legal services and notarial processes
+    - Government portal identity verification
+    - Inheritance and estate administration
+  </Tab>
+</Tabs>
+
+## Verification Result Fields
+
+All verification types return a consistent result envelope. The `details` object contains verification-type-specific fields in addition to the standard fields below.
+
+| Field | Type | Description |
+|---|---|---|
+| `status` | `string` | Lifecycle state of the verification request. One of `pending`, `in_progress`, `completed`, or `failed`. |
+| `result` | `string` | Outcome of the completed verification. One of `approved`, `rejected`, or `manual_review`. |
+| `verified_at` | `string (ISO 8601)` | Timestamp of when the verification was completed. `null` if not yet completed. |
+| `details` | `object` | Verification-type-specific fields, such as extracted document data, matched fields, and sub-check results. See the API reference for each type's `details` schema. |
+
+<Tip>
+  You can combine multiple verification types in a single workflow by chaining requests or using Trayce's **campaign** feature in the Business Portal. For example, a financial services onboarding flow can trigger a KYC check and a proof-of-address check simultaneously, requiring only one interaction from the end user.
+</Tip>

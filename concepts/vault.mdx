@@ -1,0 +1,58 @@
+---
+title: "The Trayce Vault: Secure Personal Document Storage"
+sidebarTitle: "Vault"
+description: "The Trayce Vault is a mobile app where individuals store encrypted identity documents and respond to business verification requests."
+---
+
+The Trayce Vault is a mobile application for individuals. It acts as a secure, encrypted digital wallet for identity documents — from government-issued IDs and passports to diplomas, civil status certificates, and beyond. The Vault is the user-facing half of every Trayce verification: when a business requests proof of identity or credentials, it is the Vault holder who reviews, consents, and responds.
+
+## How the Vault Works
+
+Getting started with the Vault is straightforward for end users, and requires no action from your development team.
+
+1. **Download** — The user installs the Trayce Vault app on their iOS or Android device.
+2. **Account creation** — The user registers using their phone number. A secure, device-bound identity is established during onboarding.
+3. **Add documents** — The user uploads or scans their documents. Each document is encrypted on-device before being stored, using keys tied to the user's identity.
+4. **Receive requests** — When your platform sends a verification or document request via the Trayce API, the vault holder receives a push notification.
+5. **Review and respond** — The user opens the Vault, reads the details of the request (who is asking, what document is needed, and why), and chooses to **approve** or **deny** it.
+6. **Result delivered** — If approved, Trayce processes the verification and delivers the result to your platform. If denied, the request is closed and your platform is notified accordingly.
+
+## Supported Document Types
+
+The Vault supports a wide range of personal and corporate documents:
+
+- **National identity card**
+- **Passport**
+- **Driver's license**
+- **Proof of address** (utility bill, bank statement)
+- **Diploma or degree certificate** (bachelor's, master's, PhD, professional certifications)
+- **Birth certificate**
+- **Marriage certificate**
+- **Company registration documents** (articles of incorporation, beneficial ownership records)
+
+Additional document types can be supported for enterprise customers — contact Trayce support to discuss custom document categories.
+
+## User Consent
+
+No document ever leaves the Vault without the user's explicit, informed approval. Each request displayed in the Vault includes:
+
+- The **name and verified identity** of the requesting business.
+- The **specific document or credential** being requested.
+- The **stated purpose** of the request, as provided by the business at the time the request was created.
+- The **expiry time** of the request.
+
+Users can approve or deny any request at any time before it expires. Approved shares are scoped strictly to the requesting business and the stated purpose — they do not grant ongoing access to the Vault or its contents.
+
+## For Businesses
+
+As a business integrating Trayce, you never interact with the Vault directly. Your integration points are the **Trayce REST API** and the **Business Portal**. You create and manage requests through those surfaces; the Vault handles the user-facing consent flow on your behalf.
+
+This separation means:
+
+- You don't need to build any mobile UI or notification infrastructure.
+- Consent records are managed and audited by Trayce, reducing your compliance burden.
+- Users interact with a consistent, trusted Trayce experience regardless of which business is requesting their documents.
+
+<Info>
+  Vault onboarding is fully handled by Trayce. You do not need to build or maintain any mobile integration. Simply direct your users to download the Trayce Vault app — Trayce takes care of identity binding, encryption setup, and document management from there.
+</Info>

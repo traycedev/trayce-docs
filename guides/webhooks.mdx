@@ -1,0 +1,240 @@
+---
+title: "Receive Real-Time Events with Trayce Webhooks"
+sidebarTitle: "Webhooks"
+description: "Configure Trayce webhooks to receive real-time notifications when verifications complete, documents are approved, and other key events occur."
+---
+
+Polling the Trayce API is fine for low-volume testing, but for production workflows you should use webhooks. Trayce webhooks deliver real-time `POST` notifications to your server the moment something meaningful happens — a KYC verification completes, a document request is approved, a delivery is confirmed. Your system can react immediately without burning API quota on repeated polls.
+
+---
+
+## Register a Webhook
+
+Register a webhook endpoint by calling `POST /webhooks`. Provide the HTTPS URL Trayce should call, and the list of events you want to subscribe to.
+
+```bash Request
+curl -X POST https://api.trayce.io/v1/webhooks \
+  -H "Authorization: Bearer <api_key>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://yourapp.com/webhooks/trayce",
+    "events": [
+      "verification.completed",
+      "document.approved",
+      "document.rejected",
+      "document.delivered",
+      "document.expired"
+    ]
+  }'
+```
+
+```json Response
+{
+  "webhook_id": "wh_9XKLT4NVQR2BSYPF",
+  "url": "https://yourapp.com/webhooks/trayce",
+  "events": [
+    "verification.completed",
+    "document.approved",
+    "document.rejected",
+    "document.delivered",
+    "document.expired"
+  ],
+  "secret": "whsec_7m4NpXkRz3qJ8LdT2vYcAeWsBhUgCiOf",
+  "created_at": "2024-07-15T09:00:00Z"
+}
+```
+
+The `secret` in the response is shown **only once**. Copy it immediately and store it securely (e.g. as an environment variable). You'll use it to verify the signature on every inbound webhook payload — see [Verifying Webhook Signatures](#verifying-webhook-signatures) below.
+
+You can register multiple webhooks with different URLs and different event subscriptions — for example, routing verification events to one service and document events to another.
+
+---
+
+## Webhook Payload Structure
+
+Every webhook Trayce delivers is a `POST` request with a JSON body and a `Content-Type: application/json` header. Here is an example payload for a `verification.completed` event:
+
+```json
+{
+  "event": "verification.completed",
+  "webhook_id": "wh_9XKLT4NVQR2BSYPF",
+  "delivery_id": "dlv_A3MNRZ8KQVH5TWYP",
+  "created_at": "2024-07-15T10:31:07Z",
+  "data": {
+    "verification_id": "ver_01J3KZ2MXQP8TNVR4HSBW6FCD",
+    "type": "kyc",
+    "status": "completed",
+    "result": "approved",
+    "subject": {
+      "name": "Jane Doe",
+      "email": "jane.doe@example.com"
+    },
+    "details": {
+      "document_type": "passport",
+      "country": "FR",
+      "verified_at": "2024-07-15T10:30:58Z"
+    },
+    "metadata": {
+      "internal_user_id": "usr_8821"
+    }
+  }
+}
+```
+
+| Field | Description |
+|---|---|
+| `event` | The event type that triggered this delivery (e.g. `verification.completed`). |
+| `webhook_id` | The ID of the webhook registration that matched this event. |
+| `delivery_id` | A unique ID for this specific delivery attempt. Useful for deduplication and debugging. |
+| `created_at` | ISO 8601 timestamp of when the event was generated. |
+| `data` | The event payload. Its structure varies by event type — refer to the [Available Events](#available-events) section. |
+
+---
+
+## Verifying Webhook Signatures
+
+Every webhook request Trayce sends includes a `Trayce-Signature` header. This header contains an HMAC-SHA256 signature computed over the raw request body using your webhook `secret`. **Always verify this signature before processing a webhook payload** — it ensures the request genuinely came from Trayce and has not been tampered with in transit.
+
+The `Trayce-Signature` header format is:
+
+```
+Trayce-Signature: t=1721037067,v1=3d4f8a1b2c9e7f0a5d6b4c3e2f1a8b9c0d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3
+```
+
+- `t` — Unix timestamp of when the signature was computed. Use this to guard against replay attacks by rejecting payloads older than a few minutes.
+- `v1` — The HMAC-SHA256 hex digest. Compute your own digest over `{t}.{raw_body}` and compare.
+
+<CodeGroup>
+
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifyTrayceSignature(rawBody, signatureHeader, secret) {
+  // Parse the header
+  const parts = Object.fromEntries(
+    signatureHeader.split(',').map(part => part.split('='))
+  );
+  const timestamp = parts['t'];
+  const receivedSignature = parts['v1'];
+
+  // Guard against replay attacks (reject if older than 5 minutes)
+  const now = Math.floor(Date.now() / 1000);
+  if (Math.abs(now - parseInt(timestamp, 10)) > 300) {
+    throw new Error('Webhook timestamp is too old — possible replay attack.');
+  }
+
+  // Compute expected signature
+  const signedPayload = `${timestamp}.${rawBody}`;
+  const expectedSignature = crypto
+    .createHmac('sha256', secret)
+    .update(signedPayload, 'utf8')
+    .digest('hex');
+
+  // Compare using a timing-safe method
+  const match = crypto.timingSafeEqual(
+    Buffer.from(expectedSignature, 'hex'),
+    Buffer.from(receivedSignature, 'hex')
+  );
+
+  if (!match) {
+    throw new Error('Webhook signature verification failed.');
+  }
+
+  return true;
+}
+
+// Example usage in an Express handler
+app.post('/webhooks/trayce', express.raw({ type: 'application/json' }), (req, res) => {
+  const signature = req.headers['trayce-signature'];
+  const secret = process.env.TRAYCE_WEBHOOK_SECRET;
+
+  verifyTrayceSignature(req.body.toString('utf8'), signature, secret);
+
+  const event = JSON.parse(req.body);
+  console.log('Verified event:', event.event);
+
+  res.sendStatus(200);
+});
+```
+
+```python Python
+import hmac
+import hashlib
+import time
+import json
+
+def verify_trayce_signature(raw_body: str, signature_header: str, secret: str) -> bool:
+    # Parse the header
+    parts = dict(part.split("=", 1) for part in signature_header.split(","))
+    timestamp = parts.get("t")
+    received_signature = parts.get("v1")
+
+    # Guard against replay attacks (reject if older than 5 minutes)
+    now = int(time.time())
+    if abs(now - int(timestamp)) > 300:
+        raise ValueError("Webhook timestamp is too old — possible replay attack.")
+
+    # Compute expected signature
+    signed_payload = f"{timestamp}.{raw_body}"
+    expected_signature = hmac.new(
+        secret.encode("utf-8"),
+        signed_payload.encode("utf-8"),
+        hashlib.sha256
+    ).hexdigest()
+
+    # Compare using a timing-safe method
+    if not hmac.compare_digest(expected_signature, received_signature):
+        raise ValueError("Webhook signature verification failed.")
+
+    return True
+
+
+# Example usage with Flask
+from flask import Flask, request, abort
+
+app = Flask(__name__)
+
+@app.route("/webhooks/trayce", methods=["POST"])
+def trayce_webhook():
+    signature = request.headers.get("Trayce-Signature")
+    secret = os.environ["TRAYCE_WEBHOOK_SECRET"]
+
+    verify_trayce_signature(request.get_data(as_text=True), signature, secret)
+
+    event = request.get_json()
+    print(f"Verified event: {event['event']}")
+
+    return "", 200
+```
+
+</CodeGroup>
+
+---
+
+## Retry Policy
+
+Trayce considers a webhook delivery successful only if your endpoint returns an HTTP `2xx` status code within **10 seconds**. If the delivery times out or your endpoint returns a non-2xx response, Trayce will retry the delivery automatically using exponential backoff:
+
+| Attempt | Delay after previous attempt |
+|---|---|
+| 1st retry | 30 seconds |
+| 2nd retry | 2 minutes |
+| 3rd retry | 10 minutes |
+| 4th retry | 30 minutes |
+| 5th retry | 2 hours |
+
+After 5 failed retries, the delivery is marked as `failed` and no further attempts are made. You can view delivery history and manually replay individual deliveries from the **Webhooks** section of the [Trayce Dashboard](https://dashboard.trayce.io).
+
+To avoid duplicate processing, use the `delivery_id` field in the payload as an idempotency key — store it and skip processing if you've already handled that delivery ID.
+
+---
+
+## Available Events
+
+For a complete list of event types, their payload schemas, and filtering options, see the [Webhook Events API reference](/api-reference/webhooks/events).
+
+---
+
+<Tip>
+  Before going live, test your webhook integration using the **Sandbox environment** (use a `sk_test_` API key) combined with Trayce's built-in **Webhook Tester** in the Dashboard. The Webhook Tester lets you fire any event type against your endpoint with a single click, inspect the full request and response, and re-deliver failed payloads — without needing to trigger real verification flows. Navigate to **Dashboard → Developers → Webhooks → Test** to get started.
+</Tip>

@@ -1,0 +1,81 @@
+---
+title: "Trayce REST API Reference"
+sidebarTitle: "Introduction"
+description: "Complete reference for the Trayce REST API. All endpoints accept JSON and require Bearer token authentication. Base URL: https://api.trayce.io/v1."
+---
+
+The Trayce REST API gives you programmatic access to Trayce's secure document management and identity verification platform. Use it to request, receive, and verify identity documents; manage verification workflows; and retrieve audit-ready results — all over HTTPS with predictable, resource-oriented URLs and standard HTTP response codes.
+
+## Base URLs
+
+All API requests are made over **HTTPS**. Plain HTTP is not supported. Choose the appropriate base URL for your environment:
+
+| Environment | Base URL |
+|-------------|----------|
+| **Production** | `https://api.trayce.io/v1` |
+| **Sandbox** | `https://sandbox.api.trayce.io/v1` |
+
+---
+
+## Request Format
+
+All requests must include an `Authorization` header containing your API key as a Bearer token.
+
+The majority of endpoints accept a JSON body — always set the `Content-Type` header to `application/json`. The only exception is **document upload** endpoints, which accept `multipart/form-data` to support binary file payloads.
+
+```bash
+curl --request POST \
+  --url https://api.trayce.io/v1/verifications \
+  --header "Authorization: Bearer <api_key>" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "recipient_email": "jane.doe@example.com",
+    "document_types": ["passport", "drivers_license"]
+  }'
+```
+
+---
+
+## Response Format
+
+Every response body is JSON. The shape of the body depends on whether the request succeeded or failed.
+
+**Successful responses** wrap the returned resource or collection in a top-level `data` field:
+
+```json
+{
+  "data": {
+    "id": "ver_01HXYZ123456",
+    "status": "pending",
+    "recipient_email": "jane.doe@example.com",
+    "created_at": "2024-05-10T14:32:00Z"
+  }
+}
+```
+
+**Error responses** surface a structured `error` object containing a machine-readable `code` and a human-readable `message`:
+
+```json
+{
+  "error": {
+    "code": "invalid_document_type",
+    "message": "The document type 'utility_bill' is not supported for this verification flow.",
+    "details": {
+      "field": "document_types",
+      "provided": "utility_bill"
+    }
+  }
+}
+```
+
+---
+
+## Versioning
+
+The current API version is **v1**, reflected in every request URL under the `/v1` path prefix. Trayce uses **URL-based versioning** — when a release introduces breaking changes, a new version path (e.g. `/v2`) is published and the previous version is maintained for a minimum deprecation window before sunset.
+
+Non-breaking additions — such as new optional request fields, new response fields, or new endpoints — may be made to an existing version at any time and will not trigger a version increment.
+
+<Note>
+  **Using the sandbox environment?** Authenticate with keys that begin with `sk_test_`. Sandbox requests never affect live data or trigger real identity checks. All verification flows, document requests, and webhook events behave identically to production so you can build and test with confidence before going live.
+</Note>

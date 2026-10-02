@@ -1,0 +1,76 @@
+---
+title: "Document Exchange Flow in Trayce"
+sidebarTitle: "Document Flow"
+description: "Learn how document requests and deliveries work between your platform and Trayce vault holders, including consent, encryption, and delivery confirmation."
+---
+
+Document exchange in Trayce is a two-way, consent-gated flow between your platform and individual vault holders. Your business can request documents from users — such as identity proofs or certified credentials — and can also deliver documents to users, such as signed contracts or approval letters. In both directions, the user is in control: every document exchange requires explicit vault holder action, and all transmissions are end-to-end encrypted.
+
+## Requesting a Document
+
+Use the document request flow when you need a user to share a specific document from their Vault with your platform.
+
+**How it works:**
+
+1. Your backend calls `POST /documents/request`, specifying the target user, the document type required, and the stated purpose of the request.
+2. Trayce sends a push notification to the vault holder's device, identifying your business and describing the request.
+3. The vault holder opens the Trayce Vault app, reviews the full request details, and chooses to **approve** or **deny**.
+4. If approved, Trayce processes the document (extracting and validating data as configured) and delivers the result — or the document itself, if explicit sharing was consented to — to your platform via **webhook**.
+5. The result is also queryable at any time via `GET /documents/request/{request_id}`.
+
+```bash
+POST /documents/request
+{
+  "user_id": "usr_01h8x...",
+  "document_type": "passport",
+  "purpose": "Identity verification for account opening",
+  "expires_in": 72
+}
+```
+
+## Sending a Document
+
+Use the document send flow when you need to deliver a document to a vault holder — for example, a countersigned contract, an approval or rejection letter, a certificate of completion, or a compliance notice.
+
+**How it works:**
+
+1. Your backend calls `POST /documents/send`, attaching the document (or a reference to it) and specifying the recipient vault holder.
+2. Trayce encrypts the document and routes it securely to the target Vault.
+3. The vault holder receives a push notification and can access the document within their Vault app.
+4. Trayce returns a delivery confirmation to your platform, either via webhook or by polling `GET /documents/send/{send_id}`.
+
+```bash
+POST /documents/send
+{
+  "user_id": "usr_01h8x...",
+  "document_type": "signed_contract",
+  "file": "<base64-encoded-content>",
+  "description": "Your countersigned service agreement, dated 2025-06-01"
+}
+```
+
+## Document States
+
+Every document request or delivery moves through a defined set of states. You can retrieve the current state at any time via the API, and Trayce will push state-change events to your configured webhook endpoint.
+
+| State | Description |
+|---|---|
+| `pending` | The request or delivery has been created and the vault holder has been notified. Waiting for user action. |
+| `approved` | The vault holder has reviewed and consented to the request. Processing is underway (for requests) or delivery is confirmed (for sends). |
+| `rejected` | The vault holder explicitly declined the request or delivery. No document was shared or received. |
+| `expired` | The vault holder did not respond before the request's expiry window elapsed. The request is now closed and cannot be acted upon. |
+| `delivered` | The document has been successfully received by the business (for requests) or by the vault holder (for sends), and delivery is confirmed. |
+
+## Encryption & Security
+
+All documents handled by Trayce are protected end-to-end throughout their lifecycle.
+
+- **At rest** — Documents stored in the Vault are encrypted using keys derived from the user's device identity. Trayce infrastructure never holds plaintext document content.
+- **In transit** — All document transmissions between the Vault, Trayce servers, and your platform use TLS 1.3. Sensitive payloads are additionally encrypted at the application layer.
+- **On Trayce servers** — Trayce does not store permanent copies of shared documents. Transient encrypted copies used during processing are deleted immediately after delivery confirmation, subject to your configured retention policy.
+- **Retention policies** — You can configure a document retention window in the Business Portal or via the API. Once the window expires, all associated data is purged from Trayce systems. Audit log entries (without document content) are retained for compliance purposes.
+- **Audit trail** — Every document exchange event — request creation, user approval or denial, delivery, expiry — is recorded in an immutable audit log accessible via the API and Business Portal.
+
+<Warning>
+  Document requests expire after **72 hours** by default if the vault holder does not respond. Expired requests cannot be reactivated — you must create a new request if you still require the document. You can customise the expiry window per request using the `expires_in` field (in hours) when calling `POST /documents/request`, subject to a maximum of 168 hours (7 days). Make sure your user communication encourages timely responses to avoid unnecessary re-requests.
+</Warning>

@@ -1,0 +1,139 @@
+---
+title: "POST /documents/send — Send a Document"
+sidebarTitle: "Send Document"
+description: "Send a document to a Trayce vault holder. The file is encrypted and delivered to their vault, where they can view and store it."
+---
+
+Use this endpoint to proactively deliver a document to a Trayce vault holder. The uploaded file is encrypted in transit and at rest, then placed directly into the recipient's Trayce vault. The recipient is notified and can view or download the document from their vault. This is useful for sending contracts, onboarding packs, certificates, or any document the recipient needs to retain securely.
+
+## Endpoint
+
+```
+POST https://api.trayce.io/v1/documents/send
+```
+
+**Headers**
+
+```
+Authorization: Bearer <api_key>
+Content-Type: multipart/form-data
+```
+
+<Note>
+  This endpoint accepts `multipart/form-data`, not `application/json`. File uploads and form fields must be sent as multipart form parts. Setting `Content-Type: application/json` will result in a `415 Unsupported Media Type` error.
+</Note>
+
+---
+
+## Form Fields
+
+<ParamField body="recipient_email" type="string">
+  The recipient's email address. Either `recipient_email` or `recipient_phone` is required — you must provide at least one.
+</ParamField>
+
+<ParamField body="recipient_phone" type="string">
+  The recipient's phone number in E.164 format (e.g., `+14155552671`). Either `recipient_email` or `recipient_phone` is required — you must provide at least one.
+</ParamField>
+
+<ParamField body="document_type" type="string" required>
+  The type of document being sent. Must be one of the following:
+
+  | Value | Description |
+  |---|---|
+  | `national_id` | Government-issued national identity card |
+  | `passport` | International passport |
+  | `driver_license` | Driver's license or driving permit |
+  | `proof_of_address` | Utility bill, bank statement, or similar address proof |
+  | `diploma` | Academic diploma or degree certificate |
+  | `birth_certificate` | Official birth certificate |
+  | `marriage_certificate` | Official marriage certificate |
+  | `company_registration` | Company registration or incorporation document |
+</ParamField>
+
+<ParamField body="file" type="file" required>
+  The document file to send. Maximum file size is **10 MB**. Accepted formats: `PDF`, `JPEG`, `PNG`. The file is encrypted before storage and the recipient can only access it from within their Trayce vault.
+</ParamField>
+
+<ParamField body="message" type="string">
+  An optional message displayed to the recipient alongside the document in their vault notification. Use this to provide context or instructions about the document being sent.
+
+  **Example:** `"Please review and retain this signed employment contract for your records."`
+</ParamField>
+
+<ParamField body="callback_url" type="string">
+  An HTTPS URL on your server to receive a webhook notification when the document has been delivered to and opened by the recipient. Must be a valid HTTPS endpoint.
+</ParamField>
+
+---
+
+## Response
+
+A `201 Created` response is returned on success.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the sent document record. Use this to track delivery status.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Delivery status. Will be `sent` immediately after a successful upload and `delivered` once the recipient's vault confirms receipt.
+</ResponseField>
+
+<ResponseField name="document_type" type="string">
+  The document type as specified in the request.
+</ResponseField>
+
+<ResponseField name="recipient" type="object">
+  An object containing the recipient's contact details as provided.
+</ResponseField>
+
+<ResponseField name="sent_at" type="string">
+  ISO 8601 timestamp of when the document was successfully uploaded and dispatched.
+</ResponseField>
+
+---
+
+## Example
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.trayce.io/v1/documents/send \
+  --header 'Authorization: Bearer <api_key>' \
+  --form 'recipient_email=jane.doe@example.com' \
+  --form 'document_type=diploma' \
+  --form 'file=@/path/to/certificate.pdf' \
+  --form 'message=Your degree certificate is now available in your Trayce vault.' \
+  --form 'callback_url=https://yourapp.com/webhooks/trayce'
+```
+
+</CodeGroup>
+
+**Response**
+
+```json
+{
+  "id": "docsend_02jy1l4n8cgza3w7rr5pxv6udf",
+  "status": "sent",
+  "document_type": "diploma",
+  "recipient": {
+    "email": "jane.doe@example.com"
+  },
+  "sent_at": "2024-05-12T10:30:00Z"
+}
+```
+
+---
+
+## File Constraints
+
+When uploading a document, observe the following requirements:
+
+| Constraint | Limit |
+|---|---|
+| **Maximum file size** | 10 MB |
+| **Accepted formats** | PDF, JPEG, PNG, HEIC |
+| **Minimum file size** | 1 KB |
+| **Encoding** | Files must be sent as binary multipart form data |
+
+Files that exceed 10 MB or use an unsupported format will be rejected with a `422 Unprocessable Entity` error. HEIC files are accepted for upload but will be converted to JPEG for vault storage and display.

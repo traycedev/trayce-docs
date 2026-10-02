@@ -1,0 +1,157 @@
+---
+title: "POST /documents/request — Request a Document"
+sidebarTitle: "Request Document"
+description: "Send a document request to a Trayce vault holder. The recipient is notified and can approve or reject sharing the document with your organization."
+---
+
+Use this endpoint to request a specific document from a Trayce vault holder. When you submit a request, Trayce notifies the recipient via email or SMS, prompting them to review and either approve or reject sharing the document with your organization. This flow ensures user consent is captured before any document is exchanged.
+
+## Endpoint
+
+```
+POST https://api.trayce.io/v1/documents/request
+```
+
+**Headers**
+
+```
+Authorization: Bearer <api_key>
+Content-Type: application/json
+```
+
+---
+
+## Request Body
+
+<ParamField body="recipient" type="object" required>
+  The person you are requesting a document from. Provide at least one of `email` or `phone`.
+
+  <Expandable title="recipient fields">
+    <ParamField body="email" type="string">
+      The recipient's email address. Used to send the document request notification.
+    </ParamField>
+
+    <ParamField body="phone" type="string">
+      The recipient's phone number in E.164 format (e.g., `+14155552671`). Used to send an SMS notification if email is not provided.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="document_type" type="string" required>
+  The type of document being requested. Must be one of the following:
+
+  | Value | Description |
+  |---|---|
+  | `national_id` | Government-issued national identity card |
+  | `passport` | International passport |
+  | `driver_license` | Driver's license or driving permit |
+  | `proof_of_address` | Utility bill, bank statement, or similar address proof |
+  | `diploma` | Academic diploma or degree certificate |
+  | `birth_certificate` | Official birth certificate |
+  | `marriage_certificate` | Official marriage certificate |
+  | `company_registration` | Company registration or incorporation document |
+</ParamField>
+
+<ParamField body="reason" type="string" required>
+  A human-readable explanation shown to the vault holder when they receive the request. Be clear and specific — recipients are more likely to approve requests with a transparent stated purpose.
+
+  **Example:** `"For employee onboarding at Acme Corp"`
+</ParamField>
+
+<ParamField body="expires_in" type="integer">
+  Number of seconds until the request expires. Defaults to `259200` (72 hours). Maximum value is `604800` (7 days). After expiry, the request can no longer be approved or rejected by the recipient.
+</ParamField>
+
+<ParamField body="callback_url" type="string">
+  An HTTPS URL on your server to receive webhook notifications when the document request status changes (e.g., approved, rejected, or expired). Must be a valid HTTPS endpoint.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  An optional free-form object for storing additional context alongside the request. Values are returned as-is in API responses and webhook payloads. Keys and values must be strings.
+
+  **Example:** `{ "internal_case_id": "HR-20240512", "department": "engineering" }`
+</ParamField>
+
+---
+
+## Response
+
+A `201 Created` response is returned on success.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the document request. Use this ID to retrieve the request status or reference it in webhook payloads.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the request. Will be `pending` immediately after creation.
+</ResponseField>
+
+<ResponseField name="document_type" type="string">
+  The document type specified in the request.
+</ResponseField>
+
+<ResponseField name="recipient" type="object">
+  An object containing the recipient's contact details as provided.
+</ResponseField>
+
+<ResponseField name="reason" type="string">
+  The reason string shown to the vault holder.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the request was created.
+</ResponseField>
+
+<ResponseField name="expires_at" type="string">
+  ISO 8601 timestamp of when the request will expire. Calculated from `created_at` plus `expires_in`.
+</ResponseField>
+
+---
+
+## Example
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.trayce.io/v1/documents/request \
+  --header 'Authorization: Bearer <api_key>' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "recipient": {
+      "email": "jane.doe@example.com"
+    },
+    "document_type": "passport",
+    "reason": "For employee onboarding at Acme Corp",
+    "expires_in": 259200,
+    "callback_url": "https://yourapp.com/webhooks/trayce",
+    "metadata": {
+      "internal_case_id": "HR-20240512"
+    }
+  }'
+```
+
+</CodeGroup>
+
+**Response**
+
+```json
+{
+  "id": "docreq_01hx9k3m7bfz2v6pq8n4yw5tce",
+  "status": "pending",
+  "document_type": "passport",
+  "recipient": {
+    "email": "jane.doe@example.com"
+  },
+  "reason": "For employee onboarding at Acme Corp",
+  "created_at": "2024-05-12T09:15:00Z",
+  "expires_at": "2024-05-15T09:15:00Z",
+  "metadata": {
+    "internal_case_id": "HR-20240512"
+  }
+}
+```
+
+<Warning>
+  Document requests expire after **72 hours by default** (`expires_in: 259200`). If the recipient does not act before expiry, the request status becomes `expired` and cannot be reactivated. You will need to create a new request. To give recipients more time, set `expires_in` up to a maximum of `604800` (7 days).
+</Warning>

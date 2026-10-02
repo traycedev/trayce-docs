@@ -1,13 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "projectType": "api-service",
+  "projectName": "Trayce",
+  "projectDescription": "Trayce is a secure document management and identity verification platform offering a mobile vault for individuals, a business portal for enterprises, and a REST API enabling KYC, KYB, diploma and civil status verification workflows.",
   "theme": "luma",
-  "name": "Trayce",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -87,20 +85,25 @@
       }
     ]
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@trayce.io"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "https://app.trayce.io"
-    }
-  },
-  "footer": {
-    "socials": {}
-  }
+  "keyFeatures": [
+    "Mobile vault for secure personal document storage",
+    "Business portal for enterprise document exchange",
+    "KYC (Know Your Customer) identity verification",
+    "KYB (Know Your Business) company verification",
+    "Diploma and academic credential verification",
+    "Civil status document verification",
+    "Secure document request and delivery between businesses and individuals",
+    "REST API for seamless enterprise integration",
+    "Webhook notifications for real-time verification status updates"
+  ],
+  "publicApiSurface": [
+    "POST /verifications — initiate a KYC, KYB, or document verification",
+    "GET /verifications/{id} — retrieve verification status and result",
+    "GET /verifications — list verifications for your organization",
+    "POST /documents/request — request a document from a Trayce vault holder",
+    "POST /documents/send — send a document to a recipient",
+    "GET /documents/{id} — retrieve a document or its metadata",
+    "POST /webhooks — register a webhook endpoint",
+    "GET /webhooks/events — list available webhook event types"
+  ]
 }
