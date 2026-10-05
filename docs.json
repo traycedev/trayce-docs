@@ -2,10 +2,15 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "luma",
   "name": "Trayce",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg",
+    "href": "https://trayce.sn"
+  },
   "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
+    "primary": "#348ca8",
+    "light": "#54abb6",
+    "dark": "#1e6a82"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -91,13 +96,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@trayce.io"
+        "href": "mailto:support@trayce.sn"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Get Started",
-      "href": "https://app.trayce.io"
+      "label": "Business Portal",
+      "href": "https://app.trayce.sn"
     }
   },
   "footer": {
