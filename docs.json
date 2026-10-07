@@ -14,9 +14,13 @@
   "colors": {
     "primary": "#348ca8",
     "light": "#54abb6",
-    "dark": "#1e6a82"
+    "dark": "#102848"
   },
   "favicon": "/favicon.svg",
+  "font": {
+    "headings": { "family": "Syne", "weight": 700 },
+    "body": { "family": "Plus Jakarta Sans" }
+  },
   "navigation": {
     "tabs": [
       {
