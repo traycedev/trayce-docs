@@ -1,35 +1,30 @@
 ---
-title: "Authentification & Apps"
-description: "Créer une App, générer des clés API et configurer les permissions."
+title: "Authentification"
+sidebarTitle: "Authentification"
+icon: "key"
+description: "Apps, clés API et permissions."
 ---
 
 ## Apps
 
-Une **App** est l'identité d'intégration utilisée par une entreprise. Elle regroupe les identifiants, les permissions et la configuration des webhooks.
+Une **App** est l'identité de votre intégration : clés API, permissions, webhooks.
 
-| Propriété | Description |
+| | |
 |---|---|
-| App ID | Identifiant unique de l'App. |
-| Clés API | Identifiants utilisés par l'intégration. |
-| Permissions | Capacités accordées à l'App. |
-| Webhooks | Configuration de la livraison des événements. |
-| Configuration | Paramètres spécifiques à l'intégration. |
+| App ID | Identifiant de l'App |
+| Clés API | Authentifient vos appels |
+| Permissions | Ce que l'App peut faire |
+| Webhooks | URL de livraison des événements |
 
-Une entreprise peut gérer plusieurs Apps — par exemple une App par environnement d'intégration ou par produit.
+Vous pouvez avoir plusieurs Apps (ex. une par produit ou par environnement interne).
 
 ## Clés API
 
-Les clés API authentifient les requêtes. Elles sont générées depuis le Dashboard dans les paramètres de l'App.
+Générez-les depuis le Dashboard → paramètres de l'App.
 
 <Warning>
-  La clé API complète n'est affichée **qu'au moment de sa création**. Conservez-la immédiatement dans un gestionnaire de secrets sécurisé. En cas de perte, générez une nouvelle clé et révoquez l'ancienne.
+  La clé complète n'est affichée **qu'à la création**. Stockez-la dans un gestionnaire de secrets. En cas de perte : nouvelle clé + révocation de l'ancienne.
 </Warning>
-
-### Utilisation
-
-<Note>
-  Le format exact de l'en-tête d'authentification HTTP sera spécifié ici une fois finalisé. La convention standard est `Authorization: Bearer <clé_api>`.
-</Note>
 
 ```bash
 curl https://api.trayce.africa/v1/collections \
@@ -37,26 +32,24 @@ curl https://api.trayce.africa/v1/collections \
   -H "Content-Type: application/json"
 ```
 
-### Rotation et révocation
+### Rotation
 
-- Révoquez une clé compromise depuis le Dashboard sans délai.
-- Vous pouvez générer plusieurs clés par App pour faciliter la rotation.
-- Une clé révoquée est immédiatement invalidée.
+- Révoquez une clé compromise sans délai.
+- Plusieurs clés par App pour une rotation sans coupure.
+- Une clé révoquée est invalidée immédiatement.
 
 ## Permissions
 
-Chaque App dispose d'un ensemble de permissions qui définissent les opérations autorisées.
-
-| Permission | Rôle |
+| Permission | Usage |
 |---|---|
-| `documents:write` | Créer/envoyer des documents. |
-| `documents:read` | Lire les documents et leur statut. |
-| `collections:write` | Créer et modifier des Collections. |
-| `collections:read` | Lire les Collections et leurs résultats. |
-| `applications:read` | Lire les ressources liées à l'App. |
-| `webhooks:manage` | Gérer la configuration des webhooks. |
+| `documents:write` | Envoyer des documents |
+| `documents:read` | Lire documents et statuts |
+| `collections:write` | Créer / modifier des Collections |
+| `collections:read` | Lire Collections et résultats |
+| `applications:read` | Lire les ressources App |
+| `webhooks:manage` | Gérer les webhooks |
 
-Attribuez uniquement les permissions nécessaires au principe de moindre privilège.
+N'accordez que ce dont l'intégration a besoin.
 
 ## API Apps
 

@@ -1,5 +1,6 @@
 ---
 title: "Rate limits"
+icon: "gauge"
 description: "Limites de requêtes de l'API Trayce."
 ---
 
@@ -27,6 +28,4 @@ En cas de dépassement, l'API répond `429 Too Many Requests` avec un en-tête `
 }
 ```
 
-<Note>
-  Les limites exactes par plan sont en cours de finalisation.
-</Note>
+Respectez `Retry-After` et mettez en place un backoff côté client.

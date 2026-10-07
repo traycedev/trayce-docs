@@ -1,42 +1,29 @@
 ---
 title: "Utiliser les crédits d'essai"
-description: "Tester l'intégration Trayce sans frais avec les crédits d'essai."
+sidebarTitle: "Crédits d'essai"
+icon: "gift"
+description: "Tester votre intégration avec les crédits d'essai."
 ---
 
-## Vue d'ensemble
+Les crédits d'essai sont disponibles dès la création de l'App. Vous appelez `https://api.trayce.africa/v1` comme en production.
 
-Trayce fournit des crédits d'essai gratuits à la création de votre compte App. Ces crédits vous permettent de tester votre intégration en conditions réelles, sans facturation.
-
-## Comment ça marche
-
-- Vos crédits d'essai sont disponibles immédiatement après création de l'App dans le Dashboard.
-- Chaque opération (Collection créée, document analysé) consomme des crédits selon la grille tarifaire.
-- Une fois les crédits épuisés, passez au plan payant depuis le Dashboard.
-
-## Bonne pratique
+## Démarche
 
 <Steps>
-  <Step title="Créer une App de test dédiée">
-    Créez une App distincte dans le Dashboard avec un label reconnaissable (ex. : "Mon projet — Test").
+  <Step title="Créer une App de test">
+    Dans le Dashboard, créez une App avec un label clair (ex. `Mon projet — Test`).
   </Step>
-
-  <Step title="Utiliser de vraies données de test">
-    Les crédits d'essai fonctionnent sur les mêmes endpoints que la production. Utilisez des données réalistes pour valider vos flux.
+  <Step title="Appeler l'API">
+    Utilisez votre clé et des données réalistes pour valider send / collect de bout en bout.
   </Step>
-
-  <Step title="Surveiller la consommation">
-    Consultez le Dashboard (`app.trayce.sn`) pour suivre l'utilisation de vos crédits.
+  <Step title="Suivre la consommation">
+    Consultez le solde dans le Dashboard (`app.trayce.africa`).
   </Step>
-
-  <Step title="Passer en production">
-    Quand votre intégration est validée, activez le plan payant. Vos App IDs et clés API restent identiques.
+  <Step title="Passer en payant">
+    Quand c'est validé, activez l'offre payante. App IDs et clés restent les mêmes.
   </Step>
 </Steps>
 
-<Note>
-  Il n'existe pas d'environnement "Sandbox" séparé. Les crédits d'essai s'utilisent sur la même API que la production — `https://api.trayce.africa/v1`.
-</Note>
-
-<Card title="Trial et crédits gratuits" icon="gift" href="/fr/trial">
-  Détails sur les crédits et limites d'essai.
+<Card title="Essai & crédits" icon="gift" href="/fr/trial">
+  Vue d'ensemble de l'essai.
 </Card>

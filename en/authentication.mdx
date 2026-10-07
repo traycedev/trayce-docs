@@ -1,35 +1,30 @@
 ---
-title: "Authentication & Apps"
-description: "Create an App, generate API keys, and configure permissions."
+title: "Authentication"
+sidebarTitle: "Authentication"
+icon: "key"
+description: "Apps, API keys, and permissions."
 ---
 
 ## Apps
 
-An **App** is the integration identity used by a company. It groups credentials, permissions, and webhook configuration.
+An **App** is your integration identity: API keys, permissions, webhooks.
 
-| Property | Description |
+| | |
 |---|---|
-| App ID | Unique identifier of the App. |
-| API keys | Credentials used by the integration. |
-| Permissions | Capabilities granted to the App. |
-| Webhooks | Event delivery configuration. |
-| Configuration | Integration-specific settings. |
+| App ID | App identifier |
+| API keys | Authenticate your calls |
+| Permissions | What the App can do |
+| Webhooks | Event delivery URL |
 
-A company can manage multiple Apps — for example one App per integration environment or per product.
+You can have several Apps (e.g. one per product or internal environment).
 
 ## API keys
 
-API keys authenticate API requests. They are generated from the Dashboard in the App settings.
+Generate them from the Dashboard → App settings.
 
 <Warning>
-  The full API key is only displayed **at the time of creation**. Store it immediately in a secure secrets manager. If lost, generate a new key and revoke the old one.
+  The full key is shown **only at creation**. Store it in a secrets manager. If lost: create a new key and revoke the old one.
 </Warning>
-
-### Usage
-
-<Note>
-  The exact HTTP authentication header format will be specified here once finalised. The standard convention is `Authorization: Bearer <api_key>`.
-</Note>
 
 ```bash
 curl https://api.trayce.africa/v1/collections \
@@ -37,26 +32,24 @@ curl https://api.trayce.africa/v1/collections \
   -H "Content-Type: application/json"
 ```
 
-### Rotation and revocation
+### Rotation
 
-- Revoke a compromised key from the Dashboard immediately.
-- You can generate multiple keys per App to facilitate rotation.
-- A revoked key is invalidated immediately.
+- Revoke a compromised key immediately.
+- Use multiple keys per App for zero-downtime rotation.
+- A revoked key is invalidated at once.
 
 ## Permissions
 
-Each App has a set of permissions that define the operations it is authorised to perform.
-
-| Permission | Role |
+| Permission | Use |
 |---|---|
-| `documents:write` | Create/send document resources. |
-| `documents:read` | Read documents and their status. |
-| `collections:write` | Create and modify Collections. |
-| `collections:read` | Read Collections and their results. |
-| `applications:read` | Read application-related resources. |
-| `webhooks:manage` | Manage webhook configuration. |
+| `documents:write` | Send documents |
+| `documents:read` | Read documents and statuses |
+| `collections:write` | Create / update Collections |
+| `collections:read` | Read Collections and results |
+| `applications:read` | Read App resources |
+| `webhooks:manage` | Manage webhooks |
 
-Assign only the permissions required — follow the principle of least privilege.
+Grant only what the integration needs.
 
 ## Apps API
 

@@ -1,5 +1,7 @@
 ---
 title: "Configure webhooks"
+sidebarTitle: "Configure webhooks"
+icon: "webhook"
 description: "Receive real-time notifications on Trayce events."
 ---
 
@@ -27,7 +29,7 @@ Webhooks allow your backend to receive automatic notifications when an event occ
   </Step>
 
   <Step title="Register the endpoint in the Dashboard">
-    In the Trayce Dashboard (`app.trayce.sn`), go to **Settings > Webhooks** and add your URL.
+    In the Trayce Dashboard (`app.trayce.africa`), go to **Settings > Webhooks** and add your URL.
   </Step>
 
   <Step title="Select events">
@@ -43,13 +45,11 @@ Webhooks allow your backend to receive automatic notifications when an event occ
   </Step>
 
   <Step title="Verify the signature">
-    <Note>
-      Signature verification via shared secret is being finalized. Technical details will be available at production launch.
-    </Note>
+    Use the App webhook secret and the `X-Trayce-Signature` header (HMAC-SHA256). Details: [Webhooks](/en/webhooks#security).
   </Step>
 
-  <Step title="Test with trial credits">
-    Use your test environment (trial credits) to simulate events before going live.
+  <Step title="Test">
+    Trigger a `send` or `collect` with trial credits and confirm delivery on your endpoint.
   </Step>
 </Steps>
 

@@ -39,23 +39,8 @@ A scoring result may include:
 
 ## Profile configuration
 
-<Note>
-  Only the existence of configurable profiles, criteria/weights, and explainable output is established. The exact API resources for managing scoring profiles have not yet been defined.
-</Note>
-
-The scoring API documentation will cover:
-- Profile identifiers
-- Enabled/disabled state
-- Criteria and weights
-- Thresholds
-- Input data
-- Score output
-- Explanation
-- Versioning
-- Auditability
+Enable scoring when creating the Collection (`configuration.scoring.enabled` + `profile_id`). The profile defines criteria, weights, and thresholds; the result includes the overall score, per-criterion detail, and an explanation.
 
 ## Responsibility
 
-<Warning>
-  Trayce supplies documentary and analytical results. Final acceptance, rental, credit, or other business decisions remain under the company's responsibility.
-</Warning>
+Trayce returns the score and explanation. The business decision (acceptance, rental, credit, etc.) stays with your company.

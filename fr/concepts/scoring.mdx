@@ -39,23 +39,8 @@ Un résultat de scoring peut inclure :
 
 ## Configuration d'un profil
 
-<Note>
-  Seule l'existence de profils configurables, de critères/pondérations et d'une sortie explicable est établie. Les ressources API exactes pour gérer les profils de scoring ne sont pas encore définies.
-</Note>
-
-La documentation de l'API scoring devra couvrir :
-- Identifiants de profil
-- État activé/désactivé
-- Critères et pondérations
-- Seuils
-- Données d'entrée
-- Sortie du score
-- Explication
-- Versionnement
-- Auditabilité
+Activez le scoring à la création de la Collection (`configuration.scoring.enabled` + `profile_id`). Le profil définit critères, pondérations et seuils ; le résultat inclut score global, détail par critère et explication.
 
 ## Responsabilité
 
-<Warning>
-  Trayce fournit des résultats documentaires et analytiques. L'acceptation, la location, le crédit ou toute autre décision métier finale demeure sous la responsabilité de l'entreprise.
-</Warning>
+Trayce renvoie le score et l'explication. La décision métier (acceptation, location, crédit, etc.) reste à l'entreprise.

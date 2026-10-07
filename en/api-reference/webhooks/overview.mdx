@@ -1,11 +1,12 @@
 ---
 title: "Webhooks — Overview"
+icon: "webhook"
 description: "Configure and receive Trayce webhook events."
 ---
 
 ## Registration
 
-Webhooks are configured from the Trayce Dashboard (`app.trayce.sn > Settings > Webhooks`). You can also define a `webhook_url` at the App or Collection level.
+Webhooks are configured from the Trayce Dashboard (`app.trayce.africa > Settings > Webhooks`). You can also define a `webhook_url` at the App or Collection level.
 
 ## Delivery
 
@@ -15,9 +16,7 @@ Webhooks are configured from the Trayce Dashboard (`app.trayce.sn > Settings > W
 
 ## Security
 
-<Note>
-  Signature verification (HMAC-SHA256) is being finalized. Details will be published at production launch.
-</Note>
+Verify `X-Trayce-Signature` with the App secret (`HMAC-SHA256`). See [Webhooks](/en/webhooks#security).
 
 ## Event format
 

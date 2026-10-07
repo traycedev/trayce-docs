@@ -1,96 +1,81 @@
 ---
 title: "Quickstart"
-description: "From account creation to your first API call in under 10 minutes."
+icon: "rocket"
+description: "Account, App, API key, first call."
 ---
 
-## Goal
+Goal: create an App, get a key, and make a first call — **send** or **collect**.
 
-Create an App, obtain credentials, and make a first successful API call — either a **send** to transmit a document, or a **collect** to initiate a Collection.
-
-## Recommended onboarding flow
+## Steps
 
 <Steps>
-  <Step title="Create a Trayce Business account">
-    Go to [app.trayce.sn](https://app.trayce.sn) and create your company account.
+  <Step title="Create an account">
+    Go to [app.trayce.africa](https://app.trayce.africa) and create your company account.
   </Step>
   <Step title="Create an App">
-    From the Dashboard, create an App for your integration. Each App has its own credentials, permissions, and webhooks.
+    In the Dashboard, create an App. It owns its keys, permissions, and webhooks.
   </Step>
   <Step title="Generate an API key">
-    In the App settings, generate an API key. **Copy it immediately** — it is only displayed once.
+    In the App settings, generate a key. **Copy it immediately** — it is shown only once.
   </Step>
-  <Step title="Review permissions">
-    Check the permissions granted to the App (`documents:write`, `collections:write`, etc.) and adjust as needed.
+  <Step title="Check permissions">
+    Keep at least `documents:write` and/or `collections:write` for your use case.
   </Step>
-  <Step title="Use trial credits">
-    The trial period includes free credits to test your integration. See the [Trial & Credits](/en/trial) page for details.
+  <Step title="First call">
+    Use trial credits for a `send` or `collect` (examples below).
   </Step>
-  <Step title="Make your first call">
-    Send a document or create a Collection (see below).
-  </Step>
-  <Step title="Configure webhooks (optional)">
-    If your integration requires asynchronous events, configure a webhook endpoint in the App settings.
-  </Step>
-  <Step title="Monitor usage">
-    Check usage and remaining credits from the Dashboard.
+  <Step title="Webhooks (optional)">
+    Add your endpoint URL in the App settings to receive events.
   </Step>
 </Steps>
 
 ## First send
 
-`send` is the shortest path for an integration that only needs to transmit a document to a user.
-
 ```bash
-POST https://api.trayce.africa/v1/documents
-Authorization: Bearer <your_api_key>
-Content-Type: application/json
-
-{
-  "recipient_phone_number": "+221xxxxxxxxx",
-  "document_type": "PAYSLIP",
-  "title": "Payslip — September"
-}
+curl -X POST https://api.trayce.africa/v1/documents \
+  -H "Authorization: Bearer <your_api_key>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recipient_phone_number": "+221xxxxxxxxx",
+    "document_type": "PAYSLIP",
+    "title": "Payslip — September"
+  }'
 ```
-
-<Note>
-  The exact request schema will be finalised before the production documentation is published. The example above is illustrative.
-</Note>
 
 ## First collect
 
 ```bash
-POST https://api.trayce.africa/v1/collections
-Authorization: Bearer <your_api_key>
-Content-Type: application/json
-
-{
-  "workflow_id": "tenant_application",
-  "title": "Apartment A",
-  "configuration": {
-    "document_verification": true,
-    "cross_document_consistency": true,
-    "fraud_detection": true,
-    "scoring": {
-      "enabled": true,
-      "profile_id": "apartment_premium"
+curl -X POST https://api.trayce.africa/v1/collections \
+  -H "Authorization: Bearer <your_api_key>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "workflow_id": "tenant_application",
+    "title": "Apartment A",
+    "configuration": {
+      "document_verification": true,
+      "cross_document_consistency": true,
+      "fraud_detection": true,
+      "scoring": {
+        "enabled": true,
+        "profile_id": "apartment_premium"
+      }
     }
-  }
-}
+  }'
 ```
 
-## Next steps
+## Next
 
 <CardGroup cols={2}>
-  <Card title="Concepts — send" icon="paper-plane" href="/en/concepts/send">
-    Lifecycle, statuses, and secure download links.
+  <Card title="Send" icon="send" href="/en/concepts/send">
+    Deliver a document to a user.
   </Card>
-  <Card title="Concepts — collect" icon="folder-open" href="/en/concepts/collect">
-    Collections, Workflows, persons, and requirements.
+  <Card title="Collect" icon="inbox" href="/en/concepts/collect">
+    Start a Collection.
   </Card>
-  <Card title="Webhooks" icon="bell" href="/en/webhooks">
-    Receive asynchronous events.
+  <Card title="Webhooks" icon="webhook" href="/en/webhooks">
+    Receive events.
   </Card>
-  <Card title="Guides" icon="book" href="/en/guides/send-document">
-    Step-by-step tutorials for common use cases.
+  <Card title="Trial & credits" icon="gift" href="/en/trial">
+    Test without changing plan.
   </Card>
 </CardGroup>

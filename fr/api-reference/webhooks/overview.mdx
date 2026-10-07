@@ -1,11 +1,12 @@
 ---
 title: "Webhooks — Vue d'ensemble"
+icon: "webhook"
 description: "Configurer et recevoir des événements webhook Trayce."
 ---
 
 ## Enregistrement
 
-Les webhooks sont configurés depuis le Dashboard Trayce (`app.trayce.sn > Paramètres > Webhooks`). Vous pouvez aussi définir un `webhook_url` au niveau de l'App ou de la Collection.
+Les webhooks sont configurés depuis le Dashboard Trayce (`app.trayce.africa > Paramètres > Webhooks`). Vous pouvez aussi définir un `webhook_url` au niveau de l'App ou de la Collection.
 
 ## Livraison
 
@@ -15,9 +16,7 @@ Les webhooks sont configurés depuis le Dashboard Trayce (`app.trayce.sn > Param
 
 ## Sécurité
 
-<Note>
-  La vérification de signature (HMAC-SHA256) est en cours de finalisation. Les détails seront publiés à la mise en production.
-</Note>
+Vérifiez `X-Trayce-Signature` avec le secret de l'App (`HMAC-SHA256`). Voir [Webhooks](/fr/webhooks#sécurité).
 
 ## Format des événements
 

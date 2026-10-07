@@ -1,96 +1,81 @@
 ---
 title: "Quickstart"
-description: "De la création de compte à votre premier appel API en moins de 10 minutes."
+icon: "rocket"
+description: "Compte, App, clé API, premier appel."
 ---
 
-## Objectif
+Objectif : créer une App, récupérer une clé, et faire un premier appel — **send** ou **collect**.
 
-Créer une App, obtenir des identifiants et réaliser un premier appel API — soit un **send** pour transmettre un document, soit un **collect** pour initier une Collection.
-
-## Flux d'intégration recommandé
+## Étapes
 
 <Steps>
-  <Step title="Créer un compte Trayce Business">
-    Rendez-vous sur [app.trayce.sn](https://app.trayce.sn) et créez votre compte entreprise.
+  <Step title="Créer un compte">
+    Allez sur [app.trayce.africa](https://app.trayce.africa) et créez votre compte entreprise.
   </Step>
   <Step title="Créer une App">
-    Depuis le Dashboard, créez une App pour votre intégration. Chaque App possède ses propres identifiants, permissions et webhooks.
+    Dans le Dashboard, créez une App. Elle porte ses clés, permissions et webhooks.
   </Step>
   <Step title="Générer une clé API">
-    Dans les paramètres de l'App, générez une clé API. **Conservez-la immédiatement** — elle n'est affichée qu'une seule fois.
+    Dans les paramètres de l'App, générez une clé. **Copiez-la tout de suite** — elle n'est affichée qu'une fois.
   </Step>
   <Step title="Vérifier les permissions">
-    Passez en revue les permissions accordées à l'App (`documents:write`, `collections:write`, etc.) et ajustez selon vos besoins.
+    Gardez au minimum `documents:write` et/ou `collections:write` selon votre cas.
   </Step>
-  <Step title="Utiliser les crédits d'essai">
-    La période d'essai inclut des crédits gratuits pour tester votre intégration. Consultez la page [Essai & Crédits](/fr/trial) pour plus de détails.
+  <Step title="Premier appel">
+    Utilisez les crédits d'essai pour un `send` ou un `collect` (exemples ci-dessous).
   </Step>
-  <Step title="Réaliser un premier appel">
-    Envoyez un document ou créez une Collection (voir ci-dessous).
-  </Step>
-  <Step title="Configurer les webhooks (optionnel)">
-    Si votre intégration nécessite des événements asynchrones, configurez un endpoint webhook dans les paramètres de l'App.
-  </Step>
-  <Step title="Surveiller l'usage">
-    Consultez l'utilisation et les crédits restants depuis le Dashboard.
+  <Step title="Webhooks (optionnel)">
+    Ajoutez l'URL de votre endpoint dans les paramètres de l'App pour recevoir les événements.
   </Step>
 </Steps>
 
 ## Premier send
 
-`send` est le chemin le plus court pour une intégration qui doit uniquement transmettre un document à un utilisateur.
-
 ```bash
-POST https://api.trayce.africa/v1/documents
-Authorization: Bearer <votre_clé_api>
-Content-Type: application/json
-
-{
-  "recipient_phone_number": "+221xxxxxxxxx",
-  "document_type": "PAYSLIP",
-  "title": "Bulletin de salaire — Septembre"
-}
+curl -X POST https://api.trayce.africa/v1/documents \
+  -H "Authorization: Bearer <votre_clé_api>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recipient_phone_number": "+221xxxxxxxxx",
+    "document_type": "PAYSLIP",
+    "title": "Bulletin de salaire — Septembre"
+  }'
 ```
-
-<Note>
-  Le schéma exact de la requête sera finalisé avant la publication de la documentation de production. L'exemple ci-dessus est illustratif.
-</Note>
 
 ## Premier collect
 
 ```bash
-POST https://api.trayce.africa/v1/collections
-Authorization: Bearer <votre_clé_api>
-Content-Type: application/json
-
-{
-  "workflow_id": "tenant_application",
-  "title": "Appartement A",
-  "configuration": {
-    "document_verification": true,
-    "cross_document_consistency": true,
-    "fraud_detection": true,
-    "scoring": {
-      "enabled": true,
-      "profile_id": "apartment_premium"
+curl -X POST https://api.trayce.africa/v1/collections \
+  -H "Authorization: Bearer <votre_clé_api>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "workflow_id": "tenant_application",
+    "title": "Appartement A",
+    "configuration": {
+      "document_verification": true,
+      "cross_document_consistency": true,
+      "fraud_detection": true,
+      "scoring": {
+        "enabled": true,
+        "profile_id": "apartment_premium"
+      }
     }
-  }
-}
+  }'
 ```
 
-## Prochaines étapes
+## Suite
 
 <CardGroup cols={2}>
-  <Card title="Concepts — send" icon="paper-plane" href="/fr/concepts/send">
-    Cycle de vie, statuts et liens de téléchargement sécurisés.
+  <Card title="Send" icon="send" href="/fr/concepts/send">
+    Envoyer un document à un utilisateur.
   </Card>
-  <Card title="Concepts — collect" icon="folder-open" href="/fr/concepts/collect">
-    Collections, Workflows, personnes et exigences.
+  <Card title="Collect" icon="inbox" href="/fr/concepts/collect">
+    Lancer une Collection.
   </Card>
-  <Card title="Webhooks" icon="bell" href="/fr/webhooks">
-    Recevoir des événements asynchrones.
+  <Card title="Webhooks" icon="webhook" href="/fr/webhooks">
+    Recevoir les événements.
   </Card>
-  <Card title="Guides" icon="book" href="/fr/guides/send-document">
-    Tutoriels pas à pas pour les cas d'usage courants.
+  <Card title="Essai & crédits" icon="gift" href="/fr/trial">
+    Tester sans basculer de plan.
   </Card>
 </CardGroup>

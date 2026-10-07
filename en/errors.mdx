@@ -1,5 +1,6 @@
 ---
 title: "Errors"
+icon: "triangle-alert"
 description: "Error codes and API conventions for the Trayce API."
 ---
 
@@ -55,9 +56,7 @@ All errors follow a consistent JSON format:
 
 Limits vary by plan. When exceeded, the API responds `429` with a `Retry-After` header indicating the delay to wait (in seconds).
 
-<Note>
-  Exact rate limit values per plan are being finalized.
-</Note>
+On `429`, read `Retry-After` and retry with backoff.
 
 ## Idempotency
 

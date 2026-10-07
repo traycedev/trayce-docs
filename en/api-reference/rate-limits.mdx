@@ -1,5 +1,6 @@
 ---
 title: "Rate limits"
+icon: "gauge"
 description: "Request limits for the Trayce API."
 ---
 
@@ -27,6 +28,4 @@ When exceeded, the API responds `429 Too Many Requests` with a `Retry-After` hea
 }
 ```
 
-<Note>
-  Exact rate limit values per plan are being finalized.
-</Note>
+Honour `Retry-After` and use client-side backoff.

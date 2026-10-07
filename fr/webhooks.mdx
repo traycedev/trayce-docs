@@ -1,5 +1,6 @@
 ---
 title: "Webhooks"
+icon: "webhook"
 description: "Recevoir des notifications en temps réel sur les événements Trayce."
 ---
 
@@ -41,16 +42,19 @@ Tous les événements suivent le même format :
 
 ## Sécurité
 
-<Note>
-  La vérification de signature (HMAC-SHA256 via secret partagé) est en cours de finalisation. Les détails de l'en-tête de signature et de l'algorithme de vérification seront publiés à la mise en production.
-</Note>
+Chaque App a un **secret webhook** (Dashboard → Webhooks). Vérifiez la signature HMAC-SHA256 avant de traiter le payload :
+
+```text
+X-Trayce-Signature: t=<timestamp>,v1=<hex>
+```
+
+Recalculez `HMAC_SHA256(secret, "{timestamp}.{raw_body}")` et comparez à `v1`. Rejetez si l'écart d'horloge dépasse ~5 minutes.
 
 ## Bonnes pratiques
 
 - Répondre `200` en moins de 5 secondes — traitez le payload en arrière-plan.
-- Gérer les livraisons en double (idempotence via `id` de l'événement).
-- Conserver les payloads bruts pour re-traitement si nécessaire.
-- Configurer plusieurs endpoints pour les environnements de test et production.
+- Idempotence via `id` (les retries existent).
+- Une App / URL de test distincte si vous séparez staging et prod en interne.
 
 <Card title="Guide — Configurer les webhooks" icon="book" href="/fr/guides/webhooks">
   Tutoriel pas à pas.
