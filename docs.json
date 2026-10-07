@@ -161,7 +161,7 @@
           ],
           "primary": {
             "type": "button",
-            "label": "Portail Business",
+            "label": "Espace Business",
             "href": "https://app.trayce.africa"
           }
         }
@@ -309,7 +309,7 @@
           ],
           "primary": {
             "type": "button",
-            "label": "Business portal",
+            "label": "Business space",
             "href": "https://app.trayce.africa"
           }
         }
