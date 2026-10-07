@@ -1,0 +1,191 @@
+---
+title: "Quickstart: Make Your First Trayce API Call in Minutes"
+sidebarTitle: "Quickstart"
+description: "Learn how to authenticate, make your first verification request, and handle the response using the Trayce REST API in under 10 minutes."
+---
+
+This guide walks you through everything you need to make your first Trayce API call — from creating an account and generating an API key, to submitting a KYC verification request and handling the result. By the end, you'll have a working integration skeleton you can build on.
+
+## Prerequisites
+
+Before you start, make sure you have:
+
+- A **Trayce Business Account** (sign up free at [app.trayce.io](https://app.trayce.io))
+- An **API key** from your dashboard — see [Authentication](/authentication) if you haven't generated one yet
+- A tool to make HTTP requests (`curl`, Postman, or your language's HTTP client)
+
+<Tip>
+  Use your **sandbox API key** (prefixed `sk_test_`) while building and testing. Sandbox verifications use simulated data and never interact with real identity records or affect production billing. Switch to your `sk_live_` key only when you're ready to go live.
+</Tip>
+
+<Steps>
+  <Step title="Create an Account">
+    Go to [app.trayce.io](https://app.trayce.io) and click **Sign up**. Select **Business Account** and complete the registration form with your company details.
+
+    Once your account is created and your email is verified, you'll land on the Business Portal dashboard. New accounts start in sandbox mode automatically.
+  </Step>
+  <Step title="Get Your API Key">
+    In the Business Portal, navigate to **Settings → API Keys** and click **Generate New Key**.
+
+    Give your key a descriptive label (e.g. `development` or `staging`), then copy the key immediately — it won't be shown again in full after you leave the page. Store it securely in an environment variable or a secrets manager.
+
+    Your sandbox key will look like this:
+
+    ```text
+    sk_test_4xKz9mQrPvLn2wJdTc8fYbHu
+    ```
+
+    Set it as an environment variable for the examples below:
+
+    ```bash
+    export TRAYCE_API_KEY="sk_test_4xKz9mQrPvLn2wJdTc8fYbHu"
+    ```
+  </Step>
+  <Step title="Make Your First Verification Request">
+    Submit a KYC verification by posting to `POST /verifications`. You'll provide the type of verification, the subject's basic details, and any supporting document references. The examples below use the **sandbox base URL** (`https://sandbox.api.trayce.io/v1`) — swap in `https://api.trayce.io/v1` when you're ready to go to production.
+
+    <CodeGroup>
+
+    ```bash curl
+    curl --request POST \
+      --url https://sandbox.api.trayce.io/v1/verifications \
+      --header "Authorization: Bearer $TRAYCE_API_KEY" \
+      --header "Content-Type: application/json" \
+      --data '{
+        "type": "kyc",
+        "subject": {
+          "first_name": "Marie",
+          "last_name": "Dupont",
+          "date_of_birth": "1990-04-15",
+          "email": "marie.dupont@example.com",
+          "nationality": "FR"
+        },
+        "documents": [
+          {
+            "document_type": "national_id",
+            "document_number": "FR-123456789"
+          }
+        ],
+        "reference": "user_7391"
+      }'
+    ```
+
+    ```javascript JavaScript
+    const response = await fetch("https://sandbox.api.trayce.io/v1/verifications", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.TRAYCE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: "kyc",
+        subject: {
+          first_name: "Marie",
+          last_name: "Dupont",
+          date_of_birth: "1990-04-15",
+          email: "marie.dupont@example.com",
+          nationality: "FR",
+        },
+        documents: [
+          {
+            document_type: "national_id",
+            document_number: "FR-123456789",
+          },
+        ],
+        reference: "user_7391",
+      }),
+    });
+    
+    const verification = await response.json();
+    console.log(verification);
+    ```
+
+    </CodeGroup>
+
+    A successful request returns `201 Created` with a verification object:
+
+    ```json
+    {
+      "id": "ver_9Kp2mXqRtL5nZwJcFd3hYe",
+      "type": "kyc",
+      "status": "pending",
+      "reference": "user_7391",
+      "subject": {
+        "first_name": "Marie",
+        "last_name": "Dupont",
+        "date_of_birth": "1990-04-15",
+        "email": "marie.dupont@example.com",
+        "nationality": "FR"
+      },
+      "created_at": "2024-07-12T09:14:32Z",
+      "updated_at": "2024-07-12T09:14:32Z"
+    }
+    ```
+
+    Save the `id` field — you'll use it to poll for the result in the next step.
+  </Step>
+  <Step title="Check Verification Status">
+    Verifications are processed asynchronously. You can poll the status using `GET /verifications/{id}`, or rely on webhooks (recommended — see Step 5).
+
+    <CodeGroup>
+
+    ```bash curl
+    curl --request GET \
+      --url https://sandbox.api.trayce.io/v1/verifications/ver_9Kp2mXqRtL5nZwJcFd3hYe \
+      --header "Authorization: Bearer $TRAYCE_API_KEY"
+    ```
+
+    ```javascript JavaScript
+    const verificationId = "ver_9Kp2mXqRtL5nZwJcFd3hYe";
+    
+    const response = await fetch(
+      `https://sandbox.api.trayce.io/v1/verifications/${verificationId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TRAYCE_API_KEY}`,
+        },
+      }
+    );
+    
+    const verification = await response.json();
+    console.log(verification.status); // "pending" | "completed" | "failed" | "review"
+    ```
+
+    </CodeGroup>
+
+    While processing, `status` will be `"pending"`. Once complete, the response updates to reflect the outcome:
+
+    ```json
+    {
+      "id": "ver_9Kp2mXqRtL5nZwJcFd3hYe",
+      "type": "kyc",
+      "status": "completed",
+      "result": {
+        "outcome": "approved",
+        "checks": {
+          "identity_match": "passed",
+          "document_authenticity": "passed",
+          "watchlist_screening": "clear"
+        }
+      },
+      "reference": "user_7391",
+      "completed_at": "2024-07-12T09:16:05Z"
+    }
+    ```
+
+    Possible `status` values are `pending`, `completed`, `failed`, and `review` (flagged for manual review).
+  </Step>
+  <Step title="Set Up a Webhook">
+    Rather than polling, register a webhook endpoint so Trayce pushes results to you the moment a verification concludes. In the Business Portal, go to **Settings → Webhooks** and add your endpoint URL.
+
+    Trayce will send a signed `POST` request to your URL whenever a verification status changes. For full details on event types, payload structure, and signature verification, see the [Webhooks Guide](/guides/webhooks).
+  </Step>
+</Steps>
+
+## What's Next?
+
+You've made your first Trayce API call. Here are some good next steps:
+
+- **Explore verification types** — check the guides for [KYB](/guides/kyb-verification), [Diploma](/guides/diploma-verification), and [Document Exchange](/guides/document-request) workflows.
+- **Set up webhooks** — move away from polling and get real-time results delivered to your server.
+- **Read the API Reference** — browse all available endpoints, parameters, and response schemas in the [API Reference](/api-reference/introduction).
