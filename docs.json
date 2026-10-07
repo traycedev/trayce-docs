@@ -1,205 +1,320 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "luma",
-  "name": "Trayce",
-  "locales": [
-    { "locale": "fr", "name": "Français", "default": true },
-    { "locale": "en", "name": "English" }
-  ],
+  "name": "Trayce Docs",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg",
-    "href": "https://trayce.sn"
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
   },
   "colors": {
     "primary": "#348ca8",
     "light": "#54abb6",
-    "dark": "#102848"
+    "dark": "#1e6a82"
   },
-  "favicon": "/favicon.svg",
-  "font": {
-    "headings": { "family": "Syne", "weight": 700 },
-    "body": { "family": "Plus Jakarta Sans" }
+  "favicon": "/favicon.png",
+  "icons": {
+    "library": "lucide"
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Documentation",
-        "groups": [
+        "language": "fr",
+        "default": true,
+        "tabs": [
           {
-            "group": "Démarrer",
-            "pages": ["index", "quickstart", "trial", "authentication"]
-          },
-          {
-            "group": "send",
-            "pages": ["concepts/send"]
-          },
-          {
-            "group": "collect",
-            "pages": [
-              "concepts/collect",
-              "concepts/workflows",
-              "concepts/collections",
-              "concepts/persons",
-              "concepts/links",
-              "concepts/documents"
+            "tab": "Docs",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Démarrer",
+                "icon": "rocket",
+                "pages": [
+                  "fr/index",
+                  "fr/quickstart",
+                  "fr/trial",
+                  "fr/authentication"
+                ]
+              },
+              {
+                "group": "Send",
+                "icon": "send",
+                "pages": [
+                  "fr/concepts/send"
+                ]
+              },
+              {
+                "group": "Collect",
+                "icon": "inbox",
+                "pages": [
+                  "fr/concepts/collect",
+                  "fr/concepts/workflows",
+                  "fr/concepts/collections",
+                  "fr/concepts/links",
+                  "fr/concepts/documents"
+                ]
+              },
+              {
+                "group": "Workflows",
+                "icon": "git-branch",
+                "pages": [
+                  "fr/workflows/kyc",
+                  "fr/workflows/kyb",
+                  "fr/workflows/tenant-application"
+                ]
+              },
+              {
+                "group": "Guides",
+                "icon": "map",
+                "pages": [
+                  "fr/guides/send-document",
+                  "fr/guides/tenant-application",
+                  "fr/guides/webhooks"
+                ]
+              },
+              {
+                "group": "Plateforme",
+                "icon": "server",
+                "pages": [
+                  "fr/webhooks",
+                  "fr/security",
+                  "fr/errors",
+                  "fr/dashboard"
+                ]
+              },
+              {
+                "group": "Ressources",
+                "icon": "library",
+                "pages": [
+                  "fr/changelog",
+                  "fr/support"
+                ]
+              }
             ]
           },
           {
-            "group": "Workflows",
-            "pages": [
-              "workflows/identity-verification",
-              "workflows/kyc",
-              "workflows/kyb",
-              "workflows/tenant-application",
-              "workflows/civil-status",
-              "workflows/custom"
+            "tab": "API",
+            "icon": "code",
+            "groups": [
+              {
+                "group": "Vue d'ensemble",
+                "icon": "book-open",
+                "pages": [
+                  "fr/api-reference/introduction",
+                  "fr/api-reference/errors",
+                  "fr/api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Apps",
+                "icon": "layout-grid",
+                "pages": [
+                  "fr/api-reference/apps/create",
+                  "fr/api-reference/apps/list",
+                  "fr/api-reference/apps/get"
+                ]
+              },
+              {
+                "group": "Collections",
+                "icon": "folders",
+                "pages": [
+                  "fr/api-reference/collections/create",
+                  "fr/api-reference/collections/list",
+                  "fr/api-reference/collections/get"
+                ]
+              },
+              {
+                "group": "Send",
+                "icon": "send",
+                "pages": [
+                  "fr/api-reference/documents/send-create",
+                  "fr/api-reference/documents/send-list",
+                  "fr/api-reference/documents/send-get"
+                ]
+              },
+              {
+                "group": "Collect",
+                "icon": "inbox",
+                "pages": [
+                  "fr/api-reference/documents/collect-create",
+                  "fr/api-reference/documents/collect-list",
+                  "fr/api-reference/documents/collect-get"
+                ]
+              },
+              {
+                "group": "Webhooks",
+                "icon": "webhook",
+                "pages": [
+                  "fr/api-reference/webhooks/overview",
+                  "fr/api-reference/webhooks/events"
+                ]
+              }
             ]
-          },
-          {
-            "group": "Analyse & Vérification",
-            "pages": [
-              "concepts/analysis",
-              "concepts/scoring",
-              "concepts/results"
-            ]
-          },
-          {
-            "group": "Webhooks & Sécurité",
-            "pages": ["webhooks", "security", "errors"]
-          },
-          {
-            "group": "Dashboard",
-            "pages": ["dashboard"]
-          },
-          {
-            "group": "Guides",
-            "pages": [
-              "guides/send-document",
-              "guides/tenant-application",
-              "guides/add-co-tenant",
-              "guides/kyc",
-              "guides/kyb",
-              "guides/civil-status",
-              "guides/human-review",
-              "guides/webhooks",
-              "guides/trial-credits"
-            ]
-          },
-          {
-            "group": "Ressources",
-            "pages": ["changelog", "support"]
           }
-        ]
+        ],
+        "navbar": {
+          "links": [
+            {
+              "label": "Support",
+              "icon": "message-circle",
+              "href": "https://wa.me/221770000000"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Portail Business",
+            "href": "https://app.trayce.africa"
+          }
+        }
       },
       {
-        "tab": "API Reference",
-        "groups": [
+        "language": "en",
+        "tabs": [
           {
-            "group": "Vue d'ensemble",
-            "pages": [
-              "api-reference/introduction",
-              "api-reference/errors",
-              "api-reference/rate-limits"
+            "tab": "Docs",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Get started",
+                "icon": "rocket",
+                "pages": [
+                  "en/index",
+                  "en/quickstart",
+                  "en/trial",
+                  "en/authentication"
+                ]
+              },
+              {
+                "group": "Send",
+                "icon": "send",
+                "pages": [
+                  "en/concepts/send"
+                ]
+              },
+              {
+                "group": "Collect",
+                "icon": "inbox",
+                "pages": [
+                  "en/concepts/collect",
+                  "en/concepts/workflows",
+                  "en/concepts/collections",
+                  "en/concepts/links",
+                  "en/concepts/documents"
+                ]
+              },
+              {
+                "group": "Workflows",
+                "icon": "git-branch",
+                "pages": [
+                  "en/workflows/kyc",
+                  "en/workflows/kyb",
+                  "en/workflows/tenant-application"
+                ]
+              },
+              {
+                "group": "Guides",
+                "icon": "map",
+                "pages": [
+                  "en/guides/send-document",
+                  "en/guides/tenant-application",
+                  "en/guides/webhooks"
+                ]
+              },
+              {
+                "group": "Platform",
+                "icon": "server",
+                "pages": [
+                  "en/webhooks",
+                  "en/security",
+                  "en/errors",
+                  "en/dashboard"
+                ]
+              },
+              {
+                "group": "Resources",
+                "icon": "library",
+                "pages": [
+                  "en/changelog",
+                  "en/support"
+                ]
+              }
             ]
           },
           {
-            "group": "Apps",
-            "pages": [
-              "api-reference/apps/create",
-              "api-reference/apps/list",
-              "api-reference/apps/get",
-              "api-reference/apps/update",
-              "api-reference/apps/delete"
-            ]
-          },
-          {
-            "group": "Workflows",
-            "pages": [
-              "api-reference/workflows/list",
-              "api-reference/workflows/get"
-            ]
-          },
-          {
-            "group": "Collections",
-            "pages": [
-              "api-reference/collections/create",
-              "api-reference/collections/list",
-              "api-reference/collections/get",
-              "api-reference/collections/update",
-              "api-reference/collections/cancel"
-            ]
-          },
-          {
-            "group": "Personnes",
-            "pages": [
-              "api-reference/persons/create",
-              "api-reference/persons/list",
-              "api-reference/persons/get",
-              "api-reference/persons/update",
-              "api-reference/persons/delete"
-            ]
-          },
-          {
-            "group": "Liens d'accès",
-            "pages": [
-              "api-reference/links/collection-create",
-              "api-reference/links/collection-get",
-              "api-reference/links/collection-revoke",
-              "api-reference/links/collection-resend",
-              "api-reference/links/person-create",
-              "api-reference/links/person-get",
-              "api-reference/links/person-revoke",
-              "api-reference/links/person-resend"
-            ]
-          },
-          {
-            "group": "send",
-            "pages": [
-              "api-reference/documents/send-create",
-              "api-reference/documents/send-list",
-              "api-reference/documents/send-get",
-              "api-reference/documents/send-delete",
-              "api-reference/documents/send-revoke",
-              "api-reference/documents/send-download",
-              "api-reference/documents/send-notify"
-            ]
-          },
-          {
-            "group": "collect",
-            "pages": [
-              "api-reference/documents/collect-create",
-              "api-reference/documents/collect-list",
-              "api-reference/documents/collect-get"
-            ]
-          },
-          {
-            "group": "Résultats",
-            "pages": [
-              "api-reference/results/collection",
-              "api-reference/results/person"
-            ]
-          },
-          {
-            "group": "Webhooks",
-            "pages": [
-              "api-reference/webhooks/overview",
-              "api-reference/webhooks/events"
+            "tab": "API",
+            "icon": "code",
+            "groups": [
+              {
+                "group": "Overview",
+                "icon": "book-open",
+                "pages": [
+                  "en/api-reference/introduction",
+                  "en/api-reference/errors",
+                  "en/api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Apps",
+                "icon": "layout-grid",
+                "pages": [
+                  "en/api-reference/apps/create",
+                  "en/api-reference/apps/list",
+                  "en/api-reference/apps/get"
+                ]
+              },
+              {
+                "group": "Collections",
+                "icon": "folders",
+                "pages": [
+                  "en/api-reference/collections/create",
+                  "en/api-reference/collections/list",
+                  "en/api-reference/collections/get"
+                ]
+              },
+              {
+                "group": "Send",
+                "icon": "send",
+                "pages": [
+                  "en/api-reference/documents/send-create",
+                  "en/api-reference/documents/send-list",
+                  "en/api-reference/documents/send-get"
+                ]
+              },
+              {
+                "group": "Collect",
+                "icon": "inbox",
+                "pages": [
+                  "en/api-reference/documents/collect-create",
+                  "en/api-reference/documents/collect-list",
+                  "en/api-reference/documents/collect-get"
+                ]
+              },
+              {
+                "group": "Webhooks",
+                "icon": "webhook",
+                "pages": [
+                  "en/api-reference/webhooks/overview",
+                  "en/api-reference/webhooks/events"
+                ]
+              }
             ]
           }
-        ]
+        ],
+        "navbar": {
+          "links": [
+            {
+              "label": "Support",
+              "icon": "message-circle",
+              "href": "https://wa.me/221770000000"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Business portal",
+            "href": "https://app.trayce.africa"
+          }
+        }
       }
     ]
-  },
-  "navbar": {
-    "links": [
-      { "label": "Support", "href": "mailto:support@trayce.sn" }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Portail Business",
-      "href": "https://app.trayce.sn"
-    }
   },
   "footer": {
     "socials": {}

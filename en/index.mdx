@@ -1,93 +1,40 @@
 ---
 title: "Overview"
 sidebarTitle: "Overview"
-description: "Trayce Business — B2B platform for document transmission, collection, and analysis."
+icon: "house"
+description: "Trayce Business — send, collect, and analyze documents."
 ---
 
-## What is Trayce Business?
+Trayce Business helps companies **send** and **collect** documents securely, then return a structured result.
 
-Trayce Business is a B2B platform that allows companies to manage the transmission, collection, and analysis of documents and information. The product is organised around two primitives: **send** and **collect**.
+| | Purpose |
+|---|---|
+| **Send** | Deliver a document to a Trayce user. |
+| **Collect** | Gather documents and information from one or more people. |
 
-| Primitive | Purpose | Typical outcome |
-|---|---|---|
-| **send** | Send a document to a Trayce user. | The recipient receives a secure notification and can access the document in their Trayce account. |
-| **collect** | Collect documents, information, and supporting evidence from one or more people. | A structured Collection is completed, analysed, and returned as a structured result. |
-
-## From collection to decision
+## Typical flow
 
 ```
-Company
-  ↓
-App
-  ↓
-send / collect
-  ↓
-Workflow
-  ↓
-Collection
-  ↓
-Persons / Documents / Requirements
-  ↓
-Trayce AI Engine
-  ↓
-Business Rules
-  ↓
-Scoring (optional)
-  ↓
-Structured Result
-  ↓
-Company Decision
+App → Send or Collect → Workflow → Result → Webhook
 ```
 
 <Note>
-  Trayce provides documentary and analytical results. The final business decision remains the responsibility of the company.
+  Trayce returns the documentary result. The business decision stays with your company.
 </Note>
-
-## Architecture
-
-```
-TRAYCE BUSINESS
-│
-├── send
-│
-└── collect
-     └── Workflow Engine
-          ├── Requirements
-          ├── Configuration
-          ├── Collection
-          └── Persons / Documents
-                    │
-                    ▼
-             TRAYCE AI ENGINE
-          ┌─────────┼─────────┐
-         OCR   Verification  Security
-                    │
-                    ▼
-             Business Rules
-                    │
-                    ▼
-             Scoring Engine
-                    │
-                    ▼
-              Result Engine
-                    │
-                    ▼
-                 Webhooks
-```
 
 ## Get started
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/en/quickstart">
-    From account creation to your first API call in under 10 minutes.
+    Account, App, first API call.
   </Card>
-  <Card title="Trial & Credits" icon="gift" href="/en/trial">
-    Understand the trial period and free credits.
+  <Card title="Authentication" icon="key-round" href="/en/authentication">
+    API keys and permissions.
   </Card>
-  <Card title="Authentication" icon="key" href="/en/authentication">
-    Create an App, generate an API key, and configure permissions.
+  <Card title="Send" icon="send" href="/en/concepts/send">
+    Deliver a document.
   </Card>
-  <Card title="API Reference" icon="code" href="/en/api-reference/introduction">
-    Complete reference for all endpoints.
+  <Card title="Collect" icon="inbox" href="/en/concepts/collect">
+    Start a collection.
   </Card>
 </CardGroup>

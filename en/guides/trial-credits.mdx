@@ -1,42 +1,29 @@
 ---
 title: "Using trial credits"
-description: "Test your Trayce integration at no cost with trial credits."
+sidebarTitle: "Trial credits"
+icon: "gift"
+description: "Test your integration with trial credits."
 ---
 
-## Overview
+Trial credits are available as soon as you create an App. You call `https://api.trayce.africa/v1` as in production.
 
-Trayce provides free trial credits when you create your App account. These credits let you test your integration in real conditions, without any billing.
-
-## How it works
-
-- Your trial credits are available immediately after creating an App in the Dashboard.
-- Each operation (Collection created, document analyzed) consumes credits according to the pricing grid.
-- Once credits are exhausted, switch to a paid plan from the Dashboard.
-
-## Best practice
+## Flow
 
 <Steps>
-  <Step title="Create a dedicated test App">
-    Create a separate App in the Dashboard with a recognizable label (e.g., "My project — Test").
+  <Step title="Create a test App">
+    In the Dashboard, create an App with a clear label (e.g. `My project — Test`).
   </Step>
-
-  <Step title="Use realistic test data">
-    Trial credits work on the same endpoints as production. Use realistic data to validate your flows.
+  <Step title="Call the API">
+    Use your key and realistic data to validate send / collect end to end.
   </Step>
-
-  <Step title="Monitor consumption">
-    Check the Dashboard (`app.trayce.sn`) to track your credit usage.
+  <Step title="Monitor usage">
+    Check the balance in the Dashboard (`app.trayce.africa`).
   </Step>
-
-  <Step title="Go to production">
-    Once your integration is validated, activate the paid plan. Your App IDs and API keys remain the same.
+  <Step title="Go paid">
+    When validated, activate the paid plan. App IDs and keys stay the same.
   </Step>
 </Steps>
 
-<Note>
-  There is no separate "Sandbox" environment. Trial credits are used on the same API as production — `https://api.trayce.africa/v1`.
-</Note>
-
-<Card title="Trial and free credits" icon="gift" href="/en/trial">
-  Details on trial credits and limits.
+<Card title="Trial & credits" icon="gift" href="/en/trial">
+  Trial overview.
 </Card>

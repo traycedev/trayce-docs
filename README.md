@@ -32,13 +32,31 @@ Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your d
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+If install scripts were blocked (common with recent npm), also allow `keytar` so login works:
+
+```
+npm i -g mint --allow-scripts=keytar,sharp,@scarf/scarf
+```
+
+Authenticate once (required for **local search** and the assistant):
+
+```
+mint login
+```
+
+Then from the docs root (`docs.json`):
 
 ```
 mint dev
 ```
 
 View your local preview at `http://localhost:3000`.
+
+### Search & environment variables
+
+- Local preview search needs `mint login` — there is **no** `docs.json` env var for it.
+- Deployed Mintlify sites get search from the Mintlify project (GitHub app / dashboard), not from `.env`.
+- Mintlify only uses env vars in **headless** setups (`PUBLIC_MINTLIFY_SUBDOMAIN`, `PUBLIC_MINTLIFY_ASSISTANT_KEY`). This repo is a standard Mintlify site, so navbar/support links are plain URLs in `docs.json`.
 
 ## Publishing changes
 

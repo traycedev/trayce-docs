@@ -1,5 +1,6 @@
 ---
 title: "Sécurité"
+icon: "shield"
 description: "Architecture de sécurité et bonnes pratiques pour l'intégration Trayce."
 ---
 
@@ -33,9 +34,7 @@ Les liens générés par Trayce pour les destinataires :
 
 ## Webhooks
 
-<Note>
-  La vérification de signature des webhooks (HMAC-SHA256) est en cours de finalisation. Les détails seront disponibles à la mise en production.
-</Note>
+Vérifiez chaque livraison avec le secret de l'App (`HMAC-SHA256`, en-tête `X-Trayce-Signature`). Voir [Webhooks](/fr/webhooks).
 
 ## Permissions par clé API
 

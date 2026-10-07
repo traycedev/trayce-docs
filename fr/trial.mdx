@@ -1,45 +1,25 @@
 ---
-title: "Essai & Crédits gratuits"
-description: "Évaluez Trayce Business et validez votre intégration grâce à la période d'essai et aux crédits gratuits."
+title: "Essai & Crédits"
+sidebarTitle: "Essai & crédits"
+icon: "gift"
+description: "Tester votre intégration avec les crédits d'essai."
 ---
 
-## Pourquoi il n'y a pas d'environnement Sandbox
+À la création de votre compte, Trayce alloue des **crédits d'essai**. Vous appelez la même API que en production (`https://api.trayce.africa/v1`) — créez une App dédiée aux tests si besoin.
 
-Le modèle produit de Trayce Business repose sur une **période d'essai avec des crédits gratuits** plutôt que sur des environnements Sandbox et Production séparés. L'essai permet d'intégrer et de tester dans les mêmes conditions que la production, sans infrastructure supplémentaire.
+## Utiliser les crédits
 
-## Période d'essai
+1. Créez une App dans le [Dashboard](https://app.trayce.africa).
+2. Générez une clé API.
+3. Envoyez vos premiers appels (`send` ou `collect`) — chaque opération consomme des crédits.
+4. Suivez le solde restant dans le Dashboard (onglet App).
 
-La période d'essai permet à une entreprise d'évaluer Trayce et de valider son intégration avant de passer à un usage payant. L'accès à l'essai est basé sur des crédits gratuits.
+## Quand le solde est à zéro
 
-## Crédits gratuits
+Les opérations soumises à crédits sont bloquées. Passez à l'offre payante depuis le Dashboard. Vos Apps, clés API et webhooks restent inchangés — aucune migration technique.
 
-Les crédits représentent l'enveloppe d'usage offerte pendant l'essai.
+## Bonnes pratiques
 
-<Note>
-  Le nombre exact de crédits, les règles d'expiration et les taux de consommation sont des paramètres commerciaux non encore définis. Cette page sera mise à jour avant la publication.
-</Note>
-
-| Sujet | Description |
-|---|---|
-| Éligibilité | Toute nouvelle entreprise créant un compte Trayce Business. |
-| Allocation initiale | À définir. |
-| Expiration | À définir. |
-| Consommation | Les opérations consommatrices de crédits seront listées ici. |
-| Solde | Visible depuis le Dashboard, onglet App. |
-| Épuisement | Lorsque le solde atteint zéro, les opérations soumises à crédits sont bloquées jusqu'à la mise à niveau. |
-| Mise à niveau | Passage à l'offre payante depuis le Dashboard. |
-
-## Surveiller l'usage pendant l'essai
-
-Le Dashboard affiche en temps réel :
-- Le solde de crédits restants
-- Le détail des opérations consommées
-- La date d'expiration de l'essai (le cas échéant)
-
-## Passer à l'offre payante
-
-<Note>
-  Les règles de facturation et les tarifs seront publiés une fois le modèle de pricing finalisé.
-</Note>
-
-Une fois les crédits gratuits épuisés ou la période d'essai terminée, l'entreprise peut passer à l'offre payante depuis le Dashboard. Aucune migration technique n'est nécessaire — les Apps, clés API et webhooks existants restent opérationnels.
+- Une App séparée pour les tests (ex. `Mon produit — Test`).
+- Des données réalistes pour valider vos flux de bout en bout.
+- Surveillez la consommation avant une démo ou un lancement.
