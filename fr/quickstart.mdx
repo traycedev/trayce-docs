@@ -4,7 +4,7 @@ icon: "rocket"
 description: "Compte, App, clé API, premier appel."
 ---
 
-Objectif : créer une App, récupérer une clé, et faire un premier appel — **send** ou **collect**.
+Objectif : créer une App, récupérer une clé, et faire un premier appel : **send** ou **collect**.
 
 ## Étapes
 
@@ -16,7 +16,7 @@ Objectif : créer une App, récupérer une clé, et faire un premier appel — *
     Dans le Dashboard, créez une App. Elle porte ses clés, permissions et webhooks.
   </Step>
   <Step title="Générer une clé API">
-    Dans les paramètres de l'App, générez une clé. **Copiez-la tout de suite** — elle n'est affichée qu'une fois.
+    Dans les paramètres de l'App, générez une clé. **Copiez-la tout de suite** : elle n'est affichée qu'une fois.
   </Step>
   <Step title="Vérifier les permissions">
     Gardez au minimum `documents:write` et/ou `collections:write` selon votre cas.
@@ -38,7 +38,7 @@ curl -X POST https://api.trayce.africa/v1/documents \
   -d '{
     "recipient_phone_number": "+221xxxxxxxxx",
     "document_type": "PAYSLIP",
-    "title": "Bulletin de salaire — Septembre"
+    "title": "Bulletin de salaire : Septembre"
   }'
 ```
 

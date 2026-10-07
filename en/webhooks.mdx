@@ -52,10 +52,10 @@ Recompute `HMAC_SHA256(secret, "{timestamp}.{raw_body}")` and compare to `v1`. R
 
 ## Best practices
 
-- Respond `200` within 5 seconds — process the payload in the background.
+- Respond `200` within 5 seconds : process the payload in the background.
 - Idempotency via `id` (retries happen).
 - Use a separate App / URL for internal staging if you split environments.
 
-<Card title="Guide — Configure webhooks" icon="book" href="/en/guides/webhooks">
+<Card title="Guide : Configure webhooks" icon="book" href="/en/guides/webhooks">
   Step-by-step tutorial.
 </Card>
