@@ -12,6 +12,9 @@
     "dark": "#1e6a82"
   },
   "favicon": "/favicon.png",
+  "appearance": {
+    "default": "system"
+  },
   "icons": {
     "library": "lucide"
   },
@@ -322,17 +325,6 @@
       "github": "https://github.com/traycedev",
       "instagram": "https://www.instagram.com/trayce.africa",
       "x": "https://x.com/trayce"
-    },
-    "links": [
-      {
-        "header": "Contact",
-        "items": [
-          {
-            "label": "WhatsApp",
-            "href": "https://wa.me/221770000000"
-          }
-        ]
-      }
-    ]
+    }
   }
 }

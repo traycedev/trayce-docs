@@ -1,3 +1,10 @@
+/* Theme switcher: footer only (system / light / dark) */
+header [data-component-name="theme-preference-menu"],
+#navbar [data-component-name="theme-preference-menu"],
+nav [data-component-name="theme-preference-menu"] {
+  display: none !important;
+}
+
 /* Navbar brand */
 img.nav-logo {
   height: 2.25rem !important;
