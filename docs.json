@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "luma",
+  "theme": "mint",
   "name": "Trayce Docs",
   "logo": {
     "dark": "/logo/dark.png",
