@@ -1,0 +1,21 @@
+---
+title: "API Errors"
+description: "Error format and HTTP codes for the Trayce API."
+---
+
+See the [Errors page](/en/errors) for the full reference of error codes and response format.
+
+## Example error response
+
+```json
+{
+  "error": {
+    "code": "COLLECTION_ALREADY_COMPLETED",
+    "message": "This Collection is already finalized.",
+    "details": {
+      "collection_id": "col_01HABC",
+      "current_status": "COMPLETED"
+    }
+  }
+}
+```

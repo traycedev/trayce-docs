@@ -1,0 +1,33 @@
+---
+title: "Get a send document"
+description: "GET /documents/send/:id"
+---
+
+## Endpoint
+
+```
+GET /documents/send/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Document ID (`doc_...`) |
+
+## Response `200`
+
+```json
+{
+  "id": "doc_01HXYZ",
+  "status": "VIEWED",
+  "document_type": "CONTRACT",
+  "recipient_name": "John Doe",
+  "recipient_email": "john@example.com",
+  "access_link": "https://docs.trayce.sn/d/abc123",
+  "expires_at": "2026-10-15T10:00:00Z",
+  "viewed_at": "2026-10-09T08:00:00Z",
+  "metadata": {},
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

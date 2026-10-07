@@ -1,0 +1,40 @@
+---
+title: "Person results"
+description: "GET /persons/:id/results"
+---
+
+## Endpoint
+
+```
+GET /persons/:id/results
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Person ID (`per_...`) |
+
+## Response `200`
+
+```json
+{
+  "person_id": "per_01HXYZ",
+  "collection_id": "col_01HABC",
+  "role": "PRIMARY_APPLICANT",
+  "result": "PASS",
+  "checks": {
+    "identity": "PASSED",
+    "proof_of_address": "PASSED",
+    "income": 82,
+    "employment": 75
+  },
+  "documents": [
+    {
+      "id": "cdoc_01HABC",
+      "type": "PAY_SLIP",
+      "result": "VALID"
+    }
+  ]
+}
+```

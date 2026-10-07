@@ -1,0 +1,82 @@
+---
+title: "Civil Status Analysis"
+description: "Analyze civil status documents and extract structured data."
+---
+
+## Overview
+
+This guide covers analyzing one or more civil status documents using the dedicated workflow.
+
+## Prerequisites
+
+- App configured with the `CIVIL_STATUS_DOCUMENT_ANALYSIS` workflow
+- API key
+
+## Steps
+
+<Steps>
+  <Step title="Create the Collection">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "CIVIL_STATUS_DOCUMENT_ANALYSIS"
+      }'
+    ```
+  </Step>
+
+  <Step title="Upload directly or via link">
+    **Option A — Direct upload:**
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HCIV/documents \
+      -H "Authorization: Bearer sk-..." \
+      -F "file=@birth-certificate.pdf" \
+      -F "document_type=BIRTH_CERTIFICATE"
+    ```
+
+    **Option B — Access link:**
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HCIV/links \
+      -H "Authorization: Bearer sk-..." \
+      -d '{ "notify": true }'
+    ```
+  </Step>
+
+  <Step title="Wait for processing">
+    Configure a `collection.completed` webhook or poll for status.
+  </Step>
+
+  <Step title="Retrieve extracted data">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HCIV/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+
+    Response:
+
+    ```json
+    {
+      "collection_id": "col_01HCIV",
+      "status": "COMPLETED",
+      "documents": [
+        {
+          "type": "BIRTH_CERTIFICATE",
+          "result": "VALID",
+          "extracted_data": {
+            "full_name": "John Smith",
+            "birth_date": "1990-03-15",
+            "birth_place": "London"
+          }
+        }
+      ]
+    }
+    ```
+  </Step>
+</Steps>
+
+<Card title="Civil Status Workflow" icon="file-text" href="/en/workflows/civil-status">
+  Possible results and extracted data.
+</Card>

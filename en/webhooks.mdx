@@ -1,0 +1,57 @@
+---
+title: "Webhooks"
+description: "Receive real-time notifications on Trayce events."
+---
+
+## Overview
+
+Webhooks allow you to receive automatic notifications when an event occurs in Trayce. Instead of continuously polling the API, your backend receives an HTTP `POST` as soon as an event fires.
+
+## Available events
+
+| Event | Description |
+|---|---|
+| `collection.created` | A new Collection has been created. |
+| `collection.in_progress` | The Collection has received at least one document. |
+| `collection.completed` | The Collection is finalized with results. |
+| `collection.review_required` | Human review is required. |
+| `collection.cancelled` | The Collection was cancelled. |
+| `document.received` | A new document was submitted. |
+| `document.processed` | Document analysis is complete. |
+| `person.completed` | All documents for a person have been received. |
+| `link.accessed` | An access link was opened. |
+| `link.expired` | An access link has expired. |
+
+## Payload format
+
+All events follow the same format:
+
+```json
+{
+  "id": "evt_01HWBK",
+  "event": "collection.completed",
+  "created_at": "2026-10-08T14:32:00Z",
+  "data": {
+    "collection_id": "col_01HABC",
+    "status": "COMPLETED",
+    "workflow_code": "TENANT_APPLICATION"
+  }
+}
+```
+
+## Security
+
+<Note>
+  Webhook signature verification (HMAC-SHA256 via shared secret) is being finalized. Details on the signature header and verification algorithm will be published at production launch.
+</Note>
+
+## Best practices
+
+- Respond `200` within 5 seconds — process the payload in the background.
+- Handle duplicate deliveries (idempotency via event `id`).
+- Keep raw payloads for reprocessing if needed.
+- Configure separate endpoints for test and production environments.
+
+<Card title="Guide — Configure webhooks" icon="book" href="/en/guides/webhooks">
+  Step-by-step tutorial.
+</Card>

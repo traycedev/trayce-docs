@@ -1,0 +1,57 @@
+---
+title: "Human review"
+description: "Handle Collections that require manual review."
+---
+
+## Overview
+
+Some Collections move to `REVIEW_REQUIRED` status when the automated analysis cannot conclude with sufficient confidence. This guide explains how to handle these cases.
+
+## When is review triggered?
+
+- Poor quality or partially illegible document
+- Cross-document inconsistency that prevents an automatic decision
+- Detected anomaly requiring human validation
+- Score in a grey zone (configurable via Business Rules)
+
+## Processing flow
+
+<Steps>
+  <Step title="Receive the notification">
+    Configure a webhook on the `collection.review_required` event:
+
+    ```json
+    {
+      "event": "collection.review_required",
+      "data": {
+        "collection_id": "col_01HREF",
+        "reason": "DOCUMENT_QUALITY",
+        "flagged_documents": ["doc_01HXYZ"]
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Review the dossier in the Dashboard">
+    Access the Trayce Dashboard (`app.trayce.sn`) and open the relevant Collection. You can view the documents, extracted data, and failed checks.
+  </Step>
+
+  <Step title="Make a decision">
+    In the Dashboard, approve or reject the Collection. This action updates the status to `COMPLETED` (accepted) or `REJECTED`.
+  </Step>
+
+  <Step title="Retrieve the final result">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HREF/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  Human review can also be triggered manually from the Dashboard, even when automated analysis has concluded.
+</Note>
+
+<Card title="Results and human review" icon="eye" href="/en/concepts/results">
+  Result structure and review statuses.
+</Card>

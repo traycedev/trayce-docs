@@ -1,0 +1,32 @@
+---
+title: "Rate limits"
+description: "Request limits for the Trayce API."
+---
+
+## Response headers
+
+Each response includes the following headers:
+
+| Header | Description |
+|---|---|
+| `X-RateLimit-Limit` | Maximum number of requests per window |
+| `X-RateLimit-Remaining` | Requests remaining in the current window |
+| `X-RateLimit-Reset` | Unix timestamp when the window resets |
+
+## Exceeded limit
+
+When exceeded, the API responds `429 Too Many Requests` with a `Retry-After` header (delay in seconds).
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Too many requests. Retry in 30 seconds.",
+    "details": { "retry_after": 30 }
+  }
+}
+```
+
+<Note>
+  Exact rate limit values per plan are being finalized.
+</Note>

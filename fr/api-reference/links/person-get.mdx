@@ -1,0 +1,32 @@
+---
+title: "Récupérer le lien Personne"
+description: "GET /persons/:id/links"
+---
+
+## Endpoint
+
+```
+GET /persons/:id/links
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Personne (`per_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "data": [
+    {
+      "id": "lnk_01HPER",
+      "url": "https://collect.trayce.sn/p/xyz789",
+      "type": "PERSON",
+      "status": "ACTIVE",
+      "expires_at": "2026-10-15T10:00:00Z"
+    }
+  ]
+}
+```

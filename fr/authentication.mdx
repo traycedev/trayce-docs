@@ -1,0 +1,78 @@
+---
+title: "Authentification & Apps"
+description: "Créer une App, générer des clés API et configurer les permissions."
+---
+
+## Apps
+
+Une **App** est l'identité d'intégration utilisée par une entreprise. Elle regroupe les identifiants, les permissions et la configuration des webhooks.
+
+| Propriété | Description |
+|---|---|
+| App ID | Identifiant unique de l'App. |
+| Clés API | Identifiants utilisés par l'intégration. |
+| Permissions | Capacités accordées à l'App. |
+| Webhooks | Configuration de la livraison des événements. |
+| Configuration | Paramètres spécifiques à l'intégration. |
+
+Une entreprise peut gérer plusieurs Apps — par exemple une App par environnement d'intégration ou par produit.
+
+## Clés API
+
+Les clés API authentifient les requêtes. Elles sont générées depuis le Dashboard dans les paramètres de l'App.
+
+<Warning>
+  La clé API complète n'est affichée **qu'au moment de sa création**. Conservez-la immédiatement dans un gestionnaire de secrets sécurisé. En cas de perte, générez une nouvelle clé et révoquez l'ancienne.
+</Warning>
+
+### Utilisation
+
+<Note>
+  Le format exact de l'en-tête d'authentification HTTP sera spécifié ici une fois finalisé. La convention standard est `Authorization: Bearer <clé_api>`.
+</Note>
+
+```bash
+curl https://api.trayce.africa/v1/collections \
+  -H "Authorization: Bearer <votre_clé_api>" \
+  -H "Content-Type: application/json"
+```
+
+### Rotation et révocation
+
+- Révoquez une clé compromise depuis le Dashboard sans délai.
+- Vous pouvez générer plusieurs clés par App pour faciliter la rotation.
+- Une clé révoquée est immédiatement invalidée.
+
+## Permissions
+
+Chaque App dispose d'un ensemble de permissions qui définissent les opérations autorisées.
+
+| Permission | Rôle |
+|---|---|
+| `documents:write` | Créer/envoyer des documents. |
+| `documents:read` | Lire les documents et leur statut. |
+| `collections:write` | Créer et modifier des Collections. |
+| `collections:read` | Lire les Collections et leurs résultats. |
+| `applications:read` | Lire les ressources liées à l'App. |
+| `webhooks:manage` | Gérer la configuration des webhooks. |
+
+Attribuez uniquement les permissions nécessaires au principe de moindre privilège.
+
+## API Apps
+
+```
+POST   /apps
+GET    /apps
+GET    /apps/{app_id}
+PATCH  /apps/{app_id}
+DELETE /apps/{app_id}
+```
+
+<CardGroup cols={2}>
+  <Card title="Créer une App" icon="plus" href="/fr/api-reference/apps/create">
+    `POST /apps`
+  </Card>
+  <Card title="Lister les Apps" icon="list" href="/fr/api-reference/apps/list">
+    `GET /apps`
+  </Card>
+</CardGroup>

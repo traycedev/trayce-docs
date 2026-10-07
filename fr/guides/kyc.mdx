@@ -1,0 +1,78 @@
+---
+title: "KYC"
+description: "Intégrer un flux de vérification d'identité client."
+---
+
+## Vue d'ensemble
+
+Ce guide couvre l'intégration d'un flux KYC : création de la Collection, génération du lien, et récupération du résultat de vérification.
+
+## Prérequis
+
+- App configurée avec le workflow `KYC`
+- Clé API
+
+## Étapes
+
+<Steps>
+  <Step title="Créer la Collection KYC">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "KYC",
+        "metadata": { "customer_id": "cust_789" }
+      }'
+    ```
+  </Step>
+
+  <Step title="Ajouter la personne à vérifier">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYC/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "SUBJECT",
+        "first_name": "Aïssatou",
+        "last_name": "Ba",
+        "email": "aissatou.ba@example.com"
+      }'
+    ```
+  </Step>
+
+  <Step title="Générer et envoyer le lien">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYC/links \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{ "notify": true }'
+    ```
+  </Step>
+
+  <Step title="Recevoir le résultat via webhook">
+    Configurez un webhook sur l'événement `collection.completed` pour être notifié automatiquement.
+
+    ```json
+    {
+      "event": "collection.completed",
+      "data": {
+        "collection_id": "col_01HKYC",
+        "status": "COMPLETED",
+        "result": "PASS"
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Récupérer les détails">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HKYC/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+<Card title="Workflow KYC" icon="shield" href="/fr/workflows/kyc">
+  Documents collectés et contrôles disponibles.
+</Card>

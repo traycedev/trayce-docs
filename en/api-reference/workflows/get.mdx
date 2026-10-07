@@ -1,0 +1,32 @@
+---
+title: "Get a Workflow"
+description: "GET /workflows/:code"
+---
+
+## Endpoint
+
+```
+GET /workflows/:code
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `code` | Workflow code (e.g., `TENANT_APPLICATION`) |
+
+## Response `200`
+
+```json
+{
+  "code": "TENANT_APPLICATION",
+  "name": "Tenant Application",
+  "description": "Collect and analyze a tenant dossier",
+  "version": "1",
+  "participants": [
+    { "role": "PRIMARY_APPLICANT", "required": true, "min": 1, "max": 1 },
+    { "role": "CO_TENANT", "required": false, "min": 0, "max": 3 }
+  ],
+  "document_types": ["IDENTITY", "PROOF_OF_ADDRESS", "PAY_SLIP", "EMPLOYMENT_CERTIFICATE"]
+}
+```

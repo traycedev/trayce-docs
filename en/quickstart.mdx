@@ -1,0 +1,96 @@
+---
+title: "Quickstart"
+description: "From account creation to your first API call in under 10 minutes."
+---
+
+## Goal
+
+Create an App, obtain credentials, and make a first successful API call — either a **send** to transmit a document, or a **collect** to initiate a Collection.
+
+## Recommended onboarding flow
+
+<Steps>
+  <Step title="Create a Trayce Business account">
+    Go to [app.trayce.sn](https://app.trayce.sn) and create your company account.
+  </Step>
+  <Step title="Create an App">
+    From the Dashboard, create an App for your integration. Each App has its own credentials, permissions, and webhooks.
+  </Step>
+  <Step title="Generate an API key">
+    In the App settings, generate an API key. **Copy it immediately** — it is only displayed once.
+  </Step>
+  <Step title="Review permissions">
+    Check the permissions granted to the App (`documents:write`, `collections:write`, etc.) and adjust as needed.
+  </Step>
+  <Step title="Use trial credits">
+    The trial period includes free credits to test your integration. See the [Trial & Credits](/en/trial) page for details.
+  </Step>
+  <Step title="Make your first call">
+    Send a document or create a Collection (see below).
+  </Step>
+  <Step title="Configure webhooks (optional)">
+    If your integration requires asynchronous events, configure a webhook endpoint in the App settings.
+  </Step>
+  <Step title="Monitor usage">
+    Check usage and remaining credits from the Dashboard.
+  </Step>
+</Steps>
+
+## First send
+
+`send` is the shortest path for an integration that only needs to transmit a document to a user.
+
+```bash
+POST https://api.trayce.africa/v1/documents
+Authorization: Bearer <your_api_key>
+Content-Type: application/json
+
+{
+  "recipient_phone_number": "+221xxxxxxxxx",
+  "document_type": "PAYSLIP",
+  "title": "Payslip — September"
+}
+```
+
+<Note>
+  The exact request schema will be finalised before the production documentation is published. The example above is illustrative.
+</Note>
+
+## First collect
+
+```bash
+POST https://api.trayce.africa/v1/collections
+Authorization: Bearer <your_api_key>
+Content-Type: application/json
+
+{
+  "workflow_id": "tenant_application",
+  "title": "Apartment A",
+  "configuration": {
+    "document_verification": true,
+    "cross_document_consistency": true,
+    "fraud_detection": true,
+    "scoring": {
+      "enabled": true,
+      "profile_id": "apartment_premium"
+    }
+  }
+}
+```
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Concepts — send" icon="paper-plane" href="/en/concepts/send">
+    Lifecycle, statuses, and secure download links.
+  </Card>
+  <Card title="Concepts — collect" icon="folder-open" href="/en/concepts/collect">
+    Collections, Workflows, persons, and requirements.
+  </Card>
+  <Card title="Webhooks" icon="bell" href="/en/webhooks">
+    Receive asynchronous events.
+  </Card>
+  <Card title="Guides" icon="book" href="/en/guides/send-document">
+    Step-by-step tutorials for common use cases.
+  </Card>
+</CardGroup>

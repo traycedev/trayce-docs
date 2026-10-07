@@ -1,0 +1,93 @@
+---
+title: "Vue d'ensemble"
+sidebarTitle: "Vue d'ensemble"
+description: "Trayce Business — plateforme B2B de transmission, collecte et analyse de documents."
+---
+
+## Qu'est-ce que Trayce Business ?
+
+Trayce Business est une plateforme B2B qui permet aux entreprises de gérer la transmission, la collecte et l'analyse de documents et d'informations. Le produit est organisé autour de deux primitives : **send** et **collect**.
+
+| Primitive | Objectif | Résultat typique |
+|---|---|---|
+| **send** | Transmettre un document à un utilisateur Trayce. | Le destinataire reçoit une notification sécurisée et peut accéder au document dans son compte Trayce. |
+| **collect** | Collecter des documents, des informations et des preuves auprès d'une ou plusieurs personnes. | Une Collection est complétée, analysée et retournée sous forme de résultat structuré. |
+
+## De la collecte à la décision
+
+```
+Entreprise
+  ↓
+App
+  ↓
+send / collect
+  ↓
+Workflow
+  ↓
+Collection
+  ↓
+Personnes / Documents / Exigences
+  ↓
+Moteur IA Trayce
+  ↓
+Règles métier
+  ↓
+Scoring (optionnel)
+  ↓
+Résultat structuré
+  ↓
+Décision de l'entreprise
+```
+
+<Note>
+  Trayce fournit des résultats documentaires et analytiques. La décision métier finale reste sous la responsabilité de l'entreprise.
+</Note>
+
+## Architecture
+
+```
+TRAYCE BUSINESS
+│
+├── send
+│
+└── collect
+     └── Moteur de Workflow
+          ├── Exigences
+          ├── Configuration
+          ├── Collection
+          └── Personnes / Documents
+                    │
+                    ▼
+             MOTEUR IA TRAYCE
+          ┌─────────┼─────────┐
+         OCR   Vérification  Sécurité
+                    │
+                    ▼
+             Règles Métier
+                    │
+                    ▼
+             Moteur de Scoring
+                    │
+                    ▼
+              Moteur de Résultats
+                    │
+                    ▼
+                 Webhooks
+```
+
+## Démarrer
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/fr/quickstart">
+    De la création de compte à votre premier appel API en moins de 10 minutes.
+  </Card>
+  <Card title="Essai & Crédits" icon="gift" href="/fr/trial">
+    Comprendre la période d'essai et les crédits gratuits.
+  </Card>
+  <Card title="Authentification" icon="key" href="/fr/authentication">
+    Créer une App, générer une clé API et configurer les permissions.
+  </Card>
+  <Card title="API Reference" icon="code" href="/fr/api-reference/introduction">
+    Référence complète de tous les endpoints.
+  </Card>
+</CardGroup>

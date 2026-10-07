@@ -1,0 +1,24 @@
+---
+title: "Supprimer une Personne"
+description: "DELETE /persons/:id"
+---
+
+## Endpoint
+
+```
+DELETE /persons/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Personne (`per_...`) |
+
+## Réponse `204`
+
+Corps vide.
+
+<Warning>
+  La suppression d'une Personne est possible uniquement si la Collection est en statut `PENDING`. Les documents associés sont également supprimés.
+</Warning>

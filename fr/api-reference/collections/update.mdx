@@ -1,0 +1,32 @@
+---
+title: "Modifier une Collection"
+description: "PATCH /collections/:id"
+---
+
+## Endpoint
+
+```
+PATCH /collections/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Corps de la requête
+
+| Champ | Type | Description |
+|---|---|---|
+| `expires_at` | string | Nouvelle date d'expiration |
+| `metadata` | object | Nouvelles métadonnées (remplace) |
+| `webhook_url` | string | Nouvelle URL webhook |
+
+## Réponse `200`
+
+L'objet Collection mis à jour.
+
+<Note>
+  Seules les Collections en statut `PENDING` ou `IN_PROGRESS` peuvent être modifiées.
+</Note>

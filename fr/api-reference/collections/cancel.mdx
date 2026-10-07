@@ -1,0 +1,36 @@
+---
+title: "Annuler une Collection"
+description: "POST /collections/:id/cancel"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/cancel
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Corps de la requête
+
+| Champ | Type | Description |
+|---|---|---|
+| `reason` | string | Raison de l'annulation (optionnel) |
+
+## Réponse `200`
+
+```json
+{
+  "id": "col_01HABC",
+  "status": "CANCELLED",
+  "cancelled_at": "2026-10-08T15:00:00Z"
+}
+```
+
+<Warning>
+  Une Collection annulée ne peut pas être réactivée. Les liens d'accès associés sont automatiquement révoqués.
+</Warning>

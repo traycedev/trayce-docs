@@ -1,0 +1,73 @@
+---
+title: "Results & Human Review"
+description: "Structured Collection result and human review management."
+---
+
+## Collection result
+
+A Collection result may contain:
+- Global status
+- Completeness
+- Document check results
+- Anomalies
+- Consistency results
+- Triggered business rules
+- Scoring (if enabled)
+- Items requiring human review
+- Relevant extracted data
+
+### Example
+
+```json
+{
+  "status": "REVIEW_REQUIRED",
+  "completeness": "COMPLETE",
+  "document_checks": "PASSED",
+  "consistency": "PARTIAL_MATCH",
+  "scoring": {
+    "enabled": true,
+    "overall_score": 85
+  },
+  "review_items": []
+}
+```
+
+## Generic statuses
+
+| Status | Meaning |
+|---|---|
+| `PASS` | Automated/manual checks passed. |
+| `FAIL` | Checks failed. |
+| `REVIEW_REQUIRED` | A human review is required. |
+| `NOT_CHECKED` | The check was not performed. |
+
+## Human Review
+
+Human review is used when automated processing produces a `REVIEW_REQUIRED` state, or when the configured workflow requires manual validation.
+
+### What the review exposes
+
+- Submitted documents
+- Extracted data
+- Checks performed
+- Detected anomalies
+- Triggered rules
+- Score
+- Reasons for the result
+- History of human actions
+
+## Results API
+
+```
+GET /collections/{collection_id}/result
+GET /collections/{collection_id}/persons/{person_id}/result
+```
+
+<CardGroup cols={2}>
+  <Card title="Collection result" icon="chart-bar" href="/en/api-reference/results/collection">
+    `GET /collections/{collection_id}/result`
+  </Card>
+  <Card title="Guide — Human review" icon="eye" href="/en/guides/human-review">
+    Detect and handle a REVIEW_REQUIRED.
+  </Card>
+</CardGroup>

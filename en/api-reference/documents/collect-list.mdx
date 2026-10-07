@@ -1,0 +1,40 @@
+---
+title: "List collect documents"
+description: "GET /collections/:id/documents"
+---
+
+## Endpoint
+
+```
+GET /collections/:id/documents
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Query parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `person_id` | string | Filter by person |
+| `document_type` | string | Filter by type |
+| `status` | string | Filter by status |
+
+## Response `200`
+
+```json
+{
+  "data": [
+    {
+      "id": "cdoc_01HABC",
+      "document_type": "PAY_SLIP",
+      "person_id": "per_01HXYZ",
+      "status": "PROCESSED",
+      "created_at": "2026-10-08T10:00:00Z"
+    }
+  ]
+}
+```

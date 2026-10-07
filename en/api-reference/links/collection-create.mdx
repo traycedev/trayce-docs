@@ -1,0 +1,37 @@
+---
+title: "Create a Collection link"
+description: "POST /collections/:id/links"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/links
+```
+
+Creates a principal access link for the Collection, accessible to all participants.
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Request body
+
+| Field | Type | Description |
+|---|---|---|
+| `notify` | boolean | Send notifications to participants (default: false) |
+| `expires_in` | integer | Duration in seconds (default: 604800 = 7 days) |
+
+## Response `201`
+
+```json
+{
+  "id": "lnk_01HXYZ",
+  "url": "https://collect.trayce.sn/c/abc123",
+  "type": "COLLECTION",
+  "expires_at": "2026-10-15T10:00:00Z",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

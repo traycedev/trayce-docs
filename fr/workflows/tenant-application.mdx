@@ -1,0 +1,56 @@
+---
+title: "Dossier de location"
+description: "Collecter, vérifier et analyser un dossier locataire."
+---
+
+## Objectif
+
+Collecter, vérifier et analyser un dossier de candidature locative.
+
+## Exigences par participant
+
+| Participant | Exigence | Obligatoire |
+|---|---|---|
+| `PRIMARY_APPLICANT` | Document d'identité | Oui |
+| `PRIMARY_APPLICANT` | Justificatif de domicile | Oui |
+| `PRIMARY_APPLICANT` | Attestation employeur | Oui |
+| `PRIMARY_APPLICANT` | Bulletins de salaire | 3 requis |
+| `PRIMARY_APPLICANT` | Relevés bancaires | Optionnel |
+| `CO_TENANT` | Identité | Selon workflow |
+| `CO_TENANT` | Bulletins de salaire | Ex. : 3 |
+| `CO_TENANT` | Justificatif de domicile | Selon workflow |
+
+## Contrôles disponibles
+
+- Identité, employeur, adresse, dates
+- Revenus
+- Cohérence inter-documents
+- Authenticité, anomalies, détection de fraude documentaire
+- Scoring et règles métier
+
+## Exemple de résultat
+
+```
+Complétude          COMPLETE
+Contrôles docs      PASSED
+Cohérence           PASSED
+Revenus             82
+Emploi              75
+Solvabilité         88
+Cohérence docs      96
+Score global        85
+```
+
+<Warning>
+  Le résultat analytique ne constitue pas automatiquement une décision d'acceptation.
+</Warning>
+
+## Code workflow
+
+```
+TENANT_APPLICATION
+```
+
+<Card title="Guide — Dossier de location" icon="book" href="/fr/guides/tenant-application">
+  Tutoriel complet de bout en bout.
+</Card>

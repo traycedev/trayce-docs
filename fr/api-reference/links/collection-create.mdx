@@ -1,0 +1,37 @@
+---
+title: "Créer un lien Collection"
+description: "POST /collections/:id/links"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/links
+```
+
+Crée un lien d'accès principal pour la Collection, accessible à tous les participants.
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Corps de la requête
+
+| Champ | Type | Description |
+|---|---|---|
+| `notify` | boolean | Envoyer les notifications aux participants (défaut : false) |
+| `expires_in` | integer | Durée en secondes (défaut : 604800 = 7 jours) |
+
+## Réponse `201`
+
+```json
+{
+  "id": "lnk_01HXYZ",
+  "url": "https://collect.trayce.sn/c/abc123",
+  "type": "COLLECTION",
+  "expires_at": "2026-10-15T10:00:00Z",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

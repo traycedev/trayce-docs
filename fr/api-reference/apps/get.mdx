@@ -1,0 +1,29 @@
+---
+title: "Récupérer une App"
+description: "GET /apps/:id"
+---
+
+## Endpoint
+
+```
+GET /apps/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de l'App (`app_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "id": "app_01HABC",
+  "name": "Mon projet",
+  "description": "App principale de production",
+  "webhook_url": "https://monapp.com/webhooks/trayce",
+  "created_at": "2026-10-08T10:00:00Z",
+  "updated_at": "2026-10-08T10:00:00Z"
+}
+```

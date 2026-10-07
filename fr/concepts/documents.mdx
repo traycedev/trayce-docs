@@ -1,0 +1,64 @@
+---
+title: "Documents"
+description: "Documents attachés à une Collection — soumission, attribution et traitement."
+---
+
+## Documents dans une Collection
+
+Un document soumis dans une Collection doit être attribuable au bon participant lorsque la Collection implique plusieurs personnes.
+
+```bash
+POST https://api.trayce.africa/v1/collections/{collection_id}/documents
+Authorization: Bearer <votre_clé_api>
+Content-Type: application/json
+
+{
+  "participant_id": "person_123",
+  "document_type": "PAYSLIP"
+}
+```
+
+## Traitement des documents
+
+Les documents collectés via une Collection entrent dans le pipeline d'analyse Trayce lorsque le workflow et les options configurés l'exigent.
+
+```
+Upload
+  ↓
+Détection du document
+  ↓
+Classification
+  ↓
+Extraction
+  ↓
+Vérification documentaire
+  ↓
+Contrôles de sécurité
+  ↓
+Règles métier
+  ↓
+Analyse croisée
+  ↓
+Scoring (si activé)
+  ↓
+Revue humaine (si requise)
+  ↓
+Résultat
+```
+
+## Différence avec send
+
+| | **send** | **collect** |
+|---|---|---|
+| Objectif | Transmettre un document à un utilisateur | Recevoir des documents d'un ou plusieurs participants |
+| Contexte | Générique | Dans le cadre d'un Workflow |
+| Analyse | Non | Oui, selon le workflow |
+| Multi-personnes | Non | Oui |
+
+## API Documents (Collection)
+
+```
+POST /collections/{collection_id}/documents
+GET  /collections/{collection_id}/documents
+GET  /collections/{collection_id}/documents/{document_id}
+```

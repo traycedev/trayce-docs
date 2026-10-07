@@ -1,0 +1,46 @@
+---
+title: "Analyse état civil"
+description: "Analyser des documents d'état civil et les relations qu'ils représentent."
+---
+
+## Objectif
+
+Analyser des documents d'état civil et les informations et relations qu'ils représentent.
+
+## Documents supportés
+
+- Acte de naissance
+- Acte de mariage
+- Acte de décès
+- Livret de famille
+- Documents administratifs d'état civil
+
+## Données extraites
+
+- Classification et structure
+- Noms et prénoms
+- Dates
+- Lieux
+- Relations entre personnes
+- Cohérence
+- Anomalies
+
+## Résultats
+
+| Résultat | Signification |
+|---|---|
+| `VALID` | Document/données considérés valides par les contrôles configurés. |
+| `INVALID` | Les contrôles identifient une invalidité. |
+| `INCOMPLETE` | Des informations requises sont manquantes. |
+| `INCONSISTENT` | Les informations sont incohérentes. |
+| `REVIEW_REQUIRED` | Une revue humaine est nécessaire. |
+
+## Code workflow
+
+```
+CIVIL_STATUS_DOCUMENT_ANALYSIS
+```
+
+<Card title="Guide — État civil" icon="book" href="/fr/guides/civil-status">
+  Créer une Collection et récupérer les résultats.
+</Card>

@@ -1,0 +1,32 @@
+---
+title: "Modifier une Personne"
+description: "PATCH /persons/:id"
+---
+
+## Endpoint
+
+```
+PATCH /persons/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Personne (`per_...`) |
+
+## Corps de la requête
+
+Tous les champs sont optionnels.
+
+| Champ | Type | Description |
+|---|---|---|
+| `first_name` | string | Nouveau prénom |
+| `last_name` | string | Nouveau nom |
+| `email` | string | Nouvel email |
+| `phone` | string | Nouveau téléphone |
+| `metadata` | object | Nouvelles métadonnées |
+
+## Réponse `200`
+
+L'objet Personne mis à jour.

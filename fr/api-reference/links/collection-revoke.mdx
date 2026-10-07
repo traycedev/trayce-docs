@@ -1,0 +1,26 @@
+---
+title: "Révoquer le lien Collection"
+description: "POST /collections/:id/links/revoke"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/links/revoke
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "id": "lnk_01HXYZ",
+  "status": "REVOKED",
+  "revoked_at": "2026-10-08T15:00:00Z"
+}
+```

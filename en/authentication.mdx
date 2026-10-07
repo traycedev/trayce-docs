@@ -1,0 +1,78 @@
+---
+title: "Authentication & Apps"
+description: "Create an App, generate API keys, and configure permissions."
+---
+
+## Apps
+
+An **App** is the integration identity used by a company. It groups credentials, permissions, and webhook configuration.
+
+| Property | Description |
+|---|---|
+| App ID | Unique identifier of the App. |
+| API keys | Credentials used by the integration. |
+| Permissions | Capabilities granted to the App. |
+| Webhooks | Event delivery configuration. |
+| Configuration | Integration-specific settings. |
+
+A company can manage multiple Apps — for example one App per integration environment or per product.
+
+## API keys
+
+API keys authenticate API requests. They are generated from the Dashboard in the App settings.
+
+<Warning>
+  The full API key is only displayed **at the time of creation**. Store it immediately in a secure secrets manager. If lost, generate a new key and revoke the old one.
+</Warning>
+
+### Usage
+
+<Note>
+  The exact HTTP authentication header format will be specified here once finalised. The standard convention is `Authorization: Bearer <api_key>`.
+</Note>
+
+```bash
+curl https://api.trayce.africa/v1/collections \
+  -H "Authorization: Bearer <your_api_key>" \
+  -H "Content-Type: application/json"
+```
+
+### Rotation and revocation
+
+- Revoke a compromised key from the Dashboard immediately.
+- You can generate multiple keys per App to facilitate rotation.
+- A revoked key is invalidated immediately.
+
+## Permissions
+
+Each App has a set of permissions that define the operations it is authorised to perform.
+
+| Permission | Role |
+|---|---|
+| `documents:write` | Create/send document resources. |
+| `documents:read` | Read documents and their status. |
+| `collections:write` | Create and modify Collections. |
+| `collections:read` | Read Collections and their results. |
+| `applications:read` | Read application-related resources. |
+| `webhooks:manage` | Manage webhook configuration. |
+
+Assign only the permissions required — follow the principle of least privilege.
+
+## Apps API
+
+```
+POST   /apps
+GET    /apps
+GET    /apps/{app_id}
+PATCH  /apps/{app_id}
+DELETE /apps/{app_id}
+```
+
+<CardGroup cols={2}>
+  <Card title="Create an App" icon="plus" href="/en/api-reference/apps/create">
+    `POST /apps`
+  </Card>
+  <Card title="List Apps" icon="list" href="/en/api-reference/apps/list">
+    `GET /apps`
+  </Card>
+</CardGroup>

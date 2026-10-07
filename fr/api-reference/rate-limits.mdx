@@ -1,0 +1,32 @@
+---
+title: "Rate limits"
+description: "Limites de requêtes de l'API Trayce."
+---
+
+## En-têtes de réponse
+
+Chaque réponse inclut les en-têtes suivants :
+
+| En-tête | Description |
+|---|---|
+| `X-RateLimit-Limit` | Nombre maximum de requêtes par fenêtre |
+| `X-RateLimit-Remaining` | Requêtes restantes dans la fenêtre courante |
+| `X-RateLimit-Reset` | Timestamp Unix de réinitialisation de la fenêtre |
+
+## Dépassement
+
+En cas de dépassement, l'API répond `429 Too Many Requests` avec un en-tête `Retry-After` (délai en secondes).
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Trop de requêtes. Réessayez dans 30 secondes.",
+    "details": { "retry_after": 30 }
+  }
+}
+```
+
+<Note>
+  Les limites exactes par plan sont en cours de finalisation.
+</Note>

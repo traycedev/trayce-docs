@@ -1,0 +1,91 @@
+---
+title: "Send a document"
+description: "Transmit a document to a recipient via send."
+---
+
+## Overview
+
+This guide covers the simplest use case: sending a document to a recipient and notifying them of its availability.
+
+## Prerequisites
+
+- An App created in the Trayce Dashboard
+- Your API key (`sk-...`)
+- The document to send (PDF, image)
+
+## Steps
+
+<Steps>
+  <Step title="Upload the document">
+    Create a send document by transmitting the file and recipient metadata.
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/documents/send \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: multipart/form-data" \
+      -F "file=@contract.pdf" \
+      -F "recipient_name=John Doe" \
+      -F "recipient_email=john@example.com" \
+      -F "document_type=CONTRACT"
+    ```
+
+    Response:
+
+    ```json
+    {
+      "id": "doc_01HXYZ",
+      "status": "PENDING",
+      "access_link": "https://docs.trayce.sn/d/abc123",
+      "expires_at": "2026-11-07T00:00:00Z"
+    }
+    ```
+  </Step>
+
+  <Step title="Notify the recipient">
+    The recipient automatically receives an email if `recipient_email` is provided. You can also trigger the notification manually:
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/documents/send/doc_01HXYZ/notify \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+
+  <Step title="Check consultation status">
+    Poll the document status to know whether it has been viewed.
+
+    ```bash
+    curl https://api.trayce.africa/v1/documents/send/doc_01HXYZ \
+      -H "Authorization: Bearer sk-..."
+    ```
+
+    Response:
+
+    ```json
+    {
+      "id": "doc_01HXYZ",
+      "status": "VIEWED",
+      "viewed_at": "2026-10-08T14:32:00Z"
+    }
+    ```
+  </Step>
+</Steps>
+
+## Lifecycle
+
+| Status | Meaning |
+|---|---|
+| `PENDING` | Document created, not yet viewed. |
+| `VIEWED` | Document viewed by the recipient. |
+| `EXPIRED` | The link has expired. |
+| `REVOKED` | The link was revoked. |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="send reference" icon="file" href="/en/concepts/send">
+    Full lifecycle and configuration options.
+  </Card>
+  <Card title="send API" icon="code" href="/en/api-reference/documents/send-create">
+    Complete endpoint reference.
+  </Card>
+</CardGroup>

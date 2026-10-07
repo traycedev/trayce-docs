@@ -1,0 +1,56 @@
+---
+title: "Tenant Application"
+description: "Collect, verify, and analyze a tenant application dossier."
+---
+
+## Purpose
+
+Collect, verify, and analyze a tenant rental application.
+
+## Requirements by participant
+
+| Participant | Requirement | Required |
+|---|---|---|
+| `PRIMARY_APPLICANT` | Identity document | Yes |
+| `PRIMARY_APPLICANT` | Proof of address | Yes |
+| `PRIMARY_APPLICANT` | Employment certificate | Yes |
+| `PRIMARY_APPLICANT` | Pay slips | 3 required |
+| `PRIMARY_APPLICANT` | Bank statements | Optional |
+| `CO_TENANT` | Identity | Per workflow |
+| `CO_TENANT` | Pay slips | e.g., 3 |
+| `CO_TENANT` | Proof of address | Per workflow |
+
+## Available checks
+
+- Identity, employer, address, dates
+- Income
+- Cross-document consistency
+- Authenticity, anomalies, document fraud detection
+- Scoring and business rules
+
+## Example result
+
+```
+Completeness        COMPLETE
+Document checks     PASSED
+Consistency         PASSED
+Income              82
+Employment          75
+Solvency            88
+Doc consistency     96
+Overall score       85
+```
+
+<Warning>
+  The analytical result does not automatically constitute an acceptance decision.
+</Warning>
+
+## Workflow code
+
+```
+TENANT_APPLICATION
+```
+
+<Card title="Guide — Tenant Application" icon="book" href="/en/guides/tenant-application">
+  Complete end-to-end tutorial.
+</Card>

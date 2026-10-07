@@ -1,0 +1,36 @@
+---
+title: "Envoyer un document (send)"
+description: "POST /documents/send"
+---
+
+## Endpoint
+
+```
+POST /documents/send
+```
+
+## Corps de la requête (multipart/form-data)
+
+| Champ | Type | Requis | Description |
+|---|---|---|---|
+| `file` | file | Oui | Fichier à envoyer (PDF, image) |
+| `document_type` | string | Oui | Type du document |
+| `recipient_name` | string | Non | Nom du destinataire |
+| `recipient_email` | string | Non | Email du destinataire |
+| `recipient_phone` | string | Non | Téléphone du destinataire |
+| `expires_in` | integer | Non | Durée d'expiration en secondes (défaut : 604800) |
+| `notify` | boolean | Non | Notifier immédiatement (défaut : true si email fourni) |
+| `metadata` | string (JSON) | Non | Données libres (JSON encodé) |
+
+## Réponse `201`
+
+```json
+{
+  "id": "doc_01HXYZ",
+  "status": "PENDING",
+  "document_type": "CONTRACT",
+  "access_link": "https://docs.trayce.sn/d/abc123",
+  "expires_at": "2026-10-15T10:00:00Z",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

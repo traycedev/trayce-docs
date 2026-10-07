@@ -1,0 +1,106 @@
+---
+title: "send"
+description: "Transmettre un document à un utilisateur Trayce de façon sécurisée."
+---
+
+## Ce que fait send
+
+**send** est une capacité générique pour transmettre un document à un utilisateur Trayce. Elle n'est pas spécialisée par secteur ou cas d'usage.
+
+### Exemples de documents
+
+- Bulletin de salaire
+- Contrat
+- Certificat
+- Diplôme
+- Relevé bancaire
+- Facture
+- Document administratif
+- Document RH
+
+## Résolution du destinataire
+
+Un document peut être associé à un destinataire via :
+- un numéro de téléphone
+- un identifiant utilisateur
+- un identifiant de compte Trayce
+
+### Si le destinataire n'a pas de compte Trayce
+
+Trayce gère automatiquement les cas où le destinataire n'est pas encore inscrit :
+- Invitation envoyée par notification
+- Lien d'accès sécurisé généré
+- Notification WhatsApp (V1)
+- Création ou activation de compte
+
+## Cycle de vie d'un document
+
+```
+PENDING → PROCESSING → AVAILABLE → DOWNLOADED
+                   ↘ FAILED
+                       REVOKED
+                       EXPIRED
+```
+
+| Statut | Description |
+|---|---|
+| `PENDING` | Le document a été créé et attend traitement. |
+| `PROCESSING` | Le document est en cours de traitement. |
+| `AVAILABLE` | Le document est disponible pour le destinataire. |
+| `DOWNLOADED` | Le document a été téléchargé. |
+| `FAILED` | Le traitement ou la livraison a échoué. |
+| `REVOKED` | L'accès au document a été révoqué. |
+| `EXPIRED` | Le document ou son accès a expiré. |
+
+## Liens de téléchargement sécurisés
+
+Chaque accès à un document se fait via un lien de téléchargement sécurisé avec les propriétés suivantes :
+
+- **Unique** — généré pour chaque demande de téléchargement
+- **Sécurisé** — protégé contre l'accès non autorisé
+- **Révocable** — peut être annulé à tout moment
+- **Expirable** — durée de validité configurable
+- **Traçable** — chaque accès et téléchargement est enregistré
+
+## Notifications
+
+Les notifications informent le destinataire qu'un document est disponible.
+
+### Contenu de la notification
+- Nom de l'entreprise
+- Titre du document
+- Message personnalisé
+- Lien sécurisé
+
+### Statuts de notification
+
+| Statut | Signification |
+|---|---|
+| `PENDING` | La notification attend d'être envoyée. |
+| `SENT` | La notification a été envoyée. |
+| `DELIVERED` | La livraison a été confirmée. |
+| `READ` | La notification a été lue. |
+| `FAILED` | La livraison a échoué. |
+
+WhatsApp est le canal prévu pour la V1.
+
+## API send
+
+```
+POST   /documents
+GET    /documents
+GET    /documents/{document_id}
+DELETE /documents/{document_id}
+POST   /documents/{document_id}/revoke
+POST   /documents/{document_id}/download-link
+POST   /documents/{document_id}/notify
+```
+
+<CardGroup cols={2}>
+  <Card title="Envoyer un document" icon="paper-plane" href="/fr/api-reference/documents/send-create">
+    `POST /documents`
+  </Card>
+  <Card title="Guide — send" icon="book" href="/fr/guides/send-document">
+    Tutoriel complet : créer, notifier et suivre un document.
+  </Card>
+</CardGroup>

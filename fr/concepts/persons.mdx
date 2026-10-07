@@ -1,0 +1,60 @@
+---
+title: "Personnes & Participants"
+description: "Gérer les participants d'une Collection — rôles, liens d'accès et documents associés."
+---
+
+## Modèle de personne
+
+Une **Personne** est un individu associé à une Collection. Le modèle est intentionnellement générique pour couvrir différents workflows métier.
+
+## Rôles
+
+| Rôle | Signification / Usage |
+|---|---|
+| `PRIMARY_APPLICANT` | Personne principale responsable du dossier. |
+| `CO_TENANT` | Colocataire dans un dossier de location. |
+| `GUARANTOR` | Personne apportant une garantie. |
+| `LEGAL_REPRESENTATIVE` | Représentant d'une organisation ou d'une personne. |
+| `UBO` | Bénéficiaire effectif ultime dans les workflows qui l'exigent. |
+| `SPOUSE` | Conjoint(e) associé(e) au dossier. |
+| `OTHER` | Autre rôle de participant supporté par le workflow. |
+
+## Données d'une personne
+
+- `person_id`
+- `role`
+- `name` (si connu)
+- `phone_number`
+- `status`
+- `documents`
+- `requirements`
+- `access_link`
+
+## Ajouter une personne à une Collection
+
+Une personne peut être ajoutée après la création de la Collection. Une fois ajoutée, elle peut recevoir un lien d'accès dédié et soumettre des documents explicitement associés à ce participant.
+
+```bash
+POST https://api.trayce.africa/v1/collections/{collection_id}/persons
+Authorization: Bearer <votre_clé_api>
+Content-Type: application/json
+
+{
+  "role": "CO_TENANT",
+  "phone_number": "+221xxxxxxxxx"
+}
+```
+
+## API Personnes
+
+```
+POST   /collections/{collection_id}/persons
+GET    /collections/{collection_id}/persons
+GET    /collections/{collection_id}/persons/{person_id}
+PATCH  /collections/{collection_id}/persons/{person_id}
+DELETE /collections/{collection_id}/persons/{person_id}
+```
+
+<Card title="Ajouter un co-demandeur" icon="user-plus" href="/fr/guides/add-co-tenant">
+  Guide complet : ajouter une personne, générer son lien et associer ses documents.
+</Card>

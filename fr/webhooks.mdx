@@ -1,0 +1,57 @@
+---
+title: "Webhooks"
+description: "Recevoir des notifications en temps réel sur les événements Trayce."
+---
+
+## Vue d'ensemble
+
+Les webhooks vous permettent de recevoir des notifications automatiques lorsqu'un événement survient dans Trayce. Au lieu d'interroger l'API en continu, votre backend reçoit un `POST` HTTP dès qu'un événement se produit.
+
+## Événements disponibles
+
+| Événement | Description |
+|---|---|
+| `collection.created` | Une nouvelle Collection a été créée. |
+| `collection.in_progress` | La Collection a reçu au moins un document. |
+| `collection.completed` | La Collection est finalisée avec des résultats. |
+| `collection.review_required` | Une revue humaine est requise. |
+| `collection.cancelled` | La Collection a été annulée. |
+| `document.received` | Un nouveau document a été soumis. |
+| `document.processed` | L'analyse d'un document est terminée. |
+| `person.completed` | Tous les documents d'une personne ont été reçus. |
+| `link.accessed` | Un lien d'accès a été ouvert. |
+| `link.expired` | Un lien d'accès a expiré. |
+
+## Format des payloads
+
+Tous les événements suivent le même format :
+
+```json
+{
+  "id": "evt_01HWBK",
+  "event": "collection.completed",
+  "created_at": "2026-10-08T14:32:00Z",
+  "data": {
+    "collection_id": "col_01HABC",
+    "status": "COMPLETED",
+    "workflow_code": "TENANT_APPLICATION"
+  }
+}
+```
+
+## Sécurité
+
+<Note>
+  La vérification de signature (HMAC-SHA256 via secret partagé) est en cours de finalisation. Les détails de l'en-tête de signature et de l'algorithme de vérification seront publiés à la mise en production.
+</Note>
+
+## Bonnes pratiques
+
+- Répondre `200` en moins de 5 secondes — traitez le payload en arrière-plan.
+- Gérer les livraisons en double (idempotence via `id` de l'événement).
+- Conserver les payloads bruts pour re-traitement si nécessaire.
+- Configurer plusieurs endpoints pour les environnements de test et production.
+
+<Card title="Guide — Configurer les webhooks" icon="book" href="/fr/guides/webhooks">
+  Tutoriel pas à pas.
+</Card>

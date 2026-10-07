@@ -1,0 +1,27 @@
+---
+title: "Resend Collection notification"
+description: "POST /collections/:id/links/resend"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/links/resend
+```
+
+Resends notifications to participants who have not yet submitted their documents.
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Response `200`
+
+```json
+{
+  "notified_count": 2,
+  "notified_persons": ["per_01HXCO", "per_01HABD"]
+}
+```

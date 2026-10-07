@@ -1,0 +1,71 @@
+---
+title: "Errors"
+description: "Error codes and API conventions for the Trayce API."
+---
+
+## Error format
+
+All errors follow a consistent JSON format:
+
+```json
+{
+  "error": {
+    "code": "INVALID_WORKFLOW",
+    "message": "Workflow code 'UNKNOWN' does not exist.",
+    "details": {
+      "field": "workflow_code",
+      "provided": "UNKNOWN"
+    }
+  }
+}
+```
+
+## HTTP status codes
+
+| Code | Meaning |
+|---|---|
+| `200` | Success |
+| `201` | Resource created |
+| `400` | Bad request (missing or incorrect parameters) |
+| `401` | Unauthenticated (invalid or missing API key) |
+| `403` | Unauthorized (insufficient permission) |
+| `404` | Resource not found |
+| `409` | Conflict (state incompatible with the operation) |
+| `422` | Unprocessable entity (business validation) |
+| `429` | Too many requests (rate limit reached) |
+| `500` | Internal Trayce error |
+
+## Business error codes
+
+| Code | Description |
+|---|---|
+| `INVALID_WORKFLOW` | Non-existent workflow code. |
+| `COLLECTION_ALREADY_COMPLETED` | The Collection is already finalized. |
+| `COLLECTION_CANCELLED` | The Collection has been cancelled. |
+| `PERSON_NOT_IN_COLLECTION` | The person does not belong to this Collection. |
+| `LINK_EXPIRED` | The access link has expired. |
+| `LINK_REVOKED` | The access link has been revoked. |
+| `DOCUMENT_TYPE_NOT_ALLOWED` | This document type is not allowed for this workflow. |
+| `FILE_TOO_LARGE` | The file exceeds the maximum allowed size. |
+| `UNSUPPORTED_FORMAT` | Unsupported file format. |
+| `RATE_LIMIT_EXCEEDED` | Request rate limit reached. |
+| `INSUFFICIENT_CREDITS` | Insufficient credits for this operation. |
+
+## Rate limits
+
+Limits vary by plan. When exceeded, the API responds `429` with a `Retry-After` header indicating the delay to wait (in seconds).
+
+<Note>
+  Exact rate limit values per plan are being finalized.
+</Note>
+
+## Idempotency
+
+For `POST` requests, you can pass an `Idempotency-Key` header to avoid duplicates on retry:
+
+```bash
+curl -X POST https://api.trayce.africa/v1/collections \
+  -H "Authorization: Bearer sk-..." \
+  -H "Idempotency-Key: my-unique-key-123" \
+  ...
+```

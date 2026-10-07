@@ -1,0 +1,58 @@
+---
+title: "Configurer les webhooks"
+description: "Recevoir des notifications en temps réel sur les événements Trayce."
+---
+
+## Vue d'ensemble
+
+Les webhooks permettent à votre backend de recevoir des notifications automatiques lorsqu'un événement survient dans Trayce, sans avoir à interroger l'API en permanence.
+
+## Étapes
+
+<Steps>
+  <Step title="Créer un endpoint sur votre serveur">
+    Votre endpoint doit :
+    - Accepter les requêtes `POST`
+    - Répondre avec un statut `200` en moins de 5 secondes
+    - Traiter le payload en arrière-plan si nécessaire
+
+    ```javascript
+    app.post('/webhooks/trayce', (req, res) => {
+      const event = req.body;
+      res.status(200).send('OK');
+      // traiter l'événement en arrière-plan
+      processEvent(event);
+    });
+    ```
+  </Step>
+
+  <Step title="Enregistrer l'endpoint dans le Dashboard">
+    Dans le Dashboard Trayce (`app.trayce.sn`), accédez à **Paramètres > Webhooks** et ajoutez votre URL.
+  </Step>
+
+  <Step title="Sélectionner les événements">
+    Choisissez les événements à recevoir :
+
+    | Événement | Déclencheur |
+    |---|---|
+    | `collection.completed` | Collection finalisée avec résultats |
+    | `collection.review_required` | Revue humaine nécessaire |
+    | `collection.cancelled` | Collection annulée |
+    | `document.received` | Nouveau document soumis |
+    | `person.completed` | Tous les docs d'une personne reçus |
+  </Step>
+
+  <Step title="Vérifier la signature">
+    <Note>
+      La vérification de signature par secret partagé est en cours de finalisation. Les détails techniques seront disponibles à la mise en production.
+    </Note>
+  </Step>
+
+  <Step title="Tester avec les crédits d'essai">
+    Utilisez votre environnement de test (crédits d'essai) pour simuler des événements avant la mise en production.
+  </Step>
+</Steps>
+
+<Card title="Webhooks — Référence" icon="webhook" href="/fr/webhooks">
+  Liste complète des événements et format des payloads.
+</Card>

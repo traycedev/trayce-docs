@@ -1,0 +1,108 @@
+---
+title: "Dossier de location"
+description: "Intégrer un flux complet de collecte et analyse de dossier locataire."
+---
+
+## Vue d'ensemble
+
+Ce guide couvre le flux complet d'un dossier de location : création de la Collection, invitation du locataire principal, ajout d'un co-locataire, et récupération des résultats.
+
+## Prérequis
+
+- App Trayce configurée avec le workflow `TENANT_APPLICATION`
+- Clé API
+
+## Étapes
+
+<Steps>
+  <Step title="Créer la Collection">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "TENANT_APPLICATION",
+        "metadata": {
+          "property_ref": "APT-75011-B",
+          "rent_amount": 950
+        }
+      }'
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "id": "col_01HABC",
+      "status": "PENDING",
+      "workflow_code": "TENANT_APPLICATION"
+    }
+    ```
+  </Step>
+
+  <Step title="Ajouter le locataire principal">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HABC/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "PRIMARY_APPLICANT",
+        "first_name": "Fatou",
+        "last_name": "Diop",
+        "email": "fatou.diop@example.com"
+      }'
+    ```
+  </Step>
+
+  <Step title="Créer le lien d'accès et inviter">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HABC/links \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{ "notify": true }'
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "url": "https://collect.trayce.sn/c/xyz789",
+      "expires_at": "2026-10-14T00:00:00Z"
+    }
+    ```
+  </Step>
+
+  <Step title="Récupérer les résultats">
+    Une fois la Collection passée en statut `COMPLETED` (via webhook ou polling) :
+
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HABC/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "collection_id": "col_01HABC",
+      "status": "COMPLETED",
+      "score": 85,
+      "checks": {
+        "completeness": "COMPLETE",
+        "documents": "PASSED",
+        "income": 82,
+        "solvency": 88
+      },
+      "decision_required": false
+    }
+    ```
+  </Step>
+</Steps>
+
+## Ajouter un co-locataire
+
+Consultez le guide dédié pour ajouter un co-locataire après création de la Collection.
+
+<Card title="Guide — Ajouter un co-locataire" icon="users" href="/fr/guides/add-co-tenant">
+  Ajouter un participant après création.
+</Card>

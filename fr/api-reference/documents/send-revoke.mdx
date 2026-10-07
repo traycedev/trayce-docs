@@ -1,0 +1,28 @@
+---
+title: "Révoquer un document send"
+description: "POST /documents/send/:id/revoke"
+---
+
+## Endpoint
+
+```
+POST /documents/send/:id/revoke
+```
+
+Révoque le lien d'accès sans supprimer le document.
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID du document (`doc_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "id": "doc_01HXYZ",
+  "status": "REVOKED",
+  "revoked_at": "2026-10-08T15:00:00Z"
+}
+```

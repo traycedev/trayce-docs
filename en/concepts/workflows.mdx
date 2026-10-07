@@ -1,0 +1,62 @@
+---
+title: "Workflows"
+description: "A Workflow defines the business behaviour of a Collection — what is collected, verified, and analysed."
+---
+
+## Workflow model
+
+A **Workflow** is a reusable business model. It is not simply a list of documents: it defines requirements, accepted document types, available controls, applicable business rules, scoring availability, and the expected result type.
+
+## What a Workflow exposes
+
+- **Name and code** — human-readable label and machine code
+- **Description** — workflow objective
+- **Available requirements** — expected documents and information
+- **Available options** — activatable controls (verification, consistency, fraud, scoring…)
+- **Default options** — initial configuration
+- **Configurable parameters** — settings at Collection creation time
+- **Analysis capabilities** — what the AI Engine can do for this workflow
+- **Scoring availability** — whether a scoring profile is configurable
+- **Supported participant roles** — `PRIMARY_APPLICANT`, `CO_TENANT`, `GUARANTOR`, etc.
+
+## Configuration options
+
+```json
+{
+  "document_verification": true,
+  "cross_document_consistency": true,
+  "fraud_detection": true,
+  "scoring": {
+    "enabled": true,
+    "profile_id": "apartment_premium"
+  },
+  "human_review": true
+}
+```
+
+## V1 workflows
+
+| Workflow | Code | Purpose |
+|---|---|---|
+| Identity Verification | `IDENTITY_VERIFICATION` | Verify an identity using an official document. |
+| KYC | `KYC` | Collect and verify information about an individual in a customer relationship. |
+| KYB | `KYB` | Collect and verify information about a business and relevant persons. |
+| Tenant Application | `TENANT_APPLICATION` | Collect, verify, and analyse a rental application. |
+| Civil Status Analysis | `CIVIL_STATUS_DOCUMENT_ANALYSIS` | Analyse civil-status documents and the relationships they represent. |
+| Custom Collection | `CUSTOM` | Create a generic collection with configurable requirements and options. |
+
+## Workflows API
+
+```
+GET /workflows
+GET /workflows/{workflow_id}
+```
+
+<CardGroup cols={2}>
+  <Card title="Workflow Reference" icon="diagram-project" href="/en/workflows/identity-verification">
+    Detailed description of each V1 workflow.
+  </Card>
+  <Card title="List Workflows" icon="list" href="/en/api-reference/workflows/list">
+    `GET /workflows`
+  </Card>
+</CardGroup>

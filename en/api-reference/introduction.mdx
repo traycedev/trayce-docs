@@ -1,0 +1,56 @@
+---
+title: "Introduction"
+description: "Complete reference for the Trayce Business API."
+---
+
+## Base URL
+
+```
+https://api.trayce.africa/v1
+```
+
+## Authentication
+
+All requests require a Bearer token in the `Authorization` header:
+
+```bash
+Authorization: Bearer sk-...
+```
+
+API keys are created in the Trayce Dashboard (`app.trayce.sn > Apps > API Keys`).
+
+## Request and response format
+
+- Requests with body: `Content-Type: application/json`
+- File uploads: `Content-Type: multipart/form-data`
+- All responses are JSON
+
+## Pagination
+
+List endpoints return paginated responses:
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "total": 42,
+    "page": 1,
+    "per_page": 20,
+    "has_more": true
+  }
+}
+```
+
+Parameters: `page` (default: 1), `per_page` (default: 20, max: 100).
+
+## Idempotency
+
+Pass an `Idempotency-Key` header on `POST` requests to avoid duplicates:
+
+```
+Idempotency-Key: <unique-uuid>
+```
+
+## Errors
+
+See the [errors reference](/en/errors) for format and error codes.

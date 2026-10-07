@@ -1,0 +1,82 @@
+---
+title: "Analyse état civil"
+description: "Analyser des documents d'état civil et extraire les données structurées."
+---
+
+## Vue d'ensemble
+
+Ce guide couvre l'analyse d'un ou plusieurs documents d'état civil via le workflow dédié.
+
+## Prérequis
+
+- App configurée avec le workflow `CIVIL_STATUS_DOCUMENT_ANALYSIS`
+- Clé API
+
+## Étapes
+
+<Steps>
+  <Step title="Créer la Collection">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "CIVIL_STATUS_DOCUMENT_ANALYSIS"
+      }'
+    ```
+  </Step>
+
+  <Step title="Uploader directement ou via lien">
+    **Option A — Upload direct :**
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HCIV/documents \
+      -H "Authorization: Bearer sk-..." \
+      -F "file=@acte-naissance.pdf" \
+      -F "document_type=BIRTH_CERTIFICATE"
+    ```
+
+    **Option B — Lien d'accès :**
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HCIV/links \
+      -H "Authorization: Bearer sk-..." \
+      -d '{ "notify": true }'
+    ```
+  </Step>
+
+  <Step title="Attendre le traitement">
+    Configurez un webhook `collection.completed` ou interrogez le statut.
+  </Step>
+
+  <Step title="Récupérer les données extraites">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HCIV/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "collection_id": "col_01HCIV",
+      "status": "COMPLETED",
+      "documents": [
+        {
+          "type": "BIRTH_CERTIFICATE",
+          "result": "VALID",
+          "extracted_data": {
+            "full_name": "Oumar Diagne",
+            "birth_date": "1990-03-15",
+            "birth_place": "Dakar"
+          }
+        }
+      ]
+    }
+    ```
+  </Step>
+</Steps>
+
+<Card title="Workflow État civil" icon="file-text" href="/fr/workflows/civil-status">
+  Résultats possibles et données extraites.
+</Card>

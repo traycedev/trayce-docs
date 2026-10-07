@@ -1,0 +1,32 @@
+---
+title: "Update a Person"
+description: "PATCH /persons/:id"
+---
+
+## Endpoint
+
+```
+PATCH /persons/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Person ID (`per_...`) |
+
+## Request body
+
+All fields are optional.
+
+| Field | Type | Description |
+|---|---|---|
+| `first_name` | string | New first name |
+| `last_name` | string | New last name |
+| `email` | string | New email |
+| `phone` | string | New phone number |
+| `metadata` | object | New metadata |
+
+## Response `200`
+
+The updated Person object.

@@ -1,0 +1,57 @@
+---
+title: "Revue humaine"
+description: "Gérer les Collections qui requièrent une revue manuelle."
+---
+
+## Vue d'ensemble
+
+Certaines Collections passent en statut `REVIEW_REQUIRED` lorsque l'analyse automatique ne peut pas conclure avec suffisamment de confiance. Ce guide explique comment traiter ces cas.
+
+## Quand une revue est-elle déclenchée ?
+
+- Document de mauvaise qualité ou partiellement illisible
+- Incohérence entre documents ne permettant pas une décision automatique
+- Anomalie détectée nécessitant une validation humaine
+- Score dans une zone grise (configurable par Business Rules)
+
+## Flux de traitement
+
+<Steps>
+  <Step title="Recevoir la notification">
+    Configurez un webhook sur l'événement `collection.review_required` :
+
+    ```json
+    {
+      "event": "collection.review_required",
+      "data": {
+        "collection_id": "col_01HREF",
+        "reason": "DOCUMENT_QUALITY",
+        "flagged_documents": ["doc_01HXYZ"]
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Consulter le dossier dans le Dashboard">
+    Accédez au Dashboard Trayce (`app.trayce.sn`) et ouvrez la Collection concernée. Vous pouvez y consulter les documents, les données extraites, et les contrôles qui ont échoué.
+  </Step>
+
+  <Step title="Prendre une décision">
+    Dans le Dashboard, validez ou rejetez la Collection. Cette action met à jour le statut en `COMPLETED` (accepté) ou `REJECTED`.
+  </Step>
+
+  <Step title="Récupérer le résultat final">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HREF/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  La revue humaine peut aussi être déclenchée manuellement depuis le Dashboard, même si l'analyse automatique a conclu.
+</Note>
+
+<Card title="Résultats et revue humaine" icon="eye" href="/fr/concepts/results">
+  Structure des résultats et statuts de revue.
+</Card>

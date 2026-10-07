@@ -1,0 +1,32 @@
+---
+title: "Récupérer une Personne"
+description: "GET /persons/:id"
+---
+
+## Endpoint
+
+```
+GET /persons/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Personne (`per_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "id": "per_01HXYZ",
+  "collection_id": "col_01HABC",
+  "role": "PRIMARY_APPLICANT",
+  "first_name": "Fatou",
+  "last_name": "Diop",
+  "email": "fatou@example.com",
+  "status": "COMPLETED",
+  "documents_count": 4,
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

@@ -1,0 +1,85 @@
+---
+title: "Analyse & Vérification"
+description: "Le Moteur IA Trayce et les Règles Métier — capacités, pipeline et résultats."
+---
+
+## Moteur IA Trayce
+
+Le Moteur IA Trayce fournit des capacités génériques d'analyse documentaire et d'information. Il ne possède pas les cas d'usage métier. Le Moteur de Workflow compose ces capacités génériques selon le workflow sélectionné.
+
+| Capacité | Description |
+|---|---|
+| Classification documentaire | Identifier et classer le type d'un document. |
+| OCR & extraction | Extraire des informations structurées d'un document. |
+| Détection/extraction de photo | Détecter et extraire des photographies si applicable. |
+| Détection/comparaison de visage | Détecter des visages et les comparer si configuré. |
+| Détection/comparaison de signature | Détecter et comparer des signatures si configuré. |
+| Vérification documentaire | Effectuer les contrôles documentaires configurés. |
+| Authenticité & sécurité | Vérifier les indicateurs de sécurité/authenticité configurés. |
+| Cohérence | Comparer les informations extraites de plusieurs documents. |
+| Comparaison d'entités | Comparer des entités représentées par des données extraites. |
+| Règles de validation | Appliquer des conditions de validation configurées. |
+| Détection d'anomalies | Identifier des anomalies nécessitant attention. |
+| Résultats structurés | Retourner des sorties lisibles par machine et explicables. |
+
+## Pipeline d'analyse
+
+```
+Upload
+  ↓
+Détection du document
+  ↓
+Classification
+  ↓
+Extraction
+  ↓
+Vérification documentaire
+  ↓
+Contrôles de sécurité
+  ↓
+Règles métier
+  ↓
+Analyse croisée
+  ↓
+Scoring (si activé)
+  ↓
+Revue humaine (si requise)
+  ↓
+Résultat
+```
+
+## Cohérence inter-documents
+
+Le système peut comparer les informations extraites de plusieurs documents. Exemples : noms, prénoms, date de naissance, adresse, employeur, dates d'emploi, revenus, numéros de document.
+
+| Statut | Signification |
+|---|---|
+| `MATCH` | Les informations correspondent. |
+| `PARTIAL_MATCH` | Les informations correspondent partiellement. |
+| `MISMATCH` | Les informations ne correspondent pas. |
+| `NOT_CHECKED` | La comparaison n'a pas été effectuée. |
+
+La normalisation prend en charge les variations raisonnables de présentation avant comparaison.
+
+## Règles Métier
+
+Les règles métier sont distinctes des modèles IA. Elles opèrent sur les données structurées produites par le Moteur IA et peuvent transformer des informations vérifiées en conditions métier.
+
+```
+SI revenus < revenus_requis
+ALORS REVIEW_REQUIRED
+
+SI nombre_bulletins < 3
+ALORS INCOMPLETE
+
+SI nom_identité != nom_bulletin
+ALORS MISMATCH
+```
+
+L'API expose le résultat de la règle et la raison pour laquelle elle a été déclenchée, selon les permissions du workflow.
+
+## Principe d'indépendance
+
+<Note>
+  Le Moteur IA doit rester indépendant des cas d'usage métier. Il expose des capacités génériques. Le Moteur de Workflow compose ces capacités selon le workflow et sa configuration.
+</Note>

@@ -1,0 +1,24 @@
+---
+title: "Supprimer une App"
+description: "DELETE /apps/:id"
+---
+
+## Endpoint
+
+```
+DELETE /apps/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de l'App (`app_...`) |
+
+## Réponse `204`
+
+Corps vide.
+
+<Warning>
+  La suppression d'une App est irréversible. Les clés API associées sont immédiatement invalidées.
+</Warning>

@@ -1,0 +1,73 @@
+---
+title: "Résultats & Revue humaine"
+description: "Résultat structuré d'une Collection et gestion de la revue humaine."
+---
+
+## Résultat d'une Collection
+
+Un résultat de Collection peut contenir :
+- Statut global
+- Complétude
+- Résultats des contrôles documentaires
+- Anomalies
+- Résultats de cohérence
+- Règles métier déclenchées
+- Scoring (si activé)
+- Éléments nécessitant une revue humaine
+- Données extraites pertinentes
+
+### Exemple
+
+```json
+{
+  "status": "REVIEW_REQUIRED",
+  "completeness": "COMPLETE",
+  "document_checks": "PASSED",
+  "consistency": "PARTIAL_MATCH",
+  "scoring": {
+    "enabled": true,
+    "overall_score": 85
+  },
+  "review_items": []
+}
+```
+
+## Statuts génériques
+
+| Statut | Signification |
+|---|---|
+| `PASS` | Les contrôles automatiques/manuels ont passé. |
+| `FAIL` | Les contrôles ont échoué. |
+| `REVIEW_REQUIRED` | Une revue humaine est nécessaire. |
+| `NOT_CHECKED` | Le contrôle n'a pas été effectué. |
+
+## Revue humaine
+
+La revue humaine est utilisée lorsque le traitement automatisé produit un état `REVIEW_REQUIRED` ou lorsque le workflow configuré exige une validation manuelle.
+
+### Ce que la revue expose
+
+- Documents soumis
+- Données extraites
+- Contrôles effectués
+- Anomalies détectées
+- Règles déclenchées
+- Score
+- Raisons du résultat
+- Historique des actions humaines
+
+## API Résultats
+
+```
+GET /collections/{collection_id}/result
+GET /collections/{collection_id}/persons/{person_id}/result
+```
+
+<CardGroup cols={2}>
+  <Card title="Résultat de Collection" icon="chart-bar" href="/fr/api-reference/results/collection">
+    `GET /collections/{collection_id}/result`
+  </Card>
+  <Card title="Guide — Revue humaine" icon="eye" href="/fr/guides/human-review">
+    Détecter et traiter un REVIEW_REQUIRED.
+  </Card>
+</CardGroup>

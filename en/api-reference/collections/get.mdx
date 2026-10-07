@@ -1,0 +1,33 @@
+---
+title: "Get a Collection"
+description: "GET /collections/:id"
+---
+
+## Endpoint
+
+```
+GET /collections/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Response `200`
+
+```json
+{
+  "id": "col_01HABC",
+  "status": "IN_PROGRESS",
+  "workflow_code": "TENANT_APPLICATION",
+  "expires_at": "2026-11-08T00:00:00Z",
+  "metadata": { "property_ref": "APT-75011-B" },
+  "persons": [
+    { "id": "per_01HXYZ", "role": "PRIMARY_APPLICANT", "status": "COMPLETED" }
+  ],
+  "created_at": "2026-10-08T10:00:00Z",
+  "updated_at": "2026-10-08T12:00:00Z"
+}
+```

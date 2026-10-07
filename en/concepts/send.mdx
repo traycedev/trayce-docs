@@ -1,0 +1,106 @@
+---
+title: "send"
+description: "Transmit a document to a Trayce user securely."
+---
+
+## What send does
+
+**send** is a generic capability for transmitting a document to a Trayce user. It is not specialised by sector or use case.
+
+### Document examples
+
+- Payslip
+- Contract
+- Certificate
+- Diploma
+- Bank statement
+- Invoice
+- Administrative document
+- HR document
+
+## Recipient resolution
+
+A document can be associated with a recipient via:
+- A phone number
+- A user identifier
+- A Trayce account identifier
+
+### If the recipient has no Trayce account
+
+Trayce handles the case where the recipient is not yet registered:
+- Invitation sent by notification
+- Secure access link generated
+- WhatsApp notification (V1)
+- Account creation or activation
+
+## Document lifecycle
+
+```
+PENDING → PROCESSING → AVAILABLE → DOWNLOADED
+                   ↘ FAILED
+                       REVOKED
+                       EXPIRED
+```
+
+| Status | Description |
+|---|---|
+| `PENDING` | The document has been created and is awaiting processing. |
+| `PROCESSING` | The document is being processed. |
+| `AVAILABLE` | The document is available to the recipient. |
+| `DOWNLOADED` | The document has been downloaded. |
+| `FAILED` | Processing or delivery failed. |
+| `REVOKED` | Access to the document has been revoked. |
+| `EXPIRED` | The document or its access has expired. |
+
+## Secure download links
+
+Each document access uses a secure download link with the following properties:
+
+- **Unique** — generated for each download request
+- **Secure** — protected against unauthorised access
+- **Revocable** — can be cancelled at any time
+- **Expirable** — configurable validity period
+- **Traceable** — every access and download is recorded
+
+## Notifications
+
+Notifications inform the recipient that a document is available.
+
+### Notification content
+- Company name
+- Document title
+- Custom message
+- Secure link
+
+### Notification statuses
+
+| Status | Meaning |
+|---|---|
+| `PENDING` | Notification is waiting to be sent. |
+| `SENT` | Notification was sent. |
+| `DELIVERED` | Delivery was confirmed. |
+| `READ` | Notification was read. |
+| `FAILED` | Delivery failed. |
+
+WhatsApp is the planned channel for V1.
+
+## send API
+
+```
+POST   /documents
+GET    /documents
+GET    /documents/{document_id}
+DELETE /documents/{document_id}
+POST   /documents/{document_id}/revoke
+POST   /documents/{document_id}/download-link
+POST   /documents/{document_id}/notify
+```
+
+<CardGroup cols={2}>
+  <Card title="Send a document" icon="paper-plane" href="/en/api-reference/documents/send-create">
+    `POST /documents`
+  </Card>
+  <Card title="Guide — send" icon="book" href="/en/guides/send-document">
+    Full tutorial: create, notify and track a document.
+  </Card>
+</CardGroup>

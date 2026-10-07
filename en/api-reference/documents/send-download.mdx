@@ -1,0 +1,25 @@
+---
+title: "Download a send document"
+description: "GET /documents/send/:id/download"
+---
+
+## Endpoint
+
+```
+GET /documents/send/:id/download
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Document ID (`doc_...`) |
+
+## Response `200`
+
+Binary file stream with headers:
+
+```
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="document.pdf"
+```

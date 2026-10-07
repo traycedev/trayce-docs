@@ -1,0 +1,79 @@
+---
+title: "Événements webhook"
+description: "Liste complète des événements webhook Trayce."
+---
+
+## collection.completed
+
+```json
+{
+  "id": "evt_01H001",
+  "event": "collection.completed",
+  "created_at": "2026-10-08T14:32:00Z",
+  "data": {
+    "collection_id": "col_01HABC",
+    "workflow_code": "TENANT_APPLICATION",
+    "status": "COMPLETED",
+    "result": "PASS",
+    "score": 85
+  }
+}
+```
+
+## collection.review_required
+
+```json
+{
+  "id": "evt_01H002",
+  "event": "collection.review_required",
+  "created_at": "2026-10-08T14:32:00Z",
+  "data": {
+    "collection_id": "col_01HABC",
+    "reason": "DOCUMENT_QUALITY",
+    "flagged_documents": ["cdoc_01HABC"]
+  }
+}
+```
+
+## collection.cancelled
+
+```json
+{
+  "id": "evt_01H003",
+  "event": "collection.cancelled",
+  "created_at": "2026-10-08T15:00:00Z",
+  "data": {
+    "collection_id": "col_01HABC",
+    "cancelled_at": "2026-10-08T15:00:00Z"
+  }
+}
+```
+
+## document.received
+
+```json
+{
+  "id": "evt_01H004",
+  "event": "document.received",
+  "data": {
+    "document_id": "cdoc_01HABC",
+    "collection_id": "col_01HABC",
+    "person_id": "per_01HXYZ",
+    "document_type": "PAY_SLIP"
+  }
+}
+```
+
+## person.completed
+
+```json
+{
+  "id": "evt_01H005",
+  "event": "person.completed",
+  "data": {
+    "person_id": "per_01HXYZ",
+    "collection_id": "col_01HABC",
+    "role": "PRIMARY_APPLICANT"
+  }
+}
+```

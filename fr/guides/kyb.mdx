@@ -1,0 +1,79 @@
+---
+title: "KYB"
+description: "Intégrer un flux de vérification d'entreprise."
+---
+
+## Vue d'ensemble
+
+Ce guide couvre l'intégration d'un flux KYB pour vérifier une entreprise et ses représentants.
+
+## Prérequis
+
+- App configurée avec le workflow `KYB`
+- Clé API
+
+## Étapes
+
+<Steps>
+  <Step title="Créer la Collection KYB">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "KYB",
+        "metadata": { "company_name": "Tech Solutions SARL" }
+      }'
+    ```
+  </Step>
+
+  <Step title="Ajouter le représentant légal">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYB/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "LEGAL_REPRESENTATIVE",
+        "first_name": "Ibrahima",
+        "last_name": "Seck",
+        "email": "ibrahima.seck@techsolutions.sn"
+      }'
+    ```
+  </Step>
+
+  <Step title="Ajouter les bénéficiaires effectifs (optionnel)">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYB/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "UBO",
+        "first_name": "Mariama",
+        "last_name": "Diallo",
+        "email": "mariama@techsolutions.sn",
+        "ownership_percentage": 35
+      }'
+    ```
+  </Step>
+
+  <Step title="Générer les liens d'accès">
+    Générez un lien principal pour la Collection (documents d'entreprise) et des liens individuels pour chaque personne.
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYB/links \
+      -H "Authorization: Bearer sk-..." \
+      -d '{ "notify": true }'
+    ```
+  </Step>
+
+  <Step title="Récupérer les résultats">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HKYB/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+<Card title="Workflow KYB" icon="building" href="/fr/workflows/kyb">
+  Documents collectés et contrôles disponibles.
+</Card>

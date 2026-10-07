@@ -1,0 +1,32 @@
+---
+title: "Récupérer un Workflow"
+description: "GET /workflows/:code"
+---
+
+## Endpoint
+
+```
+GET /workflows/:code
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `code` | Code du workflow (ex. : `TENANT_APPLICATION`) |
+
+## Réponse `200`
+
+```json
+{
+  "code": "TENANT_APPLICATION",
+  "name": "Dossier de location",
+  "description": "Collecte et analyse d'un dossier locataire",
+  "version": "1",
+  "participants": [
+    { "role": "PRIMARY_APPLICANT", "required": true, "min": 1, "max": 1 },
+    { "role": "CO_TENANT", "required": false, "min": 0, "max": 3 }
+  ],
+  "document_types": ["IDENTITY", "PROOF_OF_ADDRESS", "PAY_SLIP", "EMPLOYMENT_CERTIFICATE"]
+}
+```

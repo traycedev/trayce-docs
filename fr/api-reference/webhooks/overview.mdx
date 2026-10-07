@@ -1,0 +1,33 @@
+---
+title: "Webhooks — Vue d'ensemble"
+description: "Configurer et recevoir des événements webhook Trayce."
+---
+
+## Enregistrement
+
+Les webhooks sont configurés depuis le Dashboard Trayce (`app.trayce.sn > Paramètres > Webhooks`). Vous pouvez aussi définir un `webhook_url` au niveau de l'App ou de la Collection.
+
+## Livraison
+
+- Trayce effectue jusqu'à **3 tentatives** de livraison en cas d'échec (réponse non-2xx ou timeout).
+- Les intervalles entre tentatives : 30s, 5min, 30min.
+- Un événement non livré après 3 tentatives est marqué `FAILED`.
+
+## Sécurité
+
+<Note>
+  La vérification de signature (HMAC-SHA256) est en cours de finalisation. Les détails seront publiés à la mise en production.
+</Note>
+
+## Format des événements
+
+```json
+{
+  "id": "evt_01HWBK",
+  "event": "collection.completed",
+  "created_at": "2026-10-08T14:32:00Z",
+  "data": { ... }
+}
+```
+
+Voir la [liste des événements](/fr/api-reference/webhooks/events) pour les payloads détaillés.

@@ -1,0 +1,29 @@
+---
+title: "Get an App"
+description: "GET /apps/:id"
+---
+
+## Endpoint
+
+```
+GET /apps/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | App ID (`app_...`) |
+
+## Response `200`
+
+```json
+{
+  "id": "app_01HABC",
+  "name": "My project",
+  "description": "Main production App",
+  "webhook_url": "https://myapp.com/webhooks/trayce",
+  "created_at": "2026-10-08T10:00:00Z",
+  "updated_at": "2026-10-08T10:00:00Z"
+}
+```

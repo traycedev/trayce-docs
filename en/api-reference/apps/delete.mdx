@@ -1,0 +1,24 @@
+---
+title: "Delete an App"
+description: "DELETE /apps/:id"
+---
+
+## Endpoint
+
+```
+DELETE /apps/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | App ID (`app_...`) |
+
+## Response `204`
+
+Empty body.
+
+<Warning>
+  Deleting an App is irreversible. All associated API keys are immediately invalidated.
+</Warning>

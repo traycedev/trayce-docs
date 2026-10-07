@@ -1,0 +1,42 @@
+---
+title: "Changelog"
+description: "Historique des versions et mises à jour de l'API Trayce."
+---
+
+## Versionnement
+
+L'API Trayce utilise un versionnement via le chemin URL : `/v1/`, `/v2/`, etc. Les changements non-breaking sont introduits dans la version courante. Les changements breaking donnent lieu à une nouvelle version.
+
+## v1 — Version actuelle
+
+**Octobre 2026**
+
+Version initiale de l'API Trayce Business.
+
+### Primitives
+
+- **send** : transmission de documents avec liens sécurisés et notifications
+- **collect** : collecte structurée de documents via Workflows
+
+### Workflows disponibles
+
+- `IDENTITY_VERIFICATION`
+- `KYC`
+- `KYB`
+- `TENANT_APPLICATION`
+- `CIVIL_STATUS_DOCUMENT_ANALYSIS`
+- `CUSTOM`
+
+### Ressources
+
+- Apps, Collections, Persons, Links, Documents, Results, Webhooks
+
+### Analyse
+
+- Moteur IA : classification, extraction, vérification, cohérence
+- Business Rules
+- Scoring
+
+<Note>
+  Ce changelog sera mis à jour à chaque évolution significative de l'API.
+</Note>

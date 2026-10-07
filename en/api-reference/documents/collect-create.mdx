@@ -1,0 +1,38 @@
+---
+title: "Submit a document (collect)"
+description: "POST /collections/:id/documents"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/documents
+```
+
+Submits a document to a Collection (direct upload by the integrator, without going through an access link).
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Request body (multipart/form-data)
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `file` | file | Yes | Document file |
+| `document_type` | string | Yes | Document type |
+| `person_id` | string | No | Associated Person ID |
+
+## Response `201`
+
+```json
+{
+  "id": "cdoc_01HABC",
+  "collection_id": "col_01HXYZ",
+  "document_type": "PAY_SLIP",
+  "status": "PROCESSING",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

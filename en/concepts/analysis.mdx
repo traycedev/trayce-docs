@@ -1,0 +1,85 @@
+---
+title: "Analysis & Verification"
+description: "The Trayce AI Engine and Business Rules — capabilities, pipeline, and results."
+---
+
+## Trayce AI Engine
+
+The Trayce AI Engine provides generic document and information analysis capabilities. It does not own business use cases. The Workflow Engine composes these generic capabilities according to the selected workflow.
+
+| Capability | Description |
+|---|---|
+| Document classification | Identify and classify the type of a document. |
+| OCR & extraction | Extract structured information from a document. |
+| Photo detection/extraction | Detect and extract photographs where applicable. |
+| Face detection/comparison | Detect faces and compare them when configured. |
+| Signature detection/comparison | Detect and compare signatures when configured. |
+| Document verification | Perform configured document checks. |
+| Authenticity & security | Check configured security/authenticity indicators. |
+| Consistency | Compare information extracted from multiple documents. |
+| Entity comparison | Compare entities represented by extracted data. |
+| Validation rules | Apply configured validation conditions. |
+| Anomaly detection | Identify anomalies requiring attention. |
+| Structured results | Return machine-readable and explainable outputs. |
+
+## Analysis pipeline
+
+```
+Upload
+  ↓
+Document Detection
+  ↓
+Classification
+  ↓
+Extraction
+  ↓
+Document Verification
+  ↓
+Security Checks
+  ↓
+Business Rules
+  ↓
+Cross-document Analysis
+  ↓
+Scoring (if enabled)
+  ↓
+Human Review (if required)
+  ↓
+Result
+```
+
+## Cross-document consistency
+
+The system can compare information extracted from multiple documents. Examples: names, given names, date of birth, address, employer, employment dates, income, document numbers.
+
+| Status | Meaning |
+|---|---|
+| `MATCH` | Information matches. |
+| `PARTIAL_MATCH` | Information partially matches. |
+| `MISMATCH` | Information does not match. |
+| `NOT_CHECKED` | The comparison was not performed. |
+
+Normalisation supports reasonable presentation variations before comparison.
+
+## Business Rules
+
+Business rules are separate from the AI models. They operate on structured data produced by the AI Engine and can turn verified information into business-level conditions.
+
+```
+IF income < required_income
+THEN REVIEW_REQUIRED
+
+IF payslip_count < 3
+THEN INCOMPLETE
+
+IF identity_name != payslip_name
+THEN MISMATCH
+```
+
+The API exposes the rule outcome and the reason a rule was triggered, according to the workflow's permissions.
+
+## Independence principle
+
+<Note>
+  The AI Engine must remain independent from business use cases. It exposes generic capabilities. The Workflow Engine composes these capabilities according to the workflow and its configuration.
+</Note>

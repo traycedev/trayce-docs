@@ -1,0 +1,50 @@
+---
+title: "Sécurité"
+description: "Architecture de sécurité et bonnes pratiques pour l'intégration Trayce."
+---
+
+## Authentification
+
+Toutes les requêtes API sont authentifiées par clé API (Bearer token). Les clés sont scoped par App et par permission.
+
+- Ne jamais exposer une clé API côté client.
+- Stocker les clés dans des variables d'environnement ou un gestionnaire de secrets.
+- Utiliser des clés avec le scope minimal nécessaire.
+- Rotation régulière des clés depuis le Dashboard.
+
+## Transport
+
+Toutes les communications entre votre backend et l'API Trayce utilisent **HTTPS (TLS 1.2+)**. Les requêtes HTTP non chiffrées sont rejetées.
+
+## Liens d'accès
+
+Les liens générés par Trayce pour les destinataires :
+
+- Sont signés et non devinables.
+- Expirent selon la durée configurée (par défaut : 7 jours).
+- Peuvent être révoqués à tout moment.
+- Sont à usage unique ou multi-usage selon la configuration.
+
+## Données
+
+- Les documents sont chiffrés au repos et en transit.
+- La durée de rétention des documents est configurable.
+- Les données personnelles sont traitées conformément aux réglementations applicables.
+
+## Webhooks
+
+<Note>
+  La vérification de signature des webhooks (HMAC-SHA256) est en cours de finalisation. Les détails seront disponibles à la mise en production.
+</Note>
+
+## Permissions par clé API
+
+| Permission | Accès |
+|---|---|
+| `read` | Lire Collections, Documents, Résultats |
+| `write` | Créer et modifier Collections, Documents |
+| `admin` | Accès complet, y compris gestion des Apps |
+
+## Signalement de vulnérabilités
+
+Pour signaler une vulnérabilité de sécurité, contactez : [security@trayce.sn](mailto:security@trayce.sn)

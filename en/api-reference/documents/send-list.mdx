@@ -1,0 +1,36 @@
+---
+title: "List send documents"
+description: "GET /documents/send"
+---
+
+## Endpoint
+
+```
+GET /documents/send
+```
+
+## Query parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `status` | string | Filter by status (`PENDING`, `VIEWED`, `EXPIRED`, `REVOKED`) |
+| `page` | integer | Page (default: 1) |
+| `per_page` | integer | Results per page (default: 20) |
+
+## Response `200`
+
+```json
+{
+  "data": [
+    {
+      "id": "doc_01HXYZ",
+      "status": "VIEWED",
+      "document_type": "CONTRACT",
+      "recipient_email": "recipient@example.com",
+      "viewed_at": "2026-10-09T08:00:00Z",
+      "created_at": "2026-10-08T10:00:00Z"
+    }
+  ],
+  "pagination": { "total": 5, "page": 1, "per_page": 20, "has_more": false }
+}
+```

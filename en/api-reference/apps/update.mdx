@@ -1,0 +1,30 @@
+---
+title: "Update an App"
+description: "PATCH /apps/:id"
+---
+
+## Endpoint
+
+```
+PATCH /apps/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | App ID (`app_...`) |
+
+## Request body
+
+All fields are optional.
+
+| Field | Type | Description |
+|---|---|---|
+| `name` | string | New name |
+| `description` | string | New description |
+| `webhook_url` | string | New webhook URL |
+
+## Response `200`
+
+The updated App object.

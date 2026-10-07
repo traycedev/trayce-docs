@@ -1,0 +1,46 @@
+---
+title: "Civil Status Analysis"
+description: "Analyze civil status documents and the relationships they represent."
+---
+
+## Purpose
+
+Analyze civil status documents and the information and relationships they represent.
+
+## Supported documents
+
+- Birth certificate
+- Marriage certificate
+- Death certificate
+- Family record book
+- Civil status administrative documents
+
+## Extracted data
+
+- Classification and structure
+- First and last names
+- Dates
+- Locations
+- Relationships between persons
+- Consistency
+- Anomalies
+
+## Results
+
+| Result | Meaning |
+|---|---|
+| `VALID` | Document/data considered valid by configured checks. |
+| `INVALID` | Checks identify an invalidity. |
+| `INCOMPLETE` | Required information is missing. |
+| `INCONSISTENT` | Information is inconsistent. |
+| `REVIEW_REQUIRED` | Human review is required. |
+
+## Workflow code
+
+```
+CIVIL_STATUS_DOCUMENT_ANALYSIS
+```
+
+<Card title="Guide — Civil Status" icon="book" href="/en/guides/civil-status">
+  Create a Collection and retrieve results.
+</Card>

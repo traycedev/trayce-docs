@@ -1,0 +1,72 @@
+---
+title: "Collections"
+description: "Une Collection est une instance concrète d'un Workflow — un dossier spécifique en cours de collecte."
+---
+
+## Définition
+
+Une **Collection** est une instance concrète d'un Workflow. Elle représente un dossier spécifique en cours de collecte auprès d'un ou plusieurs participants.
+
+## Propriétés d'une Collection
+
+| Propriété | Description |
+|---|---|
+| `collection_id` | Identifiant unique. |
+| `workflow_id` | Workflow utilisé. |
+| `title` | Titre lisible (ex. : "Appartement A"). |
+| `status` | Statut courant du cycle de vie. |
+| `configuration` | Options activées au moment de la création. |
+| `persons` | Participants associés. |
+| `requirements` | Exigences du workflow. |
+| `result` | Résultat structuré une fois l'analyse terminée. |
+| `links` | Liens d'accès actifs. |
+| `created_at` | Date de création. |
+
+## Cycle de vie
+
+| Statut | Signification |
+|---|---|
+| `DRAFT` | La Collection a été créée mais n'est pas encore active. |
+| `ACTIVE` | La Collection est active et peut recevoir des documents. |
+| `IN_PROGRESS` | Des documents ont été soumis, la collecte est en cours. |
+| `SUBMITTED` | Tous les documents requis ont été soumis. |
+| `PROCESSING` | L'analyse est en cours. |
+| `COMPLETED` | L'analyse est terminée et le résultat est disponible. |
+| `EXPIRED` | La Collection a expiré sans être complétée. |
+| `CANCELLED` | La Collection a été annulée. |
+| `REQUIRES_ACTION` | Une action est requise (ex. : document manquant ou invalide). |
+| `REVIEW_REQUIRED` | Une revue humaine est nécessaire. |
+| `FAILED` | Un échec technique s'est produit. |
+
+## Créer une Collection
+
+```bash
+POST https://api.trayce.africa/v1/collections
+Authorization: Bearer <votre_clé_api>
+Content-Type: application/json
+
+{
+  "workflow_id": "tenant_application",
+  "title": "Appartement A",
+  "configuration": {
+    "document_verification": true,
+    "cross_document_consistency": true,
+    "fraud_detection": true,
+    "scoring": {
+      "enabled": true,
+      "profile_id": "apartment_premium"
+    }
+  }
+}
+```
+
+## API Collections
+
+```
+POST  /collections
+GET   /collections
+GET   /collections/{collection_id}
+PATCH /collections/{collection_id}
+POST  /collections/{collection_id}/cancel
+POST  /collections/{collection_id}/resend-notification
+```

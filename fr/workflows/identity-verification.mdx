@@ -1,0 +1,45 @@
+---
+title: "Vérification d'identité"
+description: "Vérifier une identité via un document officiel."
+---
+
+## Objectif
+
+Vérifier une identité à partir d'un document officiel. Ce workflow ne requiert pas obligatoirement une correspondance faciale ou une vivacité.
+
+## Documents supportés
+
+- Carte nationale d'identité
+- Passeport
+- Titre de séjour
+- Permis de conduire
+- Autres documents officiels configurés
+
+## Contrôles disponibles
+
+- Classification du document
+- Extraction des données
+- Vérification documentaire
+- Contrôles de sécurité
+- Contrôles de cohérence
+- Contrôles de validité
+- Détection d'anomalies
+
+## Résultats
+
+| Résultat | Signification |
+|---|---|
+| `PASS` | La vérification a passé. |
+| `FAIL` | La vérification a échoué. |
+| `REVIEW_REQUIRED` | Une revue humaine est nécessaire. |
+| `NOT_CHECKED` | Le contrôle n'a pas été effectué. |
+
+<Note>
+  La correspondance faciale et la vivacité ne sont pas obligatoires dans le workflow de base Vérification d'identité.
+</Note>
+
+## Code workflow
+
+```
+IDENTITY_VERIFICATION
+```

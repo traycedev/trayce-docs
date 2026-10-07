@@ -1,0 +1,24 @@
+---
+title: "Delete a Person"
+description: "DELETE /persons/:id"
+---
+
+## Endpoint
+
+```
+DELETE /persons/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Person ID (`per_...`) |
+
+## Response `204`
+
+Empty body.
+
+<Warning>
+  Deleting a Person is only possible if the Collection is in `PENDING` status. Associated documents are also deleted.
+</Warning>

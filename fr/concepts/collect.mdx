@@ -1,0 +1,82 @@
+---
+title: "collect"
+description: "Collecter des documents et des informations auprès d'une ou plusieurs personnes via un workflow structuré."
+---
+
+## Ce que fait collect
+
+**collect** crée une demande structurée de documents, d'informations, de données personnelles et de preuves justificatives. Une Collection peut impliquer une ou plusieurs personnes.
+
+## Cycle de vie d'une Collection
+
+```
+DRAFT
+  ↓
+ACTIVE
+  ↓
+IN_PROGRESS
+  ↓
+SUBMITTED
+  ↓
+PROCESSING
+  ↓
+COMPLETED
+```
+
+États alternatifs : `EXPIRED`, `CANCELLED`, `REQUIRES_ACTION`, `REVIEW_REQUIRED`, `FAILED`.
+
+## Structure d'une Collection
+
+```
+COLLECTION
+├── Workflow
+├── Demandeur principal
+│   ├── Identité
+│   ├── Documents
+│   └── Données
+├── Personnes supplémentaires
+│   ├── Personne 1
+│   │   ├── Documents
+│   │   └── Données
+│   └── Personne 2
+│       ├── Documents
+│       └── Données
+├── Exigences
+├── Analyse
+├── Règles métier
+├── Scoring
+├── Résultat
+└── Liens
+```
+
+## Collection multi-personnes
+
+Une Collection n'est pas limitée à un seul participant. Des personnes supplémentaires peuvent être ajoutées après la création de la Collection. Chaque personne peut recevoir un lien d'accès dédié, et ses documents sont associés au bon participant dans la même Collection.
+
+## Concepts associés
+
+<CardGroup cols={2}>
+  <Card title="Workflows" icon="diagram-project" href="/fr/concepts/workflows">
+    Ce qu'un Workflow définit.
+  </Card>
+  <Card title="Personnes" icon="users" href="/fr/concepts/persons">
+    Rôles et gestion des participants.
+  </Card>
+  <Card title="Liens d'accès" icon="link" href="/fr/concepts/links">
+    Accès sécurisé à la Collection.
+  </Card>
+  <Card title="Documents" icon="file" href="/fr/concepts/documents">
+    Documents attachés à une Collection.
+  </Card>
+</CardGroup>
+
+## API collect
+
+```
+POST /collections
+GET  /collections
+GET  /collections/{collection_id}
+PATCH /collections/{collection_id}
+POST /collections/{collection_id}/cancel
+POST /collections/{collection_id}/resend-notification
+```

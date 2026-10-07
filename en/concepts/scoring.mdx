@@ -1,0 +1,61 @@
+---
+title: "Scoring"
+description: "A configurable business capability that transforms verified data into explainable analytical scores."
+---
+
+## Principle
+
+Scoring is a **configurable business capability**, deliberately separated from the Trayce AI Engine.
+
+```
+Documents
+  ↓
+AI Engine
+  ↓
+Verified Data
+  ↓
+Business Rules / Scoring Engine
+  ↓
+Score + Explanation
+```
+
+## Example scoring profile
+
+| Criterion | Weight |
+|---|---|
+| Income | 40% |
+| Employment Stability | 25% |
+| Affordability | 20% |
+| Document Consistency | 15% |
+
+## Scoring result
+
+A scoring result may include:
+- A global score
+- Scores by criterion
+- The data used
+- Applied rules
+- Explanations
+
+## Profile configuration
+
+<Note>
+  Only the existence of configurable profiles, criteria/weights, and explainable output is established. The exact API resources for managing scoring profiles have not yet been defined.
+</Note>
+
+The scoring API documentation will cover:
+- Profile identifiers
+- Enabled/disabled state
+- Criteria and weights
+- Thresholds
+- Input data
+- Score output
+- Explanation
+- Versioning
+- Auditability
+
+## Responsibility
+
+<Warning>
+  Trayce supplies documentary and analytical results. Final acceptance, rental, credit, or other business decisions remain under the company's responsibility.
+</Warning>

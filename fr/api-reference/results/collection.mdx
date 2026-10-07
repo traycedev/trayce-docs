@@ -1,0 +1,53 @@
+---
+title: "Résultats d'une Collection"
+description: "GET /collections/:id/results"
+---
+
+## Endpoint
+
+```
+GET /collections/:id/results
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "collection_id": "col_01HABC",
+  "status": "COMPLETED",
+  "result": "PASS",
+  "score": 85,
+  "checks": {
+    "completeness": "COMPLETE",
+    "documents": "PASSED",
+    "consistency": "PASSED",
+    "income": 82,
+    "employment": 75,
+    "solvency": 88
+  },
+  "review": {
+    "required": false,
+    "reviewed_at": null,
+    "reviewer": null,
+    "decision": null
+  },
+  "persons": [
+    {
+      "id": "per_01HXYZ",
+      "role": "PRIMARY_APPLICANT",
+      "result": "PASS"
+    }
+  ],
+  "completed_at": "2026-10-08T14:00:00Z"
+}
+```
+
+<Note>
+  La structure exacte des résultats varie selon le workflow utilisé.
+</Note>

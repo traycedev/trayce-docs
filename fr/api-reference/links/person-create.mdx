@@ -1,0 +1,37 @@
+---
+title: "Créer un lien Personne"
+description: "POST /persons/:id/links"
+---
+
+## Endpoint
+
+```
+POST /persons/:id/links
+```
+
+Crée un lien d'accès personnel et unique pour une Personne spécifique.
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Personne (`per_...`) |
+
+## Corps de la requête
+
+| Champ | Type | Description |
+|---|---|---|
+| `notify` | boolean | Envoyer la notification (défaut : false) |
+| `expires_in` | integer | Durée en secondes (défaut : 604800) |
+
+## Réponse `201`
+
+```json
+{
+  "id": "lnk_01HPER",
+  "url": "https://collect.trayce.sn/p/xyz789",
+  "type": "PERSON",
+  "person_id": "per_01HXCO",
+  "expires_at": "2026-10-15T10:00:00Z"
+}
+```

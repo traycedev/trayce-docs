@@ -1,0 +1,33 @@
+---
+title: "List Workflows"
+description: "GET /workflows"
+---
+
+## Endpoint
+
+```
+GET /workflows
+```
+
+Returns the workflows available for your App.
+
+## Response `200`
+
+```json
+{
+  "data": [
+    {
+      "code": "TENANT_APPLICATION",
+      "name": "Tenant Application",
+      "description": "Collect and analyze a tenant dossier",
+      "version": "1"
+    },
+    {
+      "code": "KYC",
+      "name": "KYC",
+      "description": "Customer identity verification",
+      "version": "1"
+    }
+  ]
+}
+```

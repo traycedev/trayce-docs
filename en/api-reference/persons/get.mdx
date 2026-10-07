@@ -1,0 +1,32 @@
+---
+title: "Get a Person"
+description: "GET /persons/:id"
+---
+
+## Endpoint
+
+```
+GET /persons/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Person ID (`per_...`) |
+
+## Response `200`
+
+```json
+{
+  "id": "per_01HXYZ",
+  "collection_id": "col_01HABC",
+  "role": "PRIMARY_APPLICANT",
+  "first_name": "Jane",
+  "last_name": "Smith",
+  "email": "jane@example.com",
+  "status": "COMPLETED",
+  "documents_count": 4,
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

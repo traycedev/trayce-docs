@@ -1,0 +1,30 @@
+---
+title: "Modifier une App"
+description: "PATCH /apps/:id"
+---
+
+## Endpoint
+
+```
+PATCH /apps/:id
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de l'App (`app_...`) |
+
+## Corps de la requête
+
+Tous les champs sont optionnels.
+
+| Champ | Type | Description |
+|---|---|---|
+| `name` | string | Nouveau nom |
+| `description` | string | Nouvelle description |
+| `webhook_url` | string | Nouvelle URL webhook |
+
+## Réponse `200`
+
+L'objet App mis à jour.

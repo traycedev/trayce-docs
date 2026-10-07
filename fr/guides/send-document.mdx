@@ -1,0 +1,91 @@
+---
+title: "Envoyer un document"
+description: "Transmettre un document à un destinataire via send."
+---
+
+## Vue d'ensemble
+
+Ce guide couvre le cas d'usage le plus simple : envoyer un document à un destinataire et lui notifier sa disponibilité.
+
+## Prérequis
+
+- Une App créée dans le Dashboard Trayce
+- Votre clé API (`sk-...`)
+- Le document à envoyer (PDF, image)
+
+## Étapes
+
+<Steps>
+  <Step title="Uploader le document">
+    Créez un document send en transmettant le fichier et les métadonnées du destinataire.
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/documents/send \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: multipart/form-data" \
+      -F "file=@contrat.pdf" \
+      -F "recipient_name=Amadou Diallo" \
+      -F "recipient_email=amadou@example.com" \
+      -F "document_type=CONTRACT"
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "id": "doc_01HXYZ",
+      "status": "PENDING",
+      "access_link": "https://docs.trayce.sn/d/abc123",
+      "expires_at": "2026-11-07T00:00:00Z"
+    }
+    ```
+  </Step>
+
+  <Step title="Notifier le destinataire">
+    Le destinataire reçoit automatiquement un email si `recipient_email` est fourni. Vous pouvez aussi déclencher la notification manuellement :
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/documents/send/doc_01HXYZ/notify \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+
+  <Step title="Vérifier la consultation">
+    Interrogez le statut du document pour savoir s'il a été consulté.
+
+    ```bash
+    curl https://api.trayce.africa/v1/documents/send/doc_01HXYZ \
+      -H "Authorization: Bearer sk-..."
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "id": "doc_01HXYZ",
+      "status": "VIEWED",
+      "viewed_at": "2026-10-08T14:32:00Z"
+    }
+    ```
+  </Step>
+</Steps>
+
+## Cycle de vie
+
+| Statut | Signification |
+|---|---|
+| `PENDING` | Document créé, pas encore consulté. |
+| `VIEWED` | Document consulté par le destinataire. |
+| `EXPIRED` | Le lien a expiré. |
+| `REVOKED` | Le lien a été révoqué. |
+
+## Étapes suivantes
+
+<CardGroup cols={2}>
+  <Card title="Référence send" icon="file" href="/fr/concepts/send">
+    Cycle de vie complet et options de configuration.
+  </Card>
+  <Card title="API send" icon="code" href="/fr/api-reference/documents/send-create">
+    Référence complète de l'endpoint.
+  </Card>
+</CardGroup>

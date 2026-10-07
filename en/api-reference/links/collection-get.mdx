@@ -1,0 +1,32 @@
+---
+title: "Get the Collection link"
+description: "GET /collections/:id/links"
+---
+
+## Endpoint
+
+```
+GET /collections/:id/links
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Response `200`
+
+```json
+{
+  "data": [
+    {
+      "id": "lnk_01HXYZ",
+      "url": "https://collect.trayce.sn/c/abc123",
+      "type": "COLLECTION",
+      "status": "ACTIVE",
+      "expires_at": "2026-10-15T10:00:00Z"
+    }
+  ]
+}
+```

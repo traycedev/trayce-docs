@@ -1,0 +1,34 @@
+---
+title: "Update a Collection"
+description: "PATCH /collections/:id"
+---
+
+## Endpoint
+
+```
+PATCH /collections/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Collection ID (`col_...`) |
+
+## Request body
+
+All fields are optional.
+
+| Field | Type | Description |
+|---|---|---|
+| `expires_at` | string | New expiration date |
+| `metadata` | object | New metadata (replaces) |
+| `webhook_url` | string | New webhook URL |
+
+## Response `200`
+
+The updated Collection object.
+
+<Note>
+  Only Collections in `PENDING` or `IN_PROGRESS` status can be updated.
+</Note>

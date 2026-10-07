@@ -1,0 +1,45 @@
+---
+title: "Identity Verification"
+description: "Verify an identity from an official document."
+---
+
+## Purpose
+
+Verify an identity from an official document. This workflow does not require facial matching or liveness by default.
+
+## Supported documents
+
+- National identity card
+- Passport
+- Residence permit
+- Driver's license
+- Other configured official documents
+
+## Available checks
+
+- Document classification
+- Data extraction
+- Document verification
+- Security checks
+- Consistency checks
+- Validity checks
+- Anomaly detection
+
+## Results
+
+| Result | Meaning |
+|---|---|
+| `PASS` | The check passed. |
+| `FAIL` | The check failed. |
+| `REVIEW_REQUIRED` | Human review is required. |
+| `NOT_CHECKED` | The check was not performed. |
+
+<Note>
+  Facial matching and liveness are not required in the base Identity Verification workflow.
+</Note>
+
+## Workflow code
+
+```
+IDENTITY_VERIFICATION
+```

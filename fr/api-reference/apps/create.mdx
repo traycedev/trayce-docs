@@ -1,0 +1,38 @@
+---
+title: "Créer une App"
+description: "POST /apps"
+---
+
+## Endpoint
+
+```
+POST /apps
+```
+
+## Corps de la requête
+
+| Champ | Type | Requis | Description |
+|---|---|---|---|
+| `name` | string | Oui | Nom de l'App |
+| `description` | string | Non | Description |
+| `webhook_url` | string | Non | URL webhook par défaut |
+
+```json
+{
+  "name": "Mon projet",
+  "description": "App principale de production",
+  "webhook_url": "https://monapp.com/webhooks/trayce"
+}
+```
+
+## Réponse `201`
+
+```json
+{
+  "id": "app_01HABC",
+  "name": "Mon projet",
+  "description": "App principale de production",
+  "webhook_url": "https://monapp.com/webhooks/trayce",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

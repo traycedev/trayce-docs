@@ -1,0 +1,79 @@
+---
+title: "KYB"
+description: "Integrate a business verification flow."
+---
+
+## Overview
+
+This guide covers integrating a KYB flow to verify a company and its representatives.
+
+## Prerequisites
+
+- App configured with the `KYB` workflow
+- API key
+
+## Steps
+
+<Steps>
+  <Step title="Create the KYB Collection">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "KYB",
+        "metadata": { "company_name": "Tech Solutions LLC" }
+      }'
+    ```
+  </Step>
+
+  <Step title="Add the legal representative">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYB/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "LEGAL_REPRESENTATIVE",
+        "first_name": "Robert",
+        "last_name": "Chen",
+        "email": "robert.chen@techsolutions.com"
+      }'
+    ```
+  </Step>
+
+  <Step title="Add beneficial owners (optional)">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYB/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "UBO",
+        "first_name": "Sarah",
+        "last_name": "Lee",
+        "email": "sarah@techsolutions.com",
+        "ownership_percentage": 35
+      }'
+    ```
+  </Step>
+
+  <Step title="Generate access links">
+    Generate a principal link for the Collection (company documents) and individual links for each person.
+
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYB/links \
+      -H "Authorization: Bearer sk-..." \
+      -d '{ "notify": true }'
+    ```
+  </Step>
+
+  <Step title="Retrieve results">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HKYB/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+<Card title="KYB Workflow" icon="building" href="/en/workflows/kyb">
+  Collected documents and available checks.
+</Card>

@@ -1,0 +1,28 @@
+---
+title: "Renvoyer la notification Personne"
+description: "POST /persons/:id/links/resend"
+---
+
+## Endpoint
+
+```
+POST /persons/:id/links/resend
+```
+
+Renvoie la notification au participant pour l'inviter à soumettre ses documents.
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Personne (`per_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "notified": true,
+  "channel": "email",
+  "sent_at": "2026-10-08T15:00:00Z"
+}
+```

@@ -1,0 +1,78 @@
+---
+title: "KYC"
+description: "Integrate a customer identity verification flow."
+---
+
+## Overview
+
+This guide covers integrating a KYC flow: creating the Collection, generating the link, and retrieving the verification result.
+
+## Prerequisites
+
+- App configured with the `KYC` workflow
+- API key
+
+## Steps
+
+<Steps>
+  <Step title="Create the KYC Collection">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "KYC",
+        "metadata": { "customer_id": "cust_789" }
+      }'
+    ```
+  </Step>
+
+  <Step title="Add the person to verify">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYC/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "SUBJECT",
+        "first_name": "Alice",
+        "last_name": "Martin",
+        "email": "alice.martin@example.com"
+      }'
+    ```
+  </Step>
+
+  <Step title="Generate and send the link">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HKYC/links \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{ "notify": true }'
+    ```
+  </Step>
+
+  <Step title="Receive the result via webhook">
+    Configure a webhook on the `collection.completed` event to be notified automatically.
+
+    ```json
+    {
+      "event": "collection.completed",
+      "data": {
+        "collection_id": "col_01HKYC",
+        "status": "COMPLETED",
+        "result": "PASS"
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Retrieve the details">
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HKYC/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+<Card title="KYC Workflow" icon="shield" href="/en/workflows/kyc">
+  Collected documents and available checks.
+</Card>

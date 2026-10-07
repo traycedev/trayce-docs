@@ -1,0 +1,82 @@
+---
+title: "collect"
+description: "Collect documents and information from one or more people through a structured workflow."
+---
+
+## What collect does
+
+**collect** creates a structured request for documents, information, personal data, and supporting evidence. A Collection may involve one person or several people.
+
+## Collection lifecycle
+
+```
+DRAFT
+  ↓
+ACTIVE
+  ↓
+IN_PROGRESS
+  ↓
+SUBMITTED
+  ↓
+PROCESSING
+  ↓
+COMPLETED
+```
+
+Alternative states: `EXPIRED`, `CANCELLED`, `REQUIRES_ACTION`, `REVIEW_REQUIRED`, `FAILED`.
+
+## Collection structure
+
+```
+COLLECTION
+├── Workflow
+├── Main Applicant
+│   ├── Identity
+│   ├── Documents
+│   └── Data
+├── Additional Persons
+│   ├── Person 1
+│   │   ├── Documents
+│   │   └── Data
+│   └── Person 2
+│       ├── Documents
+│       └── Data
+├── Requirements
+├── Analysis
+├── Business Rules
+├── Scoring
+├── Result
+└── Links
+```
+
+## Multi-person collection
+
+A Collection is not limited to a single participant. Additional people can be added after the Collection is created. Each person can receive a dedicated access link, and their documents are associated with the correct participant within the same Collection.
+
+## Related concepts
+
+<CardGroup cols={2}>
+  <Card title="Workflows" icon="diagram-project" href="/en/concepts/workflows">
+    What a Workflow defines.
+  </Card>
+  <Card title="Persons" icon="users" href="/en/concepts/persons">
+    Roles and participant management.
+  </Card>
+  <Card title="Collection Links" icon="link" href="/en/concepts/links">
+    Secure access to the Collection.
+  </Card>
+  <Card title="Documents" icon="file" href="/en/concepts/documents">
+    Documents attached to a Collection.
+  </Card>
+</CardGroup>
+
+## collect API
+
+```
+POST  /collections
+GET   /collections
+GET   /collections/{collection_id}
+PATCH /collections/{collection_id}
+POST  /collections/{collection_id}/cancel
+POST  /collections/{collection_id}/resend-notification
+```

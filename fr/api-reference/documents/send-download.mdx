@@ -1,0 +1,25 @@
+---
+title: "Télécharger un document send"
+description: "GET /documents/send/:id/download"
+---
+
+## Endpoint
+
+```
+GET /documents/send/:id/download
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID du document (`doc_...`) |
+
+## Réponse `200`
+
+Flux binaire du fichier avec les en-têtes :
+
+```
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="document.pdf"
+```

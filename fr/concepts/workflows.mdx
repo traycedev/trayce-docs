@@ -1,0 +1,62 @@
+---
+title: "Workflows"
+description: "Un Workflow définit le comportement métier d'une Collection — ce qui est collecté, vérifié et analysé."
+---
+
+## Modèle de Workflow
+
+Un **Workflow** est un modèle métier réutilisable. Il n'est pas simplement une liste de documents : il définit les exigences, les types de documents acceptés, les contrôles disponibles, les règles métier applicables, la disponibilité du scoring et le type de résultat attendu.
+
+## Ce qu'un Workflow expose
+
+- **Nom et code** — identifiant lisible et code machine
+- **Description** — objectif du workflow
+- **Exigences disponibles** — documents et informations attendus
+- **Options disponibles** — contrôles activables (vérification, cohérence, fraude, scoring…)
+- **Options par défaut** — configuration initiale
+- **Paramètres configurables** — réglages au moment de la création de la Collection
+- **Capacités d'analyse** — ce que le Moteur IA peut faire pour ce workflow
+- **Disponibilité du scoring** — si un profil de scoring est configurable
+- **Rôles de participants supportés** — `PRIMARY_APPLICANT`, `CO_TENANT`, `GUARANTOR`, etc.
+
+## Options de configuration
+
+```json
+{
+  "document_verification": true,
+  "cross_document_consistency": true,
+  "fraud_detection": true,
+  "scoring": {
+    "enabled": true,
+    "profile_id": "apartment_premium"
+  },
+  "human_review": true
+}
+```
+
+## Workflows V1
+
+| Workflow | Code | Objectif |
+|---|---|---|
+| Vérification d'identité | `IDENTITY_VERIFICATION` | Vérifier une identité via un document officiel. |
+| KYC | `KYC` | Collecter et vérifier les informations d'un individu dans une relation client. |
+| KYB | `KYB` | Collecter et vérifier les informations d'une entreprise et des personnes associées. |
+| Dossier de location | `TENANT_APPLICATION` | Collecter, vérifier et analyser un dossier locataire. |
+| Analyse état civil | `CIVIL_STATUS_DOCUMENT_ANALYSIS` | Analyser des documents d'état civil et les relations qu'ils représentent. |
+| Collection personnalisée | `CUSTOM` | Créer une collection générique avec des exigences et options configurables. |
+
+## API Workflows
+
+```
+GET /workflows
+GET /workflows/{workflow_id}
+```
+
+<CardGroup cols={2}>
+  <Card title="Référence des Workflows" icon="diagram-project" href="/fr/workflows/identity-verification">
+    Description détaillée de chaque workflow V1.
+  </Card>
+  <Card title="Lister les Workflows" icon="list" href="/fr/api-reference/workflows/list">
+    `GET /workflows`
+  </Card>
+</CardGroup>

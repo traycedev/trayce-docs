@@ -1,0 +1,64 @@
+---
+title: "Liens d'accès"
+description: "Fournir un accès sécurisé à une Collection ou à la partie d'un participant."
+---
+
+## Rôle des liens
+
+Un **lien d'accès** fournit un accès contrôlé à une Collection ou à la partie d'un participant dans cette Collection. Il peut appartenir au demandeur principal ou être associé à une personne spécifique.
+
+## Flux du lien principal
+
+```
+POST /collections
+  ↓
+Collection créée
+  ↓
+Lien d'accès de la Collection
+  ↓
+Le demandeur principal commence la Collection
+```
+
+## Flux du lien par personne
+
+```
+Ajouter une personne
+  ↓
+Personne créée
+  ↓
+Lien d'accès généré
+  ↓
+Lien transmis à la personne
+  ↓
+La personne soumet ses documents
+```
+
+## Propriétés de sécurité
+
+- **Unique** — un lien différent par Collection/personne
+- **Sécurisé** — protégé contre l'accès non autorisé
+- **Révocable** — peut être annulé à tout moment
+- **Expirable** — durée de validité optionnelle
+- **Traçable** — chaque accès est enregistré
+- **Associé à une Collection** — toujours scopé à une Collection
+- **Optionnellement associé à une Personne** — peut être scopé à un participant
+
+## API Liens
+
+### Lien de Collection
+
+```
+POST /collections/{collection_id}/link
+GET  /collections/{collection_id}/link
+POST /collections/{collection_id}/link/revoke
+POST /collections/{collection_id}/link/resend
+```
+
+### Lien par Personne
+
+```
+POST /collections/{collection_id}/persons/{person_id}/link
+GET  /collections/{collection_id}/persons/{person_id}/link
+POST /collections/{collection_id}/persons/{person_id}/link/revoke
+POST /collections/{collection_id}/persons/{person_id}/link/resend
+```

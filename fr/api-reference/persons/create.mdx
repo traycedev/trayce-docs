@@ -1,0 +1,50 @@
+---
+title: "Ajouter une Personne"
+description: "POST /collections/:id/persons"
+---
+
+## Endpoint
+
+```
+POST /collections/:id/persons
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Corps de la requête
+
+| Champ | Type | Requis | Description |
+|---|---|---|---|
+| `role` | string | Oui | Rôle dans la Collection (`PRIMARY_APPLICANT`, `CO_TENANT`, `LEGAL_REPRESENTATIVE`, `UBO`, `SUBJECT`…) |
+| `first_name` | string | Non | Prénom |
+| `last_name` | string | Non | Nom de famille |
+| `email` | string | Non | Email (utilisé pour les notifications) |
+| `phone` | string | Non | Téléphone |
+| `metadata` | object | Non | Données libres |
+
+```json
+{
+  "role": "PRIMARY_APPLICANT",
+  "first_name": "Fatou",
+  "last_name": "Diop",
+  "email": "fatou@example.com"
+}
+```
+
+## Réponse `201`
+
+```json
+{
+  "id": "per_01HXYZ",
+  "role": "PRIMARY_APPLICANT",
+  "first_name": "Fatou",
+  "last_name": "Diop",
+  "email": "fatou@example.com",
+  "status": "PENDING",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

@@ -1,0 +1,38 @@
+---
+title: "Create an App"
+description: "POST /apps"
+---
+
+## Endpoint
+
+```
+POST /apps
+```
+
+## Request body
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | Yes | App name |
+| `description` | string | No | Description |
+| `webhook_url` | string | No | Default webhook URL |
+
+```json
+{
+  "name": "My project",
+  "description": "Main production App",
+  "webhook_url": "https://myapp.com/webhooks/trayce"
+}
+```
+
+## Response `201`
+
+```json
+{
+  "id": "app_01HABC",
+  "name": "My project",
+  "description": "Main production App",
+  "webhook_url": "https://myapp.com/webhooks/trayce",
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

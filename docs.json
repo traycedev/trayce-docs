@@ -2,6 +2,10 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "luma",
   "name": "Trayce",
+  "locales": [
+    { "locale": "fr", "name": "Français", "default": true },
+    { "locale": "en", "name": "English" }
+  ],
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg",
@@ -19,31 +23,68 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Démarrer",
+            "pages": ["index", "quickstart", "trial", "authentication"]
+          },
+          {
+            "group": "send",
+            "pages": ["concepts/send"]
+          },
+          {
+            "group": "collect",
             "pages": [
-              "introduction",
-              "quickstart",
-              "authentication"
+              "concepts/collect",
+              "concepts/workflows",
+              "concepts/collections",
+              "concepts/persons",
+              "concepts/links",
+              "concepts/documents"
             ]
           },
           {
-            "group": "Core Concepts",
+            "group": "Workflows",
             "pages": [
-              "concepts/overview",
-              "concepts/vault",
-              "concepts/verification-types",
-              "concepts/document-flow"
+              "workflows/identity-verification",
+              "workflows/kyc",
+              "workflows/kyb",
+              "workflows/tenant-application",
+              "workflows/civil-status",
+              "workflows/custom"
             ]
+          },
+          {
+            "group": "Analyse & Vérification",
+            "pages": [
+              "concepts/analysis",
+              "concepts/scoring",
+              "concepts/results"
+            ]
+          },
+          {
+            "group": "Webhooks & Sécurité",
+            "pages": ["webhooks", "security", "errors"]
+          },
+          {
+            "group": "Dashboard",
+            "pages": ["dashboard"]
           },
           {
             "group": "Guides",
             "pages": [
-              "guides/kyc-verification",
-              "guides/kyb-verification",
-              "guides/diploma-verification",
-              "guides/document-request",
-              "guides/webhooks"
+              "guides/send-document",
+              "guides/tenant-application",
+              "guides/add-co-tenant",
+              "guides/kyc",
+              "guides/kyb",
+              "guides/civil-status",
+              "guides/human-review",
+              "guides/webhooks",
+              "guides/trial-credits"
             ]
+          },
+          {
+            "group": "Ressources",
+            "pages": ["changelog", "support"]
           }
         ]
       },
@@ -51,7 +92,7 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "Overview",
+            "group": "Vue d'ensemble",
             "pages": [
               "api-reference/introduction",
               "api-reference/errors",
@@ -59,26 +100,80 @@
             ]
           },
           {
-            "group": "Authentication",
+            "group": "Apps",
             "pages": [
-              "api-reference/auth/api-keys",
-              "api-reference/auth/oauth"
+              "api-reference/apps/create",
+              "api-reference/apps/list",
+              "api-reference/apps/get",
+              "api-reference/apps/update",
+              "api-reference/apps/delete"
             ]
           },
           {
-            "group": "Verifications",
+            "group": "Workflows",
             "pages": [
-              "api-reference/verifications/create",
-              "api-reference/verifications/get",
-              "api-reference/verifications/list"
+              "api-reference/workflows/list",
+              "api-reference/workflows/get"
             ]
           },
           {
-            "group": "Documents",
+            "group": "Collections",
             "pages": [
-              "api-reference/documents/request",
-              "api-reference/documents/send",
-              "api-reference/documents/get"
+              "api-reference/collections/create",
+              "api-reference/collections/list",
+              "api-reference/collections/get",
+              "api-reference/collections/update",
+              "api-reference/collections/cancel"
+            ]
+          },
+          {
+            "group": "Personnes",
+            "pages": [
+              "api-reference/persons/create",
+              "api-reference/persons/list",
+              "api-reference/persons/get",
+              "api-reference/persons/update",
+              "api-reference/persons/delete"
+            ]
+          },
+          {
+            "group": "Liens d'accès",
+            "pages": [
+              "api-reference/links/collection-create",
+              "api-reference/links/collection-get",
+              "api-reference/links/collection-revoke",
+              "api-reference/links/collection-resend",
+              "api-reference/links/person-create",
+              "api-reference/links/person-get",
+              "api-reference/links/person-revoke",
+              "api-reference/links/person-resend"
+            ]
+          },
+          {
+            "group": "send",
+            "pages": [
+              "api-reference/documents/send-create",
+              "api-reference/documents/send-list",
+              "api-reference/documents/send-get",
+              "api-reference/documents/send-delete",
+              "api-reference/documents/send-revoke",
+              "api-reference/documents/send-download",
+              "api-reference/documents/send-notify"
+            ]
+          },
+          {
+            "group": "collect",
+            "pages": [
+              "api-reference/documents/collect-create",
+              "api-reference/documents/collect-list",
+              "api-reference/documents/collect-get"
+            ]
+          },
+          {
+            "group": "Résultats",
+            "pages": [
+              "api-reference/results/collection",
+              "api-reference/results/person"
             ]
           },
           {
@@ -94,14 +189,11 @@
   },
   "navbar": {
     "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@trayce.sn"
-      }
+      { "label": "Support", "href": "mailto:support@trayce.sn" }
     ],
     "primary": {
       "type": "button",
-      "label": "Business Portal",
+      "label": "Portail Business",
       "href": "https://app.trayce.sn"
     }
   },

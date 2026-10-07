@@ -1,0 +1,39 @@
+---
+title: "Lister les Personnes"
+description: "GET /collections/:id/persons"
+---
+
+## Endpoint
+
+```
+GET /collections/:id/persons
+```
+
+## Paramètres de chemin
+
+| Paramètre | Description |
+|---|---|
+| `id` | ID de la Collection (`col_...`) |
+
+## Réponse `200`
+
+```json
+{
+  "data": [
+    {
+      "id": "per_01HXYZ",
+      "role": "PRIMARY_APPLICANT",
+      "first_name": "Fatou",
+      "last_name": "Diop",
+      "status": "COMPLETED"
+    },
+    {
+      "id": "per_01HXCO",
+      "role": "CO_TENANT",
+      "first_name": "Moussa",
+      "last_name": "Ndiaye",
+      "status": "PENDING"
+    }
+  ]
+}
+```

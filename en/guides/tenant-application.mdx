@@ -1,0 +1,108 @@
+---
+title: "Tenant Application"
+description: "Integrate a complete tenant dossier collection and analysis flow."
+---
+
+## Overview
+
+This guide covers the full tenant application flow: creating the Collection, inviting the primary applicant, adding a co-tenant, and retrieving results.
+
+## Prerequisites
+
+- Trayce App configured with the `TENANT_APPLICATION` workflow
+- API key
+
+## Steps
+
+<Steps>
+  <Step title="Create the Collection">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "workflow_code": "TENANT_APPLICATION",
+        "metadata": {
+          "property_ref": "APT-75011-B",
+          "rent_amount": 950
+        }
+      }'
+    ```
+
+    Response:
+
+    ```json
+    {
+      "id": "col_01HABC",
+      "status": "PENDING",
+      "workflow_code": "TENANT_APPLICATION"
+    }
+    ```
+  </Step>
+
+  <Step title="Add the primary applicant">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HABC/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "PRIMARY_APPLICANT",
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "email": "jane.smith@example.com"
+      }'
+    ```
+  </Step>
+
+  <Step title="Create the access link and invite">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HABC/links \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{ "notify": true }'
+    ```
+
+    Response:
+
+    ```json
+    {
+      "url": "https://collect.trayce.sn/c/xyz789",
+      "expires_at": "2026-10-14T00:00:00Z"
+    }
+    ```
+  </Step>
+
+  <Step title="Retrieve results">
+    Once the Collection moves to `COMPLETED` status (via webhook or polling):
+
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HABC/results \
+      -H "Authorization: Bearer sk-..."
+    ```
+
+    Response:
+
+    ```json
+    {
+      "collection_id": "col_01HABC",
+      "status": "COMPLETED",
+      "score": 85,
+      "checks": {
+        "completeness": "COMPLETE",
+        "documents": "PASSED",
+        "income": 82,
+        "solvency": 88
+      },
+      "decision_required": false
+    }
+    ```
+  </Step>
+</Steps>
+
+## Adding a co-tenant
+
+See the dedicated guide to add a co-tenant after the Collection is created.
+
+<Card title="Guide — Add a co-tenant" icon="users" href="/en/guides/add-co-tenant">
+  Add a participant after creation.
+</Card>

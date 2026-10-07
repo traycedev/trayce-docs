@@ -1,0 +1,67 @@
+---
+title: "Ajouter un co-locataire"
+description: "Ajouter un participant à une Collection existante."
+---
+
+## Vue d'ensemble
+
+Un co-locataire peut être ajouté à une Collection `TENANT_APPLICATION` déjà créée, à condition que celle-ci ne soit pas encore `COMPLETED` ou `CANCELLED`.
+
+## Prérequis
+
+- ID de la Collection (`col_...`)
+- Collection en statut `PENDING` ou `IN_PROGRESS`
+
+## Étapes
+
+<Steps>
+  <Step title="Ajouter la personne avec le rôle CO_TENANT">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HABC/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "CO_TENANT",
+        "first_name": "Moussa",
+        "last_name": "Ndiaye",
+        "email": "moussa.ndiaye@example.com"
+      }'
+    ```
+
+    Réponse :
+
+    ```json
+    {
+      "id": "per_01HXCO",
+      "role": "CO_TENANT",
+      "status": "PENDING"
+    }
+    ```
+  </Step>
+
+  <Step title="Créer un lien d'accès spécifique au co-locataire">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/persons/per_01HXCO/links \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{ "notify": true }'
+    ```
+
+    Un email est envoyé directement au co-locataire avec son propre lien d'accès.
+  </Step>
+
+  <Step title="Suivre la progression">
+    La Collection reste en statut `IN_PROGRESS` jusqu'à ce que tous les participants requis aient soumis leurs documents.
+
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HABC \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+## Notes
+
+- Chaque participant reçoit un lien unique et personnel.
+- Les documents soumis par un participant ne sont pas visibles par les autres.
+- Le score global est calculé sur l'ensemble des participants.

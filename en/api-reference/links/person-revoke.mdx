@@ -1,0 +1,26 @@
+---
+title: "Revoke the Person link"
+description: "POST /persons/:id/links/revoke"
+---
+
+## Endpoint
+
+```
+POST /persons/:id/links/revoke
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `id` | Person ID (`per_...`) |
+
+## Response `200`
+
+```json
+{
+  "id": "lnk_01HPER",
+  "status": "REVOKED",
+  "revoked_at": "2026-10-08T15:00:00Z"
+}
+```

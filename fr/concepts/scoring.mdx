@@ -1,0 +1,61 @@
+---
+title: "Scoring"
+description: "Une capacité métier configurable qui transforme des données vérifiées en scores analytiques explicables."
+---
+
+## Principe
+
+Le scoring est une **capacité métier configurable**, délibérément séparée du Moteur IA Trayce.
+
+```
+Documents
+  ↓
+Moteur IA
+  ↓
+Données vérifiées
+  ↓
+Moteur de Règles Métier / Scoring
+  ↓
+Score + Explication
+```
+
+## Exemple de profil de scoring
+
+| Critère | Poids |
+|---|---|
+| Revenus | 40 % |
+| Stabilité d'emploi | 25 % |
+| Solvabilité | 20 % |
+| Cohérence documentaire | 15 % |
+
+## Résultat de scoring
+
+Un résultat de scoring peut inclure :
+- Un score global
+- Des scores par critère
+- Les données utilisées
+- Les règles appliquées
+- Des explications
+
+## Configuration d'un profil
+
+<Note>
+  Seule l'existence de profils configurables, de critères/pondérations et d'une sortie explicable est établie. Les ressources API exactes pour gérer les profils de scoring ne sont pas encore définies.
+</Note>
+
+La documentation de l'API scoring devra couvrir :
+- Identifiants de profil
+- État activé/désactivé
+- Critères et pondérations
+- Seuils
+- Données d'entrée
+- Sortie du score
+- Explication
+- Versionnement
+- Auditabilité
+
+## Responsabilité
+
+<Warning>
+  Trayce fournit des résultats documentaires et analytiques. L'acceptation, la location, le crédit ou toute autre décision métier finale demeure sous la responsabilité de l'entreprise.
+</Warning>

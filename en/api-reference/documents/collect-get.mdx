@@ -1,0 +1,38 @@
+---
+title: "Get a collect document"
+description: "GET /collections/:collection_id/documents/:id"
+---
+
+## Endpoint
+
+```
+GET /collections/:collection_id/documents/:id
+```
+
+## Path parameters
+
+| Parameter | Description |
+|---|---|
+| `collection_id` | Collection ID (`col_...`) |
+| `id` | collect document ID (`cdoc_...`) |
+
+## Response `200`
+
+```json
+{
+  "id": "cdoc_01HABC",
+  "collection_id": "col_01HXYZ",
+  "person_id": "per_01HXYZ",
+  "document_type": "PAY_SLIP",
+  "status": "PROCESSED",
+  "analysis": {
+    "result": "VALID",
+    "extracted_data": {
+      "employer": "Tech Corp",
+      "net_salary": 3500,
+      "period": "2026-09"
+    }
+  },
+  "created_at": "2026-10-08T10:00:00Z"
+}
+```

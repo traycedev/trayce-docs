@@ -1,0 +1,67 @@
+---
+title: "Add a co-tenant"
+description: "Add a participant to an existing Collection."
+---
+
+## Overview
+
+A co-tenant can be added to an existing `TENANT_APPLICATION` Collection, provided it has not yet reached `COMPLETED` or `CANCELLED` status.
+
+## Prerequisites
+
+- Collection ID (`col_...`)
+- Collection in `PENDING` or `IN_PROGRESS` status
+
+## Steps
+
+<Steps>
+  <Step title="Add the person with the CO_TENANT role">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/collections/col_01HABC/persons \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{
+        "role": "CO_TENANT",
+        "first_name": "Mark",
+        "last_name": "Johnson",
+        "email": "mark.johnson@example.com"
+      }'
+    ```
+
+    Response:
+
+    ```json
+    {
+      "id": "per_01HXCO",
+      "role": "CO_TENANT",
+      "status": "PENDING"
+    }
+    ```
+  </Step>
+
+  <Step title="Create a person-specific access link">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/persons/per_01HXCO/links \
+      -H "Authorization: Bearer sk-..." \
+      -H "Content-Type: application/json" \
+      -d '{ "notify": true }'
+    ```
+
+    An email is sent directly to the co-tenant with their own personal access link.
+  </Step>
+
+  <Step title="Track progress">
+    The Collection remains in `IN_PROGRESS` status until all required participants have submitted their documents.
+
+    ```bash
+    curl https://api.trayce.africa/v1/collections/col_01HABC \
+      -H "Authorization: Bearer sk-..."
+    ```
+  </Step>
+</Steps>
+
+## Notes
+
+- Each participant receives a unique personal link.
+- Documents submitted by one participant are not visible to others.
+- The overall score is calculated across all participants.

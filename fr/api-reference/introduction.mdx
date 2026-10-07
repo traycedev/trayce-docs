@@ -1,0 +1,56 @@
+---
+title: "Introduction"
+description: "Référence complète de l'API Trayce Business."
+---
+
+## Base URL
+
+```
+https://api.trayce.africa/v1
+```
+
+## Authentification
+
+Toutes les requêtes nécessitent un Bearer token dans l'en-tête `Authorization` :
+
+```bash
+Authorization: Bearer sk-...
+```
+
+Les clés API sont créées dans le Dashboard Trayce (`app.trayce.sn > Apps > Clés API`).
+
+## Format des requêtes et réponses
+
+- Requêtes avec corps : `Content-Type: application/json`
+- Upload de fichiers : `Content-Type: multipart/form-data`
+- Toutes les réponses sont en JSON
+
+## Pagination
+
+Les endpoints de liste retournent des réponses paginées :
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "total": 42,
+    "page": 1,
+    "per_page": 20,
+    "has_more": true
+  }
+}
+```
+
+Paramètres : `page` (défaut : 1), `per_page` (défaut : 20, max : 100).
+
+## Idempotence
+
+Passez un en-tête `Idempotency-Key` sur les requêtes `POST` pour éviter les doublons :
+
+```
+Idempotency-Key: <uuid-unique>
+```
+
+## Erreurs
+
+Voir la [référence des erreurs](/fr/errors) pour le format et les codes d'erreur.
