@@ -52,10 +52,10 @@ Recalculez `HMAC_SHA256(secret, "{timestamp}.{raw_body}")` et comparez à `v1`. 
 
 ## Bonnes pratiques
 
-- Répondre `200` en moins de 5 secondes — traitez le payload en arrière-plan.
+- Répondre `200` en moins de 5 secondes : traitez le payload en arrière-plan.
 - Idempotence via `id` (les retries existent).
 - Une App / URL de test distincte si vous séparez staging et prod en interne.
 
-<Card title="Guide — Configurer les webhooks" icon="book" href="/fr/guides/webhooks">
+<Card title="Guide : Configurer les webhooks" icon="book" href="/fr/guides/webhooks">
   Tutoriel pas à pas.
 </Card>

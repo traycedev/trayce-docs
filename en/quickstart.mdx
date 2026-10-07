@@ -4,7 +4,7 @@ icon: "rocket"
 description: "Account, App, API key, first call."
 ---
 
-Goal: create an App, get a key, and make a first call — **send** or **collect**.
+Goal: create an App, get a key, and make a first call : **send** or **collect**.
 
 ## Steps
 
@@ -16,7 +16,7 @@ Goal: create an App, get a key, and make a first call — **send** or **collect*
     In the Dashboard, create an App. It owns its keys, permissions, and webhooks.
   </Step>
   <Step title="Generate an API key">
-    In the App settings, generate a key. **Copy it immediately** — it is shown only once.
+    In the App settings, generate a key. **Copy it immediately** : it is shown only once.
   </Step>
   <Step title="Check permissions">
     Keep at least `documents:write` and/or `collections:write` for your use case.
@@ -38,7 +38,7 @@ curl -X POST https://api.trayce.africa/v1/documents \
   -d '{
     "recipient_phone_number": "+221xxxxxxxxx",
     "document_type": "PAYSLIP",
-    "title": "Payslip — September"
+    "title": "Payslip : September"
   }'
 ```
 
