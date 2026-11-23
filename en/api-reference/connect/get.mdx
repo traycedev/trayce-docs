@@ -1,0 +1,44 @@
+---
+title: "Get an identity request"
+description: "GET /v1/connect/requests/{id}"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+The person's answer and, if they accepted, what they shared.
+
+```bash
+GET https://api.trayce.africa/v1/connect/requests/{id}
+```
+
+Required permission: `connect:read`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the request.
+</ParamField>
+
+## Response
+
+```json
+{
+  "id": "con_2be71…",
+  "status": "accepted",
+  "subject": "sub_9QmT4…",
+  "shared": {
+    "identity": {
+      "verified": true,
+      "last_name": "Ba",
+      "first_names": "Aïssatou",
+      "birth_date": "1994-03-12",
+      "document": { "type": "national_id", "country": "SN" }
+    }
+  },
+  "not_shared": [],
+  "accepted_at": "2026-11-23T10:04:51Z"
+}
+```
+
+Statuses: `pending`, `accepted`, `declined`, `expired`. `subject` identifies the person for your organisation only: it cannot be used to track them elsewhere.

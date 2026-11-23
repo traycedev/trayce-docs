@@ -1,10 +1,12 @@
 ---
 title: "Introduction"
 icon: "book-open"
-description: "Référence complète de l'API Trayce Business."
+description: "Conventions de l'API Trayce."
 ---
 
-## Base URL
+<Note>Aperçu : l'API Trayce n'est pas encore ouverte et peut encore évoluer. Les organisations du programme pilote y ont accès en avant-première. [Demander une démo](https://trayce.africa).</Note>
+
+## Adresse
 
 ```
 https://api.trayce.africa/v1
@@ -12,46 +14,32 @@ https://api.trayce.africa/v1
 
 ## Authentification
 
-Toutes les requêtes nécessitent un Bearer token dans l'en-tête `Authorization` :
-
 ```bash
-Authorization: Bearer sk-...
+Authorization: Bearer trc_live_…
 ```
 
-Les clés API sont créées dans le Dashboard Trayce (`app.trayce.africa > Apps > Clés API`).
+Voir [Authentification](/fr/authentication) pour les modes test et live et les permissions.
 
-## Format des requêtes et réponses
+## Format
 
-- Requêtes avec corps : `Content-Type: application/json`
-- Upload de fichiers : `Content-Type: multipart/form-data`
-- Toutes les réponses sont en JSON
+- Les corps sont en JSON (`Content-Type: application/json`), sauf l'import d'un document dans Verify (`multipart/form-data`).
+- Les dates sont en UTC, au format ISO 8601.
+- Les numéros de téléphone sont au format international, par exemple `+221771234567`.
 
-## Pagination
-
-Les endpoints de liste retournent des réponses paginées :
+## Listes
 
 ```json
-{
-  "data": [...],
-  "pagination": {
-    "total": 42,
-    "page": 1,
-    "per_page": 20,
-    "has_more": true
-  }
-}
+{ "data": [...], "has_more": true, "next_cursor": "…" }
 ```
 
-Paramètres : `page` (défaut : 1), `per_page` (défaut : 20, max : 100).
+Paramètres : `limit` (100 au maximum) et `cursor` (la valeur `next_cursor` reçue).
 
-## Idempotence
+## Éviter les doublons
 
-Passez un en-tête `Idempotency-Key` sur les requêtes `POST` pour éviter les doublons :
+Ajoutez un en-tête `Idempotency-Key` unique à chaque `POST`. En cas de nouvel essai avec la même clé, l'opération n'est pas faite deux fois.
 
-```
-Idempotency-Key: <uuid-unique>
-```
+## Disponibilité des routes
 
-## Erreurs
-
-Voir la [référence des erreurs](/fr/errors) pour le format et les codes d'erreur.
+Chaque route porte une étiquette :
+- **Disponible pour les pilotes** : vous pouvez l'appeler avec une clé de votre organisation.
+- **Prévue** : décrite pour préparer votre intégration, elle peut encore évoluer.

@@ -1,0 +1,46 @@
+---
+title: "List sent documents"
+description: "GET /v1/send"
+tag: "Available to pilots"
+---
+
+<Check>Available to pilots: you can call this route with a key from your organisation.</Check>
+
+Documents sent by your organisation, newest first.
+
+```bash
+GET https://api.trayce.africa/v1/send
+```
+
+Required permission: `send:read`
+
+## Parameters
+
+<ParamField query="limit" type="integer">
+Number of items, 100 maximum.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+`next_cursor` value from the previous page.
+</ParamField>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+      "status": "accepted",
+      "doc_type": "payslip",
+      "recipient_phone": "+221771234567",
+      "external_id": "PAIE-2026-11-0042",
+      "delivered_at": "2026-11-23T10:00:04Z",
+      "viewed_at": "2026-11-23T12:31:10Z",
+      "accepted_at": "2026-11-23T12:31:22Z"
+    }
+  ],
+  "has_more": false,
+  "next_cursor": null
+}
+```

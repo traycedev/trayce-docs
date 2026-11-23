@@ -1,49 +1,29 @@
 ---
 title: "Sécurité"
-icon: "shield"
-description: "Architecture de sécurité et bonnes pratiques pour l'intégration Trayce."
+icon: "shield-check"
+description: "Comment Trayce protège les documents et les personnes."
 ---
 
-## Authentification
+## Chiffrement de bout en bout
 
-Toutes les requêtes API sont authentifiées par clé API (Bearer token). Les clés sont scoped par App et par permission.
+Les documents émis avec Send et les pièces reçues avec Collect sont chiffrés avant de quitter leur expéditeur. Trayce les transporte et les range sans pouvoir les lire. Seul Verify, quand vous importez un document reçu ailleurs, demande à Trayce de le lire pour l'analyser.
 
-- Ne jamais exposer une clé API côté client.
-- Stocker les clés dans des variables d'environnement ou un gestionnaire de secrets.
-- Utiliser des clés avec le scope minimal nécessaire.
-- Rotation régulière des clés depuis le Dashboard.
+## Rien sans accord
 
-## Transport
+Une personne choisit ce qu'elle envoie, ce qu'elle partage et avec qui. Pour un contrôle d'âge, l'organisation reçoit « majeur : oui », jamais la date de naissance.
 
-Toutes les communications entre votre backend et l'API Trayce utilisent **HTTPS (TLS 1.2+)**. Les requêtes HTTP non chiffrées sont rejetées.
+## Un identifiant propre à chaque organisation
 
-## Liens d'accès
+Avec Connect et Scan, une personne a un identifiant différent pour chaque organisation. Deux organisations ne peuvent pas recouper leurs données pour la suivre.
 
-Les liens générés par Trayce pour les destinataires :
+## Des émetteurs vérifiés
 
-- Sont signés et non devinables.
-- Expirent selon la durée configurée (par défaut : 7 jours).
-- Peuvent être révoqués à tout moment.
-- Sont à usage unique ou multi-usage selon la configuration.
+Chaque organisation est vérifiée par l'équipe Trayce avant de pouvoir émettre. C'est ce qui garantit qu'un document de niveau N2 vient bien de son émetteur.
 
-## Données
+## Vos clés API
 
-- Les documents sont chiffrés au repos et en transit.
-- La durée de rétention des documents est configurable.
-- Les données personnelles sont traitées conformément aux réglementations applicables.
+Gardez-les côté serveur, donnez à chacune seulement les permissions utiles, et révoquez sans attendre une clé exposée. Voir [Authentification](/fr/authentication).
 
-## Webhooks
+## Signaler une faille
 
-Vérifiez chaque livraison avec le secret de l'App (`HMAC-SHA256`, en-tête `X-Trayce-Signature`). Voir [Webhooks](/fr/webhooks).
-
-## Permissions par clé API
-
-| Permission | Accès |
-|---|---|
-| `read` | Lire Collections, Documents, Résultats |
-| `write` | Créer et modifier Collections, Documents |
-| `admin` | Accès complet, y compris gestion des Apps |
-
-## Signalement de vulnérabilités
-
-Pour signaler une vulnérabilité de sécurité, contactez : [security@trayce.africa](mailto:security@trayce.africa)
+Écrivez à [hello@trayce.africa](mailto:hello@trayce.africa). Nous répondons à chaque signalement.

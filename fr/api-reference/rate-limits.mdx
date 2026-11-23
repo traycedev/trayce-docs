@@ -1,31 +1,9 @@
 ---
-title: "Rate limits"
+title: "Limites"
 icon: "gauge"
-description: "Limites de requêtes de l'API Trayce."
+description: "Nombre de requêtes autorisées."
 ---
 
-## En-têtes de réponse
+L'API accepte **100 requêtes par minute**. Au-delà, elle répond `429` avec l'erreur `rate_limited`.
 
-Chaque réponse inclut les en-têtes suivants :
-
-| En-tête | Description |
-|---|---|
-| `X-RateLimit-Limit` | Nombre maximum de requêtes par fenêtre |
-| `X-RateLimit-Remaining` | Requêtes restantes dans la fenêtre courante |
-| `X-RateLimit-Reset` | Timestamp Unix de réinitialisation de la fenêtre |
-
-## Dépassement
-
-En cas de dépassement, l'API répond `429 Too Many Requests` avec un en-tête `Retry-After` (délai en secondes).
-
-```json
-{
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Trop de requêtes. Réessayez dans 30 secondes.",
-    "details": { "retry_after": 30 }
-  }
-}
-```
-
-Respectez `Retry-After` et mettez en place un backoff côté client.
+Si vous recevez `429`, attendez quelques secondes puis réessayez, en espaçant de plus en plus les essais. Pour un volume plus élevé, [contactez-nous](/fr/support).

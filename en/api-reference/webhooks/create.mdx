@@ -1,0 +1,51 @@
+---
+title: "Create a webhook"
+description: "POST /v1/webhooks"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Receive your organisation's events on your server.
+
+```bash
+POST https://api.trayce.africa/v1/webhooks
+```
+
+Required permission: `webhooks:write`
+
+## Parameters
+
+<ParamField body="url" type="string" required>
+HTTPS address of your server.
+</ParamField>
+
+<ParamField body="events" type="array" required>
+The [events](/en/api-reference/webhooks/events) to receive.
+</ParamField>
+
+## Example request
+
+```bash
+curl -X POST https://api.trayce.africa/v1/webhooks \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "url": "https://exemple.sn/trayce/webhooks",
+  "events": ["collect.submitted", "verify.completed"]
+}'
+```
+
+## Response
+
+```json
+{
+  "id": "whk_0c7e…",
+  "url": "https://exemple.sn/trayce/webhooks",
+  "events": ["collect.submitted", "verify.completed"],
+  "secret": "whsec_…",
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+The `secret` is shown only once: keep it to verify the signature of every event.

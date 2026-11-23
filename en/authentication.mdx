@@ -1,71 +1,39 @@
 ---
 title: "Authentication"
-sidebarTitle: "Authentication"
-icon: "key"
-description: "Apps, API keys, and permissions."
+icon: "key-round"
+description: "API keys, test and live modes, permissions."
 ---
 
-## Apps
+<Note>Preview: the Trayce API is not open yet and may still change. Organisations in the pilot programme get early access. [Request a demo](https://trayce.africa/en).</Note>
 
-An **App** is your integration identity: API keys, permissions, webhooks.
-
-| | |
-|---|---|
-| App ID | App identifier |
-| API keys | Authenticate your calls |
-| Permissions | What the App can do |
-| Webhooks | Event delivery URL |
-
-You can have several Apps (e.g. one per product or internal environment).
-
-## API keys
-
-Generate them from the Dashboard → App settings.
-
-<Warning>
-  The full key is shown **only at creation**. Store it in a secrets manager. If lost: create a new key and revoke the old one.
-</Warning>
+Every request carries an API key from your organisation:
 
 ```bash
-curl https://api.trayce.africa/v1/collections \
-  -H "Authorization: Bearer <your_api_key>" \
-  -H "Content-Type: application/json"
+Authorization: Bearer trc_live_…
 ```
 
-### Rotation
+## Test and live
 
-- Revoke a compromised key immediately.
-- Use multiple keys per App for zero-downtime rotation.
-- A revoked key is invalidated at once.
+| Key | Effect |
+|---|---|
+| `trc_test_…` | Calls are validated, nothing is sent to a person or billed. For development and testing. |
+| `trc_live_…` | Calls take real effect. Refused if your organisation is not active or its trial has ended. |
 
 ## Permissions
 
-| Permission | Use |
+Each key only gets the permissions it needs. A write permission includes the matching read permission.
+
+| Permission | For |
 |---|---|
-| `documents:write` | Send documents |
-| `documents:read` | Read documents and statuses |
-| `collections:write` | Create / update Collections |
-| `collections:read` | Read Collections and results |
-| `applications:read` | Read App resources |
-| `webhooks:manage` | Manage webhooks |
+| `send:read`, `send:write` | Send |
+| `collect:read`, `collect:write` | Collect |
+| `verify:read`, `verify:write` | Verify |
+| `connect:read`, `connect:write` | Connect |
+| `scan:read` | Scan |
+| `webhooks:read`, `webhooks:write` | Webhooks |
 
-Grant only what the integration needs.
+## Good practice
 
-## Apps API
-
-```
-POST   /apps
-GET    /apps
-GET    /apps/{app_id}
-PATCH  /apps/{app_id}
-DELETE /apps/{app_id}
-```
-
-<CardGroup cols={2}>
-  <Card title="Create an App" icon="plus" href="/en/api-reference/apps/create">
-    `POST /apps`
-  </Card>
-  <Card title="List Apps" icon="list" href="/en/api-reference/apps/list">
-    `GET /apps`
-  </Card>
-</CardGroup>
+- Keep your keys server-side, never in a mobile app or a web page.
+- One key per tool: you can revoke one without touching the others.
+- Revoke an exposed key immediately, from **API keys**.

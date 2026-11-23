@@ -1,83 +1,54 @@
 ---
 title: "Collect"
 icon: "inbox"
-description: "Collecter des documents et des informations auprès d'une ou plusieurs personnes via un workflow structuré."
+description: "Demander des pièces, déjà vérifiées à leur arrivée."
 ---
 
-## Ce que fait collect
+Avec Collect, vous demandez des pièces à une personne : pièce d'identité, bulletins de salaire, justificatif de domicile.
 
-**collect** crée une demande structurée de documents, d'informations, de données personnelles et de preuves justificatives. Une Collection peut impliquer une ou plusieurs personnes.
+## Comment ça marche
 
-## Cycle de vie d'une Collection
+1. Vous créez une demande : les pièces voulues, un message, un délai.
+2. La personne répond depuis son application Trayce, ou par un lien si elle n'a pas encore Trayce.
+3. Les pièces arrivent dans votre espace, **chacune avec sa vérification**.
 
-```
-DRAFT
-  ↓
-ACTIVE
-  ↓
-IN_PROGRESS
-  ↓
-SUBMITTED
-  ↓
-PROCESSING
-  ↓
-COMPLETED
-```
+## Verify est inclus
 
-États alternatifs : `EXPIRED`, `CANCELLED`, `REQUIRES_ACTION`, `REVIEW_REQUIRED`, `FAILED`.
+Chaque pièce reçue est vérifiée automatiquement, sans appel de plus :
+- elle est analysée (**N1**) ;
+- si elle a été émise dans Trayce, sa signature est contrôlée (**N2**) ;
+- vous pouvez demander la confirmation à la source (**N3**) pour les pièces qui comptent.
 
-## Structure d'une Collection
+Voir les [niveaux de vérification](/fr/concepts/verify).
 
-```
-COLLECTION
-├── Workflow
-├── Demandeur principal
-│   ├── Identité
-│   ├── Documents
-│   └── Données
-├── Personnes supplémentaires
-│   ├── Personne 1
-│   │   ├── Documents
-│   │   └── Données
-│   └── Personne 2
-│       ├── Documents
-│       └── Données
-├── Exigences
-├── Analyse
-├── Règles métier
-├── Scoring
-├── Résultat
-└── Liens
+## Ce qui est garanti
+
+- La personne choisit ce qu'elle envoie et voit à qui.
+- Les pièces sont chiffrées pour votre organisation : Trayce ne peut pas les lire.
+
+## Exemple : un dossier de location
+
+Une agence immobilière demande à Aïssatou Ba, candidate à une location, les pièces de son dossier.
+
+1. L'agence crée la demande avec [Demander des pièces](/fr/api-reference/collect/create) :
+
+```json
+{
+  "recipient_phone": "+221771234567",
+  "documents": [
+    { "type": "national_id" },
+    { "type": "payslip", "count": 3 },
+    { "type": "proof_of_address" }
+  ],
+  "message": "Pièces pour votre dossier de location.",
+  "external_id": "LOC-2026-118"
+}
 ```
 
-## Collection multi-personnes
+2. Aïssatou répond depuis son application en quelques gestes : ses pièces y sont déjà.
+3. L'agence reçoit l'événement `collect.submitted`, puis lit les [pièces reçues](/fr/api-reference/collect/documents) : les bulletins émis par l'employeur dans Trayce arrivent au niveau **N2**, le justificatif de domicile au niveau **N1**.
+4. Pour les bulletins, l'agence demande la [confirmation à la source](/fr/api-reference/verify/confirm) : l'employeur confirme, et ils passent au niveau **N3**.
 
-Une Collection n'est pas limitée à un seul participant. Des personnes supplémentaires peuvent être ajoutées après la création de la Collection. Chaque personne peut recevoir un lien d'accès dédié, et ses documents sont associés au bon participant dans la même Collection.
+## Dans l'API
 
-## Concepts associés
-
-<CardGroup cols={2}>
-  <Card title="Workflows" icon="diagram-project" href="/fr/concepts/workflows">
-    Ce qu'un Workflow définit.
-  </Card>
-  <Card title="Personnes" icon="users" href="/fr/concepts/persons">
-    Rôles et gestion des participants.
-  </Card>
-  <Card title="Liens d'accès" icon="link" href="/fr/concepts/links">
-    Accès sécurisé à la Collection.
-  </Card>
-  <Card title="Documents" icon="file" href="/fr/concepts/documents">
-    Documents attachés à une Collection.
-  </Card>
-</CardGroup>
-
-## API collect
-
-```
-POST /collections
-GET  /collections
-GET  /collections/{collection_id}
-PATCH /collections/{collection_id}
-POST /collections/{collection_id}/cancel
-POST /collections/{collection_id}/resend-notification
-```
+[Suivre une demande](/fr/api-reference/collect/get) est disponible pour les pilotes. La création d'une demande et la lecture des pièces sont prévues : les pilotes peuvent déjà faire ce parcours depuis leur espace Trayce Business.

@@ -1,8 +1,10 @@
 ---
 title: "Introduction"
 icon: "book-open"
-description: "Complete reference for the Trayce Business API."
+description: "Conventions of the Trayce API."
 ---
+
+<Note>Preview: the Trayce API is not open yet and may still change. Organisations in the pilot programme get early access. [Request a demo](https://trayce.africa/en).</Note>
 
 ## Base URL
 
@@ -12,46 +14,32 @@ https://api.trayce.africa/v1
 
 ## Authentication
 
-All requests require a Bearer token in the `Authorization` header:
-
 ```bash
-Authorization: Bearer sk-...
+Authorization: Bearer trc_live_…
 ```
 
-API keys are created in the Trayce Dashboard (`app.trayce.africa > Apps > API Keys`).
+See [Authentication](/en/authentication) for test and live modes and permissions.
 
-## Request and response format
+## Format
 
-- Requests with body: `Content-Type: application/json`
-- File uploads: `Content-Type: multipart/form-data`
-- All responses are JSON
+- Bodies are JSON (`Content-Type: application/json`), except importing a document in Verify (`multipart/form-data`).
+- Dates are UTC, in ISO 8601 format.
+- Phone numbers are in international format, for example `+221771234567`.
 
-## Pagination
-
-List endpoints return paginated responses:
+## Lists
 
 ```json
-{
-  "data": [...],
-  "pagination": {
-    "total": 42,
-    "page": 1,
-    "per_page": 20,
-    "has_more": true
-  }
-}
+{ "data": [...], "has_more": true, "next_cursor": "…" }
 ```
 
-Parameters: `page` (default: 1), `per_page` (default: 20, max: 100).
+Parameters: `limit` (100 maximum) and `cursor` (the `next_cursor` value received).
 
-## Idempotency
+## Avoiding duplicates
 
-Pass an `Idempotency-Key` header on `POST` requests to avoid duplicates:
+Add a unique `Idempotency-Key` header to every `POST`. If you retry with the same key, the operation is not performed twice.
 
-```
-Idempotency-Key: <unique-uuid>
-```
+## Route availability
 
-## Errors
-
-See the [errors reference](/en/errors) for format and error codes.
+Each route has a label:
+- **Available to pilots**: you can call it with a key from your organisation.
+- **Planned**: described to help you prepare your integration, it may still change.

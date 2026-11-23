@@ -1,0 +1,69 @@
+---
+title: "Émettre un document"
+description: "POST /v1/send"
+tag: "Disponible pour les pilotes"
+---
+
+<Check>Disponible pour les pilotes : vous pouvez appeler cette route avec une clé de votre organisation.</Check>
+
+Émettez un document signé vers une personne, à partir de son numéro de téléphone. Le document arrive dans son application Trayce, déjà classé. Si la personne n'a pas encore Trayce, elle reçoit un lien pour le récupérer.
+
+```bash
+POST https://api.trayce.africa/v1/send
+```
+
+Permission requise : `send:write`
+
+## Paramètres
+
+<ParamField body="recipient_phone" type="string" required>
+Numéro au format international, par exemple `+221771234567`.
+</ParamField>
+
+<ParamField body="doc_type" type="string" required>
+Type du document : `payslip`, `employment_certificate`, `invoice`… (64 caractères au maximum).
+</ParamField>
+
+<ParamField body="upload_id" type="string" required>
+Identifiant du dépôt obtenu avec [Préparer un dépôt](/fr/api-reference/send/upload). Non requis avec une clé de test.
+</ParamField>
+
+<ParamField body="external_id" type="string">
+Votre propre référence (128 caractères au maximum). Unique pour votre organisation.
+</ParamField>
+
+<ParamField body="expires_in_days" type="integer">
+Durée pendant laquelle la personne peut récupérer le document, de 1 à 30 jours. 7 par défaut.
+</ParamField>
+
+## Exemple de requête
+
+```bash
+curl -X POST https://api.trayce.africa/v1/send \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "recipient_phone": "+221771234567",
+  "doc_type": "payslip",
+  "upload_id": "upl_7f3c2a91",
+  "external_id": "PAIE-2026-11-0042",
+  "expires_in_days": 14
+}'
+```
+
+## Réponse
+
+```json
+{
+  "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+  "status": "queued",
+  "mode": "live",
+  "doc_type": "payslip",
+  "recipient_phone": "+221771234567",
+  "external_id": "PAIE-2026-11-0042",
+  "expires_at": "2026-12-07T10:00:00Z",
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+Avec une clé de test, l'appel est validé mais aucun document n'est envoyé ni facturé. L'envoi réel par l'API (avec le dépôt du fichier chiffré) ouvrira avec le SDK : en attendant, les pilotes émettent depuis leur espace Trayce Business.

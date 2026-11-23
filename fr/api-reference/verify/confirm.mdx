@@ -1,0 +1,33 @@
+---
+title: "Confirmer à la source"
+description: "POST /v1/verify/documents/{id}/confirm"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Demandez la confirmation du document auprès de son émetteur ou d'un registre officiel (N3). Fonctionne pour une pièce reçue par Collect comme pour un document importé.
+
+```bash
+POST https://api.trayce.africa/v1/verify/documents/{id}/confirm
+```
+
+Permission requise : `verify:write`
+
+## Paramètres
+
+<ParamField path="id" type="string" required>
+Identifiant de la vérification.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "id": "vrf_51c0…",
+  "status": "pending",
+  "checks": { "source": "pending" }
+}
+```
+
+La réponse de la source peut prendre du temps. Le résultat arrive par l'événement `verify.completed`, ou avec [Résultat d'une vérification](/fr/api-reference/verify/get).

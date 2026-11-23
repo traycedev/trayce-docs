@@ -1,0 +1,46 @@
+---
+title: "Revoke a sent document"
+description: "POST /v1/send/{id}/revoke"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Withdraw a document sent by mistake or no longer valid. The person can no longer open it and it is marked as withdrawn in their app.
+
+```bash
+POST https://api.trayce.africa/v1/send/{id}/revoke
+```
+
+Required permission: `send:write`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the sent document.
+</ParamField>
+
+<ParamField body="reason" type="string">
+Reason shown to the person (200 characters maximum).
+</ParamField>
+
+## Example request
+
+```bash
+curl -X POST https://api.trayce.africa/v1/send/{id}/revoke \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "reason": "Document remplacé par une version corrigée."
+}'
+```
+
+## Response
+
+```json
+{
+  "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+  "status": "revoked",
+  "revoked_at": "2026-11-24T09:12:00Z"
+}
+```

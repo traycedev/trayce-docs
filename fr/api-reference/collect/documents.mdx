@@ -1,0 +1,62 @@
+---
+title: "Pièces reçues"
+description: "GET /v1/collect/{id}/documents"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Les pièces envoyées par la personne, chacune avec sa vérification : le niveau atteint (N1, N2 ou N3) et le détail des contrôles.
+
+```bash
+GET https://api.trayce.africa/v1/collect/{id}/documents
+```
+
+Permission requise : `collect:read`
+
+## Paramètres
+
+<ParamField path="id" type="string" required>
+Identifiant de la demande.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "data": [
+    {
+      "id": "d7a0…",
+      "type": "payslip",
+      "received_at": "2026-11-24T18:02:41Z",
+      "verification": {
+        "id": "vrf_51c0…",
+        "level": "N2",
+        "checks": {
+          "analysis": "passed",
+          "signature": "verified",
+          "source": "not_requested"
+        },
+        "issuer": { "name": "Teranga Services" }
+      }
+    },
+    {
+      "id": "e19b…",
+      "type": "proof_of_address",
+      "received_at": "2026-11-24T18:02:41Z",
+      "verification": {
+        "id": "vrf_8f2d…",
+        "level": "N1",
+        "checks": {
+          "analysis": "passed",
+          "signature": "not_applicable",
+          "source": "not_requested"
+        },
+        "issuer": null
+      }
+    }
+  ]
+}
+```
+
+Le contenu des pièces est chiffré pour votre organisation : le SDK le déchiffre chez vous. Pour viser le niveau N3, demandez la [confirmation à la source](/fr/api-reference/verify/confirm) avec l'identifiant `verification.id`.

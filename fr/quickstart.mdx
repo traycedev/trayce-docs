@@ -1,81 +1,34 @@
 ---
-title: "Quickstart"
+title: "Démarrage rapide"
 icon: "rocket"
-description: "Compte, App, clé API, premier appel."
+description: "Votre premier appel en quelques minutes, avec une clé de test."
 ---
 
-Objectif : créer une App, récupérer une clé, et faire un premier appel : **send** ou **collect**.
-
-## Étapes
+<Note>Aperçu : l'API Trayce n'est pas encore ouverte et peut encore évoluer. Les organisations du programme pilote y ont accès en avant-première. [Demander une démo](https://trayce.africa).</Note>
 
 <Steps>
-  <Step title="Créer un compte">
-    Allez sur [app.trayce.africa](https://app.trayce.africa) et créez votre compte entreprise.
+  <Step title="Obtenir une clé de test">
+    Dans votre espace Trayce Business, ouvrez **Clés API** et créez une clé de test. Elle commence par `trc_test_`. Les espaces Business sont ouverts par l'équipe Trayce, après une démo.
   </Step>
-  <Step title="Créer une App">
-    Dans le Dashboard, créez une App. Elle porte ses clés, permissions et webhooks.
+  <Step title="Émettre un document de test">
+    ```bash
+    curl -X POST https://api.trayce.africa/v1/send \
+      -H "Authorization: Bearer trc_test_…" \
+      -H "Content-Type: application/json" \
+      -d '{ "recipient_phone": "+221771234567", "doc_type": "payslip" }'
+    ```
+    Avec une clé de test, l'appel est validé mais rien n'est envoyé ni facturé.
   </Step>
-  <Step title="Générer une clé API">
-    Dans les paramètres de l'App, générez une clé. **Copiez-la tout de suite** : elle n'est affichée qu'une fois.
+  <Step title="Lire la réponse">
+    ```json
+    {
+      "id": "test-4f1c9a…",
+      "status": "queued",
+      "mode": "test"
+    }
+    ```
   </Step>
-  <Step title="Vérifier les permissions">
-    Gardez au minimum `documents:write` et/ou `collections:write` selon votre cas.
-  </Step>
-  <Step title="Premier appel">
-    Utilisez les crédits d'essai pour un `send` ou un `collect` (exemples ci-dessous).
-  </Step>
-  <Step title="Webhooks (optionnel)">
-    Ajoutez l'URL de votre endpoint dans les paramètres de l'App pour recevoir les événements.
+  <Step title="Aller plus loin">
+    Découvrez [Collect](/fr/concepts/collect) pour demander des pièces vérifiées, ou [Scan](/fr/concepts/scan) pour contrôler un QR sur place.
   </Step>
 </Steps>
-
-## Premier send
-
-```bash
-curl -X POST https://api.trayce.africa/v1/documents \
-  -H "Authorization: Bearer <votre_clé_api>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "recipient_phone_number": "+221xxxxxxxxx",
-    "document_type": "PAYSLIP",
-    "title": "Bulletin de salaire : Septembre"
-  }'
-```
-
-## Premier collect
-
-```bash
-curl -X POST https://api.trayce.africa/v1/collections \
-  -H "Authorization: Bearer <votre_clé_api>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "workflow_id": "tenant_application",
-    "title": "Appartement A",
-    "configuration": {
-      "document_verification": true,
-      "cross_document_consistency": true,
-      "fraud_detection": true,
-      "scoring": {
-        "enabled": true,
-        "profile_id": "apartment_premium"
-      }
-    }
-  }'
-```
-
-## Suite
-
-<CardGroup cols={2}>
-  <Card title="Send" icon="send" href="/fr/concepts/send">
-    Envoyer un document à un utilisateur.
-  </Card>
-  <Card title="Collect" icon="inbox" href="/fr/concepts/collect">
-    Lancer une Collection.
-  </Card>
-  <Card title="Webhooks" icon="webhook" href="/fr/webhooks">
-    Recevoir les événements.
-  </Card>
-  <Card title="Essai & crédits" icon="gift" href="/fr/trial">
-    Tester sans basculer de plan.
-  </Card>
-</CardGroup>

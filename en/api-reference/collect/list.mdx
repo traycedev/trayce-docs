@@ -1,0 +1,46 @@
+---
+title: "List requests"
+description: "GET /v1/collect"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Your organisation's document requests, newest first.
+
+```bash
+GET https://api.trayce.africa/v1/collect
+```
+
+Required permission: `collect:read`
+
+## Parameters
+
+<ParamField query="status" type="string">
+`pending`, `submitted`, `expired` or `cancelled`.
+</ParamField>
+
+<ParamField query="limit" type="integer">
+Number of items, 100 maximum.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+`next_cursor` value from the previous page.
+</ParamField>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": "c41b9e02-6d1f-4a8e-b2c7-0f5a3d9e1b64",
+      "status": "submitted",
+      "external_id": "LOC-2026-118",
+      "submitted_at": "2026-11-24T18:02:41Z"
+    }
+  ],
+  "has_more": false,
+  "next_cursor": null
+}
+```

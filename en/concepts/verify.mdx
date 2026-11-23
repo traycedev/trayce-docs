@@ -1,0 +1,44 @@
+---
+title: "Verify"
+icon: "badge-check"
+description: "Verification levels, and verifying documents received outside Trayce."
+---
+
+Verify tells what a document is worth. It is included in [Collect](/en/concepts/collect), and also works on its own for documents received outside Trayce.
+
+## Verification levels
+
+Every verified document gets a level, which tells how far the verification went.
+
+| Level | Name | What was verified |
+|---|---|---|
+| **N1** | Analysed | Trayce analysed the document with artificial intelligence: consistency, readability, signs of tampering. |
+| **N2** | Signature verified | The document was issued in Trayce by a verified organisation. Its signature is valid and it has not been changed since. |
+| **N3** | Confirmed at source | The issuer of the document, or an official registry, confirmed it is authentic. |
+
+A document issued with [Send](/en/concepts/send) arrives at level **N2**. The level informs you, the decision stays yours.
+
+<Note>Organisations that issue in Trayce are verified by the Trayce team before they can issue. This is what gives level N2 its value.</Note>
+
+## Two ways to use it
+
+- **With Collect**: every document received comes with its verification, with no extra call.
+- **On its own**: you import a document received elsewhere (email, desk, paper). Trayce analyses it (**N1**). If it was issued in Trayce, its signature is checked (**N2**).
+
+## Confirm at source
+
+For an important document, request confirmation from its issuer or an official registry (**N3**). This works for a document received through Collect as well as an imported one. The answer may take time: the `verify.completed` event lets you know.
+
+To analyse an imported document, Trayce has to read it. Documents received through Collect stay end-to-end encrypted.
+
+## Example: a statement received by email
+
+Banque Horizon receives by email the bank statement of a customer applying for a loan.
+
+1. The advisor imports it with [Verify a document](/en/api-reference/verify/create). The analysis finds no sign of tampering: level **N1**.
+2. The loan amount is high: the bank requests [source confirmation](/en/api-reference/verify/confirm).
+3. The issuing institution confirms the statement. The bank receives `verify.completed`, and the document moves to level **N3**.
+
+## In the API
+
+Verify routes are planned: [verify a document](/en/api-reference/verify/create), [get the result](/en/api-reference/verify/get), [confirm at source](/en/api-reference/verify/confirm).

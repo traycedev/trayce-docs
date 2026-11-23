@@ -1,0 +1,48 @@
+---
+title: "Vérifier un document"
+description: "POST /v1/verify/documents"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Vérifiez un document reçu en dehors de Trayce (par e-mail, au guichet…). Trayce l'analyse (N1). Si le document a été émis dans Trayce, sa signature est aussi contrôlée (N2).
+
+```bash
+POST https://api.trayce.africa/v1/verify/documents
+```
+
+Permission requise : `verify:write`
+
+## Paramètres
+
+<ParamField body="file" type="file" required>
+Le document, en PDF, JPEG ou PNG (10 Mo au maximum). Envoyé en `multipart/form-data`.
+</ParamField>
+
+<ParamField body="doc_type" type="string">
+Type attendu, pour orienter l'analyse.
+</ParamField>
+
+<ParamField body="external_id" type="string">
+Votre propre référence.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "id": "vrf_3a9e…",
+  "status": "completed",
+  "level": "N1",
+  "checks": {
+    "analysis": "passed",
+    "signature": "not_applicable",
+    "source": "not_requested"
+  },
+  "findings": [],
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+Ici, et ici seulement, Trayce lit le document : c'est nécessaire pour l'analyser. Les documents reçus par Collect restent chiffrés de bout en bout.

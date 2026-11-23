@@ -1,0 +1,74 @@
+---
+title: "Demander des pièces"
+description: "POST /v1/collect"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Demandez des pièces à une personne. Elle répond depuis son application Trayce, ou par le lien si elle n'a pas encore Trayce. Chaque pièce reçue est vérifiée automatiquement : vous n'avez rien à appeler en plus.
+
+```bash
+POST https://api.trayce.africa/v1/collect
+```
+
+Permission requise : `collect:write`
+
+## Paramètres
+
+<ParamField body="recipient_phone" type="string">
+Numéro au format international. `recipient_phone` ou `recipient_email` est requis.
+</ParamField>
+
+<ParamField body="recipient_email" type="string">
+Adresse e-mail de la personne.
+</ParamField>
+
+<ParamField body="documents" type="array" required>
+Pièces demandées, 20 au maximum. Chaque élément : `type` (par exemple `national_id`, `payslip`, `proof_of_address`) et `count` (1 par défaut).
+</ParamField>
+
+<ParamField body="message" type="string">
+Message affiché à la personne (500 caractères au maximum).
+</ParamField>
+
+<ParamField body="expires_in_days" type="integer">
+Délai de réponse, de 1 à 30 jours. 7 par défaut.
+</ParamField>
+
+<ParamField body="external_id" type="string">
+Votre propre référence, par exemple un numéro de dossier.
+</ParamField>
+
+## Exemple de requête
+
+```bash
+curl -X POST https://api.trayce.africa/v1/collect \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "recipient_phone": "+221771234567",
+  "documents": [
+    { "type": "national_id" },
+    { "type": "payslip", "count": 3 },
+    { "type": "proof_of_address" }
+  ],
+  "message": "Pièces pour votre dossier de location.",
+  "expires_in_days": 10,
+  "external_id": "LOC-2026-118"
+}'
+```
+
+## Réponse
+
+```json
+{
+  "id": "c41b9e02-6d1f-4a8e-b2c7-0f5a3d9e1b64",
+  "status": "pending",
+  "url": "https://get.trayce.africa/c/K7pQ2mZx…",
+  "expires_at": "2026-12-03T10:00:00Z",
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+La personne reçoit la demande dans son application, ou par le lien `url` que vous pouvez aussi lui transmettre vous-même.

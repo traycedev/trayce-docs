@@ -1,40 +1,30 @@
 ---
-title: "Overview"
-sidebarTitle: "Overview"
+title: "Trayce for developers"
 icon: "house"
-description: "Trayce Business : send, collect, and analyze documents."
+description: "Trusted documents between organisations and people."
 ---
 
-Trayce Business helps companies **send** and **collect** documents securely, then return a structured result.
+<Note>Preview: the Trayce API is not open yet and may still change. Organisations in the pilot programme get early access. [Request a demo](https://trayce.africa/en).</Note>
 
-| | Purpose |
-|---|---|
-| **Send** | Deliver a document to a Trayce user. |
-| **Collect** | Gather documents and information from one or more people. |
+Trayce connects organisations and people around trusted documents.
 
-## Typical flow
+- **The Trayce app**, free, lets people keep their documents and proofs, and share them with their consent.
+- **Trayce Business** lets organisations issue, request and verify documents.
 
-```
-App → Send or Collect → Workflow → Result → Webhook
-```
+The API gives access to Trayce Business from your own tools: HR software, property management, onboarding tools, access control.
 
-<Note>
-  Trayce returns the documentary result. The business decision stays with your company.
-</Note>
-
-## Get started
+## Capabilities
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
-    Account, App, first API call.
-  </Card>
-  <Card title="Authentication" icon="key-round" href="/en/authentication">
-    API keys and permissions.
-  </Card>
-  <Card title="Send" icon="send" href="/en/concepts/send">
-    Deliver a document.
-  </Card>
-  <Card title="Collect" icon="inbox" href="/en/concepts/collect">
-    Start a collection.
-  </Card>
+  <Card title="Send" icon="send" href="/en/concepts/send">Issue signed documents that arrive in the person's app.</Card>
+  <Card title="Collect" icon="inbox" href="/en/concepts/collect">Request documents. Each one arrives with its verification.</Card>
+  <Card title="Verify" icon="badge-check" href="/en/concepts/verify">Verify a document received outside Trayce.</Card>
+  <Card title="Connect" icon="user-check" href="/en/concepts/connect">Receive an identity already verified, with the person's consent.</Card>
+  <Card title="Scan" icon="scan-line" href="/en/concepts/scan">Check on the spot the QR code shown by a person.</Card>
 </CardGroup>
+
+## Where to start
+
+1. Read [Verify](/en/concepts/verify): the N1, N2, N3 verification levels are at the heart of every response.
+2. Follow the [quickstart](/en/quickstart) with a test key.
+3. Browse the [API reference](/en/api-reference/introduction). Each route says whether it is available to pilots or planned.

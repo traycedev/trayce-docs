@@ -1,0 +1,51 @@
+---
+title: "Créer un webhook"
+description: "POST /v1/webhooks"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Recevez les événements de votre organisation sur votre serveur.
+
+```bash
+POST https://api.trayce.africa/v1/webhooks
+```
+
+Permission requise : `webhooks:write`
+
+## Paramètres
+
+<ParamField body="url" type="string" required>
+Adresse HTTPS de votre serveur.
+</ParamField>
+
+<ParamField body="events" type="array" required>
+Les [événements](/fr/api-reference/webhooks/events) à recevoir.
+</ParamField>
+
+## Exemple de requête
+
+```bash
+curl -X POST https://api.trayce.africa/v1/webhooks \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "url": "https://exemple.sn/trayce/webhooks",
+  "events": ["collect.submitted", "verify.completed"]
+}'
+```
+
+## Réponse
+
+```json
+{
+  "id": "whk_0c7e…",
+  "url": "https://exemple.sn/trayce/webhooks",
+  "events": ["collect.submitted", "verify.completed"],
+  "secret": "whsec_…",
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+Le `secret` n'est affiché qu'une fois : gardez-le pour vérifier la signature de chaque événement.

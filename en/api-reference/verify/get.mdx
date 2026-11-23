@@ -1,0 +1,41 @@
+---
+title: "Get a verification"
+description: "GET /v1/verify/documents/{id}"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+The result of a verification, whether it comes from Collect or an imported document.
+
+```bash
+GET https://api.trayce.africa/v1/verify/documents/{id}
+```
+
+Required permission: `verify:read`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the verification.
+</ParamField>
+
+## Response
+
+```json
+{
+  "id": "vrf_51c0…",
+  "status": "completed",
+  "level": "N3",
+  "checks": {
+    "analysis": "passed",
+    "signature": "verified",
+    "source": "confirmed"
+  },
+  "issuer": { "name": "Teranga Services" },
+  "findings": [],
+  "confirmed_at": "2026-11-25T09:40:12Z"
+}
+```
+
+`checks` values: `analysis` (`passed`, `failed`, `inconclusive`), `signature` (`verified`, `invalid`, `not_applicable`), `source` (`not_requested`, `pending`, `confirmed`, `denied`, `unavailable`).

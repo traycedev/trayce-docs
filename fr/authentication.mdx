@@ -1,71 +1,39 @@
 ---
 title: "Authentification"
-sidebarTitle: "Authentification"
-icon: "key"
-description: "Apps, clés API et permissions."
+icon: "key-round"
+description: "Clés API, modes test et live, permissions."
 ---
 
-## Apps
+<Note>Aperçu : l'API Trayce n'est pas encore ouverte et peut encore évoluer. Les organisations du programme pilote y ont accès en avant-première. [Demander une démo](https://trayce.africa).</Note>
 
-Une **App** est l'identité de votre intégration : clés API, permissions, webhooks.
-
-| | |
-|---|---|
-| App ID | Identifiant de l'App |
-| Clés API | Authentifient vos appels |
-| Permissions | Ce que l'App peut faire |
-| Webhooks | URL de livraison des événements |
-
-Vous pouvez avoir plusieurs Apps (ex. une par produit ou par environnement interne).
-
-## Clés API
-
-Générez-les depuis le Dashboard → paramètres de l'App.
-
-<Warning>
-  La clé complète n'est affichée **qu'à la création**. Stockez-la dans un gestionnaire de secrets. En cas de perte : nouvelle clé + révocation de l'ancienne.
-</Warning>
+Chaque requête porte une clé API de votre organisation :
 
 ```bash
-curl https://api.trayce.africa/v1/collections \
-  -H "Authorization: Bearer <votre_clé_api>" \
-  -H "Content-Type: application/json"
+Authorization: Bearer trc_live_…
 ```
 
-### Rotation
+## Test et live
 
-- Révoquez une clé compromise sans délai.
-- Plusieurs clés par App pour une rotation sans coupure.
-- Une clé révoquée est invalidée immédiatement.
+| Clé | Effet |
+|---|---|
+| `trc_test_…` | Les appels sont validés, rien n'est envoyé à une personne ni facturé. Pour développer et tester. |
+| `trc_live_…` | Les appels agissent réellement. Refusés si votre organisation n'est pas active ou si sa période d'essai est terminée. |
 
 ## Permissions
 
-| Permission | Usage |
+Chaque clé reçoit seulement les permissions dont elle a besoin. Une permission d'écriture inclut la lecture correspondante.
+
+| Permission | Pour |
 |---|---|
-| `documents:write` | Envoyer des documents |
-| `documents:read` | Lire documents et statuts |
-| `collections:write` | Créer / modifier des Collections |
-| `collections:read` | Lire Collections et résultats |
-| `applications:read` | Lire les ressources App |
-| `webhooks:manage` | Gérer les webhooks |
+| `send:read`, `send:write` | Send |
+| `collect:read`, `collect:write` | Collect |
+| `verify:read`, `verify:write` | Verify |
+| `connect:read`, `connect:write` | Connect |
+| `scan:read` | Scan |
+| `webhooks:read`, `webhooks:write` | Webhooks |
 
-N'accordez que ce dont l'intégration a besoin.
+## Bonnes pratiques
 
-## API Apps
-
-```
-POST   /apps
-GET    /apps
-GET    /apps/{app_id}
-PATCH  /apps/{app_id}
-DELETE /apps/{app_id}
-```
-
-<CardGroup cols={2}>
-  <Card title="Créer une App" icon="plus" href="/fr/api-reference/apps/create">
-    `POST /apps`
-  </Card>
-  <Card title="Lister les Apps" icon="list" href="/fr/api-reference/apps/list">
-    `GET /apps`
-  </Card>
-</CardGroup>
+- Gardez vos clés côté serveur, jamais dans une application mobile ou une page web.
+- Une clé par outil : vous pouvez en révoquer une sans toucher aux autres.
+- Révoquez immédiatement une clé exposée, depuis **Clés API**.

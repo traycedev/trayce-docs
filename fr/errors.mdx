@@ -1,70 +1,28 @@
 ---
 title: "Erreurs"
 icon: "triangle-alert"
-description: "Codes d'erreur et conventions de l'API Trayce."
+description: "Format des erreurs et codes HTTP."
 ---
 
-## Format des erreurs
+<Note>Aperçu : l'API Trayce n'est pas encore ouverte et peut encore évoluer. Les organisations du programme pilote y ont accès en avant-première. [Demander une démo](https://trayce.africa).</Note>
 
-Toutes les erreurs suivent un format JSON cohérent :
+Une erreur renvoie un code HTTP et un corps JSON :
 
 ```json
 {
-  "error": {
-    "code": "INVALID_WORKFLOW",
-    "message": "Le code workflow 'UNKNOWN' n'existe pas.",
-    "details": {
-      "field": "workflow_code",
-      "provided": "UNKNOWN"
-    }
-  }
+  "error": "invalid_request",
+  "message": "recipient_phone must be E.164 (e.g. +221771234567)."
 }
 ```
 
-## Codes HTTP
-
-| Code | Signification |
-|---|---|
-| `200` | Succès |
-| `201` | Ressource créée |
-| `400` | Requête invalide (paramètres manquants ou incorrects) |
-| `401` | Non authentifié (clé API invalide ou absente) |
-| `403` | Non autorisé (permission insuffisante) |
-| `404` | Ressource introuvable |
-| `409` | Conflit (état incompatible avec l'opération) |
-| `422` | Entité non traitable (validation métier) |
-| `429` | Trop de requêtes (rate limit atteint) |
-| `500` | Erreur interne Trayce |
-
-## Codes d'erreur métier
-
-| Code | Description |
-|---|---|
-| `INVALID_WORKFLOW` | Code workflow inexistant. |
-| `COLLECTION_ALREADY_COMPLETED` | La Collection est déjà finalisée. |
-| `COLLECTION_CANCELLED` | La Collection a été annulée. |
-| `PERSON_NOT_IN_COLLECTION` | La personne n'appartient pas à cette Collection. |
-| `LINK_EXPIRED` | Le lien d'accès a expiré. |
-| `LINK_REVOKED` | Le lien d'accès a été révoqué. |
-| `DOCUMENT_TYPE_NOT_ALLOWED` | Ce type de document n'est pas autorisé pour ce workflow. |
-| `FILE_TOO_LARGE` | Le fichier dépasse la taille maximale autorisée. |
-| `UNSUPPORTED_FORMAT` | Format de fichier non supporté. |
-| `RATE_LIMIT_EXCEEDED` | Limite de requêtes atteinte. |
-| `INSUFFICIENT_CREDITS` | Crédits insuffisants pour cette opération. |
-
-## Rate limits
-
-Les limites varient selon le plan. En cas de dépassement, l'API répond `429` avec l'en-tête `Retry-After` indiquant le délai à attendre (en secondes).
-
-En `429`, lisez `Retry-After` et réessayez avec un backoff.
-
-## Idempotence
-
-Pour les requêtes `POST`, vous pouvez passer un en-tête `Idempotency-Key` pour éviter les doublons en cas de retry :
-
-```bash
-curl -X POST https://api.trayce.africa/v1/collections \
-  -H "Authorization: Bearer sk-..." \
-  -H "Idempotency-Key: my-unique-key-123" \
-  ...
-```
+| HTTP | `error` | Signification |
+|---|---|---|
+| 400 | `invalid_request` | Un paramètre manque ou n'est pas valide. Le message précise lequel. |
+| 401 | `invalid_api_key` | Clé absente, mal formée ou révoquée. |
+| 403 | `missing_scope` | La clé n'a pas la permission nécessaire. |
+| 403 | `org_inactive` | Votre organisation n'est pas active. |
+| 403 | `trial_expired` | Votre période d'essai est terminée. |
+| 404 | `not_found` | L'objet n'existe pas, ou n'appartient pas à votre organisation. |
+| 409 | `conflict` | Même `external_id` ou même `Idempotency-Key` déjà utilisé. |
+| 429 | `rate_limited` | Trop de requêtes. Voir les [limites](/fr/api-reference/rate-limits). |
+| 5xx | `server_error` | Erreur de notre côté. Réessayez avec la même `Idempotency-Key`. |

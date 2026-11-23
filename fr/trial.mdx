@@ -1,25 +1,17 @@
 ---
-title: "Essai & Crédits"
-sidebarTitle: "Essai & crédits"
-icon: "gift"
-description: "Tester votre intégration avec les crédits d'essai."
+title: "Mode test et essai"
+icon: "flask-conical"
+description: "Tester sans risque, puis passer en réel."
 ---
 
-À la création de votre compte, Trayce alloue des **crédits d'essai**. Vous appelez la même API que en production (`https://api.trayce.africa/v1`) : créez une App dédiée aux tests si besoin.
+<Note>Aperçu : l'API Trayce n'est pas encore ouverte et peut encore évoluer. Les organisations du programme pilote y ont accès en avant-première. [Demander une démo](https://trayce.africa).</Note>
 
-## Utiliser les crédits
+## Mode test
 
-1. Créez une App dans le [Dashboard](https://app.trayce.africa).
-2. Générez une clé API.
-3. Envoyez vos premiers appels (`send` ou `collect`) : chaque opération consomme des crédits.
-4. Suivez le solde restant dans le Dashboard (onglet App).
+Les clés `trc_test_` sont gratuites et sans limite de durée. Les appels sont validés comme en réel, mais aucun document n'est envoyé, aucune personne n'est contactée et rien n'est facturé.
 
-## Quand le solde est à zéro
+## Passer en réel
 
-Les opérations soumises à crédits sont bloquées. Passez à l'offre payante depuis le Dashboard. Vos Apps, clés API et webhooks restent inchangés : aucune migration technique.
+Les clés `trc_live_` agissent réellement. Elles sont disponibles une fois votre espace Trayce Business ouvert par l'équipe Trayce. Pendant le programme pilote, l'accès se fait en avant-première, avec des crédits d'essai.
 
-## Bonnes pratiques
-
-- Une App séparée pour les tests (ex. `Mon produit : Test`).
-- Des données réalistes pour valider vos flux de bout en bout.
-- Surveillez la consommation avant une démo ou un lancement.
+Si votre période d'essai se termine, les appels en réel sont refusés avec l'erreur `trial_expired`. Vos clés et vos réglages restent en place : [contactez-nous](/fr/support) pour continuer.
