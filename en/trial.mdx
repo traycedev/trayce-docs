@@ -1,25 +1,17 @@
 ---
-title: "Trial & credits"
-sidebarTitle: "Trial & credits"
-icon: "gift"
-description: "Test your integration with trial credits."
+title: "Test mode and trial"
+icon: "flask-conical"
+description: "Test safely, then go live."
 ---
 
-When you create your account, Trayce allocates **trial credits**. You call the same API as production (`https://api.trayce.africa/v1`) : create a dedicated test App if you want.
+<Note>Preview: the Trayce API is not open yet and may still change. Organisations in the pilot programme get early access. [Request a demo](https://trayce.africa/en).</Note>
 
-## Using credits
+## Test mode
 
-1. Create an App in the [Dashboard](https://app.trayce.africa).
-2. Generate an API key.
-3. Make your first calls (`send` or `collect`) : each operation consumes credits.
-4. Track the remaining balance in the Dashboard (App tab).
+`trc_test_` keys are free, with no time limit. Calls are validated as in live mode, but no document is sent, no person is contacted and nothing is billed.
 
-## When the balance hits zero
+## Going live
 
-Credit-gated operations are blocked. Upgrade to a paid plan from the Dashboard. Your Apps, API keys, and webhooks stay the same : no technical migration.
+`trc_live_` keys take real effect. They are available once the Trayce team has opened your Trayce Business workspace. During the pilot programme, access is early, with trial credits.
 
-## Best practices
-
-- Use a separate App for tests (e.g. `My product : Test`).
-- Use realistic data to validate end-to-end flows.
-- Monitor usage before a demo or launch.
+If your trial ends, live calls are refused with the `trial_expired` error. Your keys and settings stay in place: [contact us](/en/support) to continue.

@@ -1,0 +1,44 @@
+---
+title: "Suivre une demande d'identité"
+description: "GET /v1/connect/requests/{id}"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+La réponse de la personne et, si elle a accepté, ce qu'elle a partagé.
+
+```bash
+GET https://api.trayce.africa/v1/connect/requests/{id}
+```
+
+Permission requise : `connect:read`
+
+## Paramètres
+
+<ParamField path="id" type="string" required>
+Identifiant de la demande.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "id": "con_2be71…",
+  "status": "accepted",
+  "subject": "sub_9QmT4…",
+  "shared": {
+    "identity": {
+      "verified": true,
+      "last_name": "Ba",
+      "first_names": "Aïssatou",
+      "birth_date": "1994-03-12",
+      "document": { "type": "national_id", "country": "SN" }
+    }
+  },
+  "not_shared": [],
+  "accepted_at": "2026-11-23T10:04:51Z"
+}
+```
+
+Statuts : `pending`, `accepted`, `declined`, `expired`. `subject` identifie la personne pour votre organisation seulement : il ne permet pas de la suivre ailleurs.

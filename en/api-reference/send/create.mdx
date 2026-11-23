@@ -1,0 +1,69 @@
+---
+title: "Send a document"
+description: "POST /v1/send"
+tag: "Available to pilots"
+---
+
+<Check>Available to pilots: you can call this route with a key from your organisation.</Check>
+
+Send a signed document to a person, using their phone number. The document arrives in their Trayce app, already filed. If the person does not have Trayce yet, they receive a link to claim it.
+
+```bash
+POST https://api.trayce.africa/v1/send
+```
+
+Required permission: `send:write`
+
+## Parameters
+
+<ParamField body="recipient_phone" type="string" required>
+Phone number in international format, for example `+221771234567`.
+</ParamField>
+
+<ParamField body="doc_type" type="string" required>
+Document type: `payslip`, `employment_certificate`, `invoice`… (64 characters maximum).
+</ParamField>
+
+<ParamField body="upload_id" type="string" required>
+Upload ID returned by [Prepare an upload](/en/api-reference/send/upload). Not required with a test key.
+</ParamField>
+
+<ParamField body="external_id" type="string">
+Your own reference (128 characters maximum). Unique within your organisation.
+</ParamField>
+
+<ParamField body="expires_in_days" type="integer">
+How long the person can claim the document, from 1 to 30 days. Defaults to 7.
+</ParamField>
+
+## Example request
+
+```bash
+curl -X POST https://api.trayce.africa/v1/send \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "recipient_phone": "+221771234567",
+  "doc_type": "payslip",
+  "upload_id": "upl_7f3c2a91",
+  "external_id": "PAIE-2026-11-0042",
+  "expires_in_days": 14
+}'
+```
+
+## Response
+
+```json
+{
+  "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+  "status": "queued",
+  "mode": "live",
+  "doc_type": "payslip",
+  "recipient_phone": "+221771234567",
+  "external_id": "PAIE-2026-11-0042",
+  "expires_at": "2026-12-07T10:00:00Z",
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+With a test key, the call is validated but no document is sent or billed. Live sending through the API (with the encrypted upload) opens with the SDK: until then, pilots send from their Trayce Business workspace.

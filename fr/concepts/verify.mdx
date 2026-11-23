@@ -1,0 +1,44 @@
+---
+title: "Verify"
+icon: "badge-check"
+description: "Les niveaux de vérification, et la vérification des documents reçus hors de Trayce."
+---
+
+Verify dit ce que vaut un document. Il est inclus dans [Collect](/fr/concepts/collect), et sert aussi seul pour les documents reçus en dehors de Trayce.
+
+## Les niveaux de vérification
+
+Chaque document vérifié reçoit un niveau, qui dit jusqu'où la vérification est allée.
+
+| Niveau | Nom | Ce qui a été vérifié |
+|---|---|---|
+| **N1** | Analysé | Trayce a analysé le document avec l'intelligence artificielle : cohérence, lisibilité, signes de modification. |
+| **N2** | Signature vérifiée | Le document a été émis dans Trayce par une organisation vérifiée. Sa signature est valide et il n'a pas été modifié depuis. |
+| **N3** | Confirmé à la source | L'émetteur du document, ou un registre officiel, a confirmé qu'il est authentique. |
+
+Un document émis avec [Send](/fr/concepts/send) arrive au niveau **N2**. Le niveau vous informe, la décision reste la vôtre.
+
+<Note>Les organisations qui émettent dans Trayce sont vérifiées par l'équipe Trayce avant de pouvoir émettre. C'est ce qui donne sa valeur au niveau N2.</Note>
+
+## Deux façons de l'utiliser
+
+- **Avec Collect** : chaque pièce reçue arrive avec sa vérification, sans appel de plus.
+- **Seul** : vous importez un document reçu ailleurs (e-mail, guichet, papier). Trayce l'analyse (**N1**). S'il a été émis dans Trayce, sa signature est contrôlée (**N2**).
+
+## Confirmer à la source
+
+Pour un document important, demandez sa confirmation auprès de son émetteur ou d'un registre officiel (**N3**). Cela marche pour une pièce reçue par Collect comme pour un document importé. La réponse peut prendre du temps : elle vous est signalée par l'événement `verify.completed`.
+
+Pour analyser un document importé, Trayce doit le lire. Les pièces reçues par Collect, elles, restent chiffrées de bout en bout.
+
+## Exemple : un relevé reçu par e-mail
+
+Banque Horizon reçoit par e-mail le relevé bancaire d'un client qui demande un crédit.
+
+1. Le conseiller l'importe avec [Vérifier un document](/fr/api-reference/verify/create). L'analyse ne relève aucun signe de modification : niveau **N1**.
+2. Le montant du crédit est élevé : la banque demande la [confirmation à la source](/fr/api-reference/verify/confirm).
+3. L'établissement émetteur confirme le relevé. La banque reçoit `verify.completed`, et le document passe au niveau **N3**.
+
+## Dans l'API
+
+Les routes de Verify sont prévues : [vérifier un document](/fr/api-reference/verify/create), [lire le résultat](/fr/api-reference/verify/get), [confirmer à la source](/fr/api-reference/verify/confirm).

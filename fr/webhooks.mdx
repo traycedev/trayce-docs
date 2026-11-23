@@ -1,61 +1,33 @@
 ---
 title: "Webhooks"
 icon: "webhook"
-description: "Recevoir des notifications en temps réel sur les événements Trayce."
+description: "Être prévenu des événements, et vérifier qu'ils viennent bien de Trayce."
 ---
 
-## Vue d'ensemble
+<Note>Aperçu : l'API Trayce n'est pas encore ouverte et peut encore évoluer. Les organisations du programme pilote y ont accès en avant-première. [Demander une démo](https://trayce.africa).</Note>
 
-Les webhooks vous permettent de recevoir des notifications automatiques lorsqu'un événement survient dans Trayce. Au lieu d'interroger l'API en continu, votre backend reçoit un `POST` HTTP dès qu'un événement se produit.
+Plutôt que d'interroger l'API, recevez les événements sur votre serveur : une pièce reçue, un document accepté, une vérification terminée. Voir la [liste des événements](/fr/api-reference/webhooks/events).
 
-## Événements disponibles
-
-| Événement | Description |
-|---|---|
-| `collection.created` | Une nouvelle Collection a été créée. |
-| `collection.in_progress` | La Collection a reçu au moins un document. |
-| `collection.completed` | La Collection est finalisée avec des résultats. |
-| `collection.review_required` | Une revue humaine est requise. |
-| `collection.cancelled` | La Collection a été annulée. |
-| `document.received` | Un nouveau document a été soumis. |
-| `document.processed` | L'analyse d'un document est terminée. |
-| `person.completed` | Tous les documents d'une personne ont été reçus. |
-| `link.accessed` | Un lien d'accès a été ouvert. |
-| `link.expired` | Un lien d'accès a expiré. |
-
-## Format des payloads
-
-Tous les événements suivent le même format :
+## Format
 
 ```json
 {
-  "id": "evt_01HWBK",
-  "event": "collection.completed",
-  "created_at": "2026-10-08T14:32:00Z",
-  "data": {
-    "collection_id": "col_01HABC",
-    "status": "COMPLETED",
-    "workflow_code": "TENANT_APPLICATION"
-  }
+  "id": "evt_6a1f…",
+  "type": "collect.submitted",
+  "created_at": "2026-11-24T18:02:42Z",
+  "data": { "id": "c41b9e02-…", "external_id": "LOC-2026-118" }
 }
 ```
 
-## Sécurité
+## Vérifier la signature
 
-Chaque App a un **secret webhook** (Dashboard → Webhooks). Vérifiez la signature HMAC-SHA256 avant de traiter le payload :
+Chaque événement porte l'en-tête `Trayce-Signature: t=1795394562,v1=5d3c…`.
 
-```text
-X-Trayce-Signature: t=<timestamp>,v1=<hex>
-```
+1. Assemblez `t`, un point et le corps brut de la requête : `1795394562.{"id":"evt_6a1f…",…}`.
+2. Calculez le HMAC SHA-256 de ce texte avec le `secret` de votre webhook.
+3. Comparez-le à `v1`, en temps constant.
+4. Refusez l'événement si `t` a plus de cinq minutes.
 
-Recalculez `HMAC_SHA256(secret, "{timestamp}.{raw_body}")` et comparez à `v1`. Rejetez si l'écart d'horloge dépasse ~5 minutes.
+## Répondre et réessais
 
-## Bonnes pratiques
-
-- Répondre `200` en moins de 5 secondes : traitez le payload en arrière-plan.
-- Idempotence via `id` (les retries existent).
-- Une App / URL de test distincte si vous séparez staging et prod en interne.
-
-<Card title="Guide : Configurer les webhooks" icon="book" href="/fr/guides/webhooks">
-  Tutoriel pas à pas.
-</Card>
+Répondez `200` rapidement, puis traitez l'événement. Sans réponse `2xx`, Trayce réessaie plusieurs fois, avec des délais croissants. Un même événement peut arriver deux fois : servez-vous de `id` pour l'ignorer.

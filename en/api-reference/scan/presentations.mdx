@@ -1,0 +1,53 @@
+---
+title: "Check a QR code"
+description: "POST /v1/scan/presentations"
+tag: "Available to pilots"
+---
+
+<Check>Available to pilots: you can call this route with a key from your organisation.</Check>
+
+Check the QR code a person shows from their Trayce app, at an entrance or a desk. You only receive what they chose to share, never their documents.
+
+```bash
+POST https://api.trayce.africa/v1/scan/presentations
+```
+
+Required permission: `scan:read`
+
+## Parameters
+
+<ParamField body="qr" type="string" required>
+The content of the scanned QR code (512 characters maximum).
+</ParamField>
+
+## Example request
+
+```bash
+curl -X POST https://api.trayce.africa/v1/scan/presentations \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "qr": "trc1.eyJ2IjoxLC…"
+}'
+```
+
+## Response
+
+```json
+{
+  "valid": true,
+  "subject": "sub_4LkP2…",
+  "previous_presentation_at": null,
+  "proofs": {
+    "authentic": true,
+    "identity": { "verified": true, "expires_at": "2031-04-30" }
+  },
+  "not_shared": ["identity.nationality"],
+  "nationality": null,
+  "sex": null,
+  "age_over_18": true,
+  "age_over_21": true
+}
+```
+
+A QR code is valid for two minutes, once. If it is refused, the response is `{ "valid": false, "reason": "…" }` with one of these reasons: `invalid_token`, `unknown_key`, `key_revoked`, `invalid_signature`, `expired`, `not_yet_valid`, `already_used`. Age is always a yes or no, never the date of birth. `previous_presentation_at` flags an earlier visit to you, for example a lent QR code.

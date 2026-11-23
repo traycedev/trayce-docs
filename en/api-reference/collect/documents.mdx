@@ -1,0 +1,62 @@
+---
+title: "Received documents"
+description: "GET /v1/collect/{id}/documents"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+The documents sent by the person, each with its verification: the level reached (N1, N2 or N3) and the details of the checks.
+
+```bash
+GET https://api.trayce.africa/v1/collect/{id}/documents
+```
+
+Required permission: `collect:read`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the request.
+</ParamField>
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": "d7a0…",
+      "type": "payslip",
+      "received_at": "2026-11-24T18:02:41Z",
+      "verification": {
+        "id": "vrf_51c0…",
+        "level": "N2",
+        "checks": {
+          "analysis": "passed",
+          "signature": "verified",
+          "source": "not_requested"
+        },
+        "issuer": { "name": "Teranga Services" }
+      }
+    },
+    {
+      "id": "e19b…",
+      "type": "proof_of_address",
+      "received_at": "2026-11-24T18:02:41Z",
+      "verification": {
+        "id": "vrf_8f2d…",
+        "level": "N1",
+        "checks": {
+          "analysis": "passed",
+          "signature": "not_applicable",
+          "source": "not_requested"
+        },
+        "issuer": null
+      }
+    }
+  ]
+}
+```
+
+Document contents are encrypted for your organisation: the SDK decrypts them on your side. To reach level N3, request [source confirmation](/en/api-reference/verify/confirm) with the `verification.id`.

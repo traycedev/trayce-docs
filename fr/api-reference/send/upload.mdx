@@ -1,0 +1,49 @@
+---
+title: "Préparer un dépôt"
+description: "POST /v1/send/uploads"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Obtenez une adresse de dépôt pour le fichier chiffré que vous allez émettre. Le chiffrement se fait chez vous, avec le SDK : Trayce ne reçoit jamais le document en clair.
+
+```bash
+POST https://api.trayce.africa/v1/send/uploads
+```
+
+Permission requise : `send:write`
+
+## Paramètres
+
+<ParamField body="content_type" type="string" required>
+`application/pdf` ou `image/jpeg`, `image/png`.
+</ParamField>
+
+<ParamField body="size" type="integer" required>
+Taille du fichier chiffré, en octets (10 Mo au maximum).
+</ParamField>
+
+## Exemple de requête
+
+```bash
+curl -X POST https://api.trayce.africa/v1/send/uploads \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "content_type": "application/pdf",
+  "size": 184320
+}'
+```
+
+## Réponse
+
+```json
+{
+  "upload_id": "upl_7f3c2a91",
+  "upload_url": "https://uploads.trayce.africa/…",
+  "expires_at": "2026-11-23T10:15:00Z"
+}
+```
+
+Déposez le fichier chiffré à `upload_url` avec une requête `PUT`, puis passez `upload_id` à [Émettre un document](/fr/api-reference/send/create). Le SDK Node.js fait ces deux étapes pour vous.

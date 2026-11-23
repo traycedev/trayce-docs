@@ -1,0 +1,32 @@
+---
+title: "Connect"
+icon: "user-check"
+description: "Recevoir une identité déjà vérifiée, avec l'accord de la personne."
+---
+
+Vos clients ont peut-être déjà vérifié leur identité dans Trayce. Avec Connect, ils vous la partagent en un geste, sans refaire de vérification.
+
+## Comment ça marche
+
+1. Vous demandez une identité, en tout ou en partie : identité complète, majeur ou non, nationalité.
+2. La personne voit dans son application qui demande, quoi et pourquoi.
+3. Elle accepte ou refuse.
+4. Si elle accepte, vous recevez seulement ce qu'elle a accepté de partager.
+
+## Ce qui est garanti
+
+- **Rien sans accord** : chaque partage est demandé et accepté.
+- **Le minimum** : pour un contrôle d'âge, vous recevez « majeur : oui », jamais la date de naissance.
+- **Un identifiant propre à vous** : la personne a un identifiant différent pour chaque organisation, qui ne permet pas de la suivre ailleurs.
+
+## Exemple : une ouverture de compte
+
+Khady Sarr ouvre un compte chez Banque Horizon depuis le site de la banque.
+
+1. Elle saisit son numéro. La banque appelle [Demander une identité](/fr/api-reference/connect/create) avec `claims: ["identity"]` et la raison « Ouverture de votre compte ».
+2. Khady reçoit dans son application : « Banque Horizon souhaite vérifier votre identité », avec ce qui sera partagé.
+3. Elle accepte. La banque reçoit son identité, déjà vérifiée par Trayce, et ouvre le compte sans lui redemander de photo de sa pièce ni de selfie.
+
+## Dans l'API
+
+Les routes de Connect sont prévues : [demander une identité](/fr/api-reference/connect/create), [suivre la demande](/fr/api-reference/connect/get).

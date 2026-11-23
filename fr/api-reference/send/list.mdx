@@ -1,0 +1,46 @@
+---
+title: "Lister les envois"
+description: "GET /v1/send"
+tag: "Disponible pour les pilotes"
+---
+
+<Check>Disponible pour les pilotes : vous pouvez appeler cette route avec une clé de votre organisation.</Check>
+
+Les documents émis par votre organisation, du plus récent au plus ancien.
+
+```bash
+GET https://api.trayce.africa/v1/send
+```
+
+Permission requise : `send:read`
+
+## Paramètres
+
+<ParamField query="limit" type="integer">
+Nombre d'éléments, 100 au maximum.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+Valeur `next_cursor` de la page précédente.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "data": [
+    {
+      "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+      "status": "accepted",
+      "doc_type": "payslip",
+      "recipient_phone": "+221771234567",
+      "external_id": "PAIE-2026-11-0042",
+      "delivered_at": "2026-11-23T10:00:04Z",
+      "viewed_at": "2026-11-23T12:31:10Z",
+      "accepted_at": "2026-11-23T12:31:22Z"
+    }
+  ],
+  "has_more": false,
+  "next_cursor": null
+}
+```

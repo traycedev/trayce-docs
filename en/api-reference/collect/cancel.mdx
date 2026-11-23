@@ -1,0 +1,30 @@
+---
+title: "Cancel a request"
+description: "POST /v1/collect/{id}/cancel"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Cancel a pending request. The person can no longer reply to it.
+
+```bash
+POST https://api.trayce.africa/v1/collect/{id}/cancel
+```
+
+Required permission: `collect:write`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the request.
+</ParamField>
+
+## Response
+
+```json
+{
+  "id": "c41b9e02-6d1f-4a8e-b2c7-0f5a3d9e1b64",
+  "status": "cancelled"
+}
+```

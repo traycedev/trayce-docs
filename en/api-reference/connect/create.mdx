@@ -1,0 +1,62 @@
+---
+title: "Request an identity"
+description: "POST /v1/connect/requests"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Ask a person to share their identity, already verified by Trayce, in full or in part. They see who is asking, for what and why, and accept or decline in their app.
+
+```bash
+POST https://api.trayce.africa/v1/connect/requests
+```
+
+Required permission: `connect:write`
+
+## Parameters
+
+<ParamField body="recipient_phone" type="string" required>
+Phone number in international format.
+</ParamField>
+
+<ParamField body="claims" type="array" required>
+What you are asking for: `identity` (name, date of birth, document), `age_over_18`, `age_over_21`, `nationality`.
+</ParamField>
+
+<ParamField body="purpose" type="string" required>
+The reason, shown to the person. For example: "Opening your account".
+</ParamField>
+
+<ParamField body="expires_in_days" type="integer">
+Response deadline, from 1 to 7 days. Defaults to 2.
+</ParamField>
+
+<ParamField body="external_id" type="string">
+Your own reference.
+</ParamField>
+
+## Example request
+
+```bash
+curl -X POST https://api.trayce.africa/v1/connect/requests \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "recipient_phone": "+221771234567",
+  "claims": ["identity"],
+  "purpose": "Ouverture de votre compte",
+  "external_id": "CLIENT-88412"
+}'
+```
+
+## Response
+
+```json
+{
+  "id": "con_2be71…",
+  "status": "pending",
+  "expires_at": "2026-11-25T10:00:00Z",
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```

@@ -1,0 +1,30 @@
+---
+title: "Lister les webhooks"
+description: "GET /v1/webhooks"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Les webhooks de votre organisation.
+
+```bash
+GET https://api.trayce.africa/v1/webhooks
+```
+
+Permission requise : `webhooks:read`
+
+## Réponse
+
+```json
+{
+  "data": [
+    {
+      "id": "whk_0c7e…",
+      "url": "https://exemple.sn/trayce/webhooks",
+      "events": ["collect.submitted", "verify.completed"],
+      "created_at": "2026-11-23T10:00:00Z"
+    }
+  ]
+}
+```

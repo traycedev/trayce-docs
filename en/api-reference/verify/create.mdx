@@ -1,0 +1,48 @@
+---
+title: "Verify a document"
+description: "POST /v1/verify/documents"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Verify a document received outside Trayce (by email, at a desk…). Trayce analyses it (N1). If the document was issued in Trayce, its signature is also checked (N2).
+
+```bash
+POST https://api.trayce.africa/v1/verify/documents
+```
+
+Required permission: `verify:write`
+
+## Parameters
+
+<ParamField body="file" type="file" required>
+The document, as PDF, JPEG or PNG (10 MB maximum). Sent as `multipart/form-data`.
+</ParamField>
+
+<ParamField body="doc_type" type="string">
+Expected type, to guide the analysis.
+</ParamField>
+
+<ParamField body="external_id" type="string">
+Your own reference.
+</ParamField>
+
+## Response
+
+```json
+{
+  "id": "vrf_3a9e…",
+  "status": "completed",
+  "level": "N1",
+  "checks": {
+    "analysis": "passed",
+    "signature": "not_applicable",
+    "source": "not_requested"
+  },
+  "findings": [],
+  "created_at": "2026-11-23T10:00:00Z"
+}
+```
+
+Here, and only here, Trayce reads the document: this is needed to analyse it. Documents received through Collect stay end-to-end encrypted.

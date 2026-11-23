@@ -26,67 +26,37 @@
         "tabs": [
           {
             "tab": "Docs",
-            "icon": "book-open",
             "groups": [
               {
                 "group": "Démarrer",
-                "icon": "rocket",
                 "pages": [
                   "fr/index",
                   "fr/quickstart",
-                  "fr/trial",
-                  "fr/authentication"
+                  "fr/authentication",
+                  "fr/trial"
                 ]
               },
               {
-                "group": "Send",
-                "icon": "send",
+                "group": "Concepts",
                 "pages": [
-                  "fr/concepts/send"
-                ]
-              },
-              {
-                "group": "Collect",
-                "icon": "inbox",
-                "pages": [
+                  "fr/concepts/send",
                   "fr/concepts/collect",
-                  "fr/concepts/workflows",
-                  "fr/concepts/collections",
-                  "fr/concepts/links",
-                  "fr/concepts/documents"
-                ]
-              },
-              {
-                "group": "Workflows",
-                "icon": "git-branch",
-                "pages": [
-                  "fr/workflows/kyc",
-                  "fr/workflows/kyb",
-                  "fr/workflows/tenant-application"
-                ]
-              },
-              {
-                "group": "Guides",
-                "icon": "map",
-                "pages": [
-                  "fr/guides/send-document",
-                  "fr/guides/tenant-application",
-                  "fr/guides/webhooks"
+                  "fr/concepts/verify",
+                  "fr/concepts/connect",
+                  "fr/concepts/scan"
                 ]
               },
               {
                 "group": "Plateforme",
-                "icon": "server",
                 "pages": [
                   "fr/webhooks",
-                  "fr/security",
                   "fr/errors",
+                  "fr/security",
                   "fr/dashboard"
                 ]
               },
               {
                 "group": "Ressources",
-                "icon": "library",
                 "pages": [
                   "fr/changelog",
                   "fr/support"
@@ -96,145 +66,104 @@
           },
           {
             "tab": "API",
-            "icon": "code",
             "groups": [
               {
                 "group": "Vue d'ensemble",
-                "icon": "book-open",
                 "pages": [
                   "fr/api-reference/introduction",
-                  "fr/api-reference/errors",
                   "fr/api-reference/rate-limits"
                 ]
               },
               {
-                "group": "Apps",
-                "icon": "layout-grid",
-                "pages": [
-                  "fr/api-reference/apps/create",
-                  "fr/api-reference/apps/list",
-                  "fr/api-reference/apps/get"
-                ]
-              },
-              {
-                "group": "Collections",
-                "icon": "folders",
-                "pages": [
-                  "fr/api-reference/collections/create",
-                  "fr/api-reference/collections/list",
-                  "fr/api-reference/collections/get"
-                ]
-              },
-              {
                 "group": "Send",
-                "icon": "send",
                 "pages": [
-                  "fr/api-reference/documents/send-create",
-                  "fr/api-reference/documents/send-list",
-                  "fr/api-reference/documents/send-get"
+                  "fr/api-reference/send/upload",
+                  "fr/api-reference/send/create",
+                  "fr/api-reference/send/list",
+                  "fr/api-reference/send/get",
+                  "fr/api-reference/send/revoke"
                 ]
               },
               {
                 "group": "Collect",
-                "icon": "inbox",
                 "pages": [
-                  "fr/api-reference/documents/collect-create",
-                  "fr/api-reference/documents/collect-list",
-                  "fr/api-reference/documents/collect-get"
+                  "fr/api-reference/collect/create",
+                  "fr/api-reference/collect/list",
+                  "fr/api-reference/collect/get",
+                  "fr/api-reference/collect/documents",
+                  "fr/api-reference/collect/cancel"
+                ]
+              },
+              {
+                "group": "Verify",
+                "pages": [
+                  "fr/api-reference/verify/create",
+                  "fr/api-reference/verify/get",
+                  "fr/api-reference/verify/confirm"
+                ]
+              },
+              {
+                "group": "Connect",
+                "pages": [
+                  "fr/api-reference/connect/create",
+                  "fr/api-reference/connect/get"
+                ]
+              },
+              {
+                "group": "Scan",
+                "pages": [
+                  "fr/api-reference/scan/presentations"
                 ]
               },
               {
                 "group": "Webhooks",
-                "icon": "webhook",
                 "pages": [
-                  "fr/api-reference/webhooks/overview",
+                  "fr/api-reference/webhooks/create",
+                  "fr/api-reference/webhooks/list",
+                  "fr/api-reference/webhooks/delete",
                   "fr/api-reference/webhooks/events"
                 ]
               }
             ]
           }
-        ],
-        "navbar": {
-          "links": [
-            {
-              "label": "Support",
-              "icon": "message-circle",
-              "href": "https://wa.me/221770000000"
-            }
-          ],
-          "primary": {
-            "type": "button",
-            "label": "Espace Business",
-            "href": "https://app.trayce.africa"
-          }
-        }
+        ]
       },
       {
         "language": "en",
         "tabs": [
           {
             "tab": "Docs",
-            "icon": "book-open",
             "groups": [
               {
                 "group": "Get started",
-                "icon": "rocket",
                 "pages": [
                   "en/index",
                   "en/quickstart",
-                  "en/trial",
-                  "en/authentication"
+                  "en/authentication",
+                  "en/trial"
                 ]
               },
               {
-                "group": "Send",
-                "icon": "send",
+                "group": "Concepts",
                 "pages": [
-                  "en/concepts/send"
-                ]
-              },
-              {
-                "group": "Collect",
-                "icon": "inbox",
-                "pages": [
+                  "en/concepts/send",
                   "en/concepts/collect",
-                  "en/concepts/workflows",
-                  "en/concepts/collections",
-                  "en/concepts/links",
-                  "en/concepts/documents"
-                ]
-              },
-              {
-                "group": "Workflows",
-                "icon": "git-branch",
-                "pages": [
-                  "en/workflows/kyc",
-                  "en/workflows/kyb",
-                  "en/workflows/tenant-application"
-                ]
-              },
-              {
-                "group": "Guides",
-                "icon": "map",
-                "pages": [
-                  "en/guides/send-document",
-                  "en/guides/tenant-application",
-                  "en/guides/webhooks"
+                  "en/concepts/verify",
+                  "en/concepts/connect",
+                  "en/concepts/scan"
                 ]
               },
               {
                 "group": "Platform",
-                "icon": "server",
                 "pages": [
                   "en/webhooks",
-                  "en/security",
                   "en/errors",
+                  "en/security",
                   "en/dashboard"
                 ]
               },
               {
                 "group": "Resources",
-                "icon": "library",
                 "pages": [
                   "en/changelog",
                   "en/support"
@@ -244,78 +173,67 @@
           },
           {
             "tab": "API",
-            "icon": "code",
             "groups": [
               {
                 "group": "Overview",
-                "icon": "book-open",
                 "pages": [
                   "en/api-reference/introduction",
-                  "en/api-reference/errors",
                   "en/api-reference/rate-limits"
                 ]
               },
               {
-                "group": "Apps",
-                "icon": "layout-grid",
-                "pages": [
-                  "en/api-reference/apps/create",
-                  "en/api-reference/apps/list",
-                  "en/api-reference/apps/get"
-                ]
-              },
-              {
-                "group": "Collections",
-                "icon": "folders",
-                "pages": [
-                  "en/api-reference/collections/create",
-                  "en/api-reference/collections/list",
-                  "en/api-reference/collections/get"
-                ]
-              },
-              {
                 "group": "Send",
-                "icon": "send",
                 "pages": [
-                  "en/api-reference/documents/send-create",
-                  "en/api-reference/documents/send-list",
-                  "en/api-reference/documents/send-get"
+                  "en/api-reference/send/upload",
+                  "en/api-reference/send/create",
+                  "en/api-reference/send/list",
+                  "en/api-reference/send/get",
+                  "en/api-reference/send/revoke"
                 ]
               },
               {
                 "group": "Collect",
-                "icon": "inbox",
                 "pages": [
-                  "en/api-reference/documents/collect-create",
-                  "en/api-reference/documents/collect-list",
-                  "en/api-reference/documents/collect-get"
+                  "en/api-reference/collect/create",
+                  "en/api-reference/collect/list",
+                  "en/api-reference/collect/get",
+                  "en/api-reference/collect/documents",
+                  "en/api-reference/collect/cancel"
+                ]
+              },
+              {
+                "group": "Verify",
+                "pages": [
+                  "en/api-reference/verify/create",
+                  "en/api-reference/verify/get",
+                  "en/api-reference/verify/confirm"
+                ]
+              },
+              {
+                "group": "Connect",
+                "pages": [
+                  "en/api-reference/connect/create",
+                  "en/api-reference/connect/get"
+                ]
+              },
+              {
+                "group": "Scan",
+                "pages": [
+                  "en/api-reference/scan/presentations"
                 ]
               },
               {
                 "group": "Webhooks",
-                "icon": "webhook",
                 "pages": [
-                  "en/api-reference/webhooks/overview",
+                  "en/api-reference/webhooks/create",
+                  "en/api-reference/webhooks/list",
+                  "en/api-reference/webhooks/delete",
                   "en/api-reference/webhooks/events"
                 ]
               }
             ]
           }
-        ],
-        "navbar": {
-          "links": [
-            {
-              "label": "Support",
-              "icon": "message-circle",
-              "href": "https://wa.me/221770000000"
-            }
-          ],
-          "primary": {
-            "type": "button",
-            "label": "Business space",
-            "href": "https://app.trayce.africa"
-          }
-        }
+        ]
       }
     ]
   },

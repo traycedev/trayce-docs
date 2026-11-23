@@ -1,0 +1,32 @@
+---
+title: "Scan"
+icon: "scan-line"
+description: "Check on the spot the QR code shown by a person."
+---
+
+At an entrance, a desk or an event, the person shows a QR code from their Trayce app. You check it without ever seeing their documents.
+
+## How it works
+
+1. The person displays their QR code. It changes regularly and is valid for two minutes, once.
+2. You scan it with the **Trayce Scan** app, or with your own tool through the API.
+3. You get the result: valid or not, identity verified or not, over 18 or not, depending on what the person chose to share.
+
+## What is guaranteed
+
+- **No document shown**: only answers, for example "over 18: yes".
+- **No copied QR codes**: a QR code already used or too old is refused.
+- **Repeat visits flagged**: an earlier visit to you is flagged, useful to spot a lent QR code.
+
+## Example: a festival entrance
+
+An adults-only festival checks age at the entrance.
+
+1. The visitor opens their app and displays their QR code.
+2. The agent scans it with Trayce Scan, or the entrance gate calls [Check a QR code](/en/api-reference/scan/presentations).
+3. The response says `age_over_18: true`: entry is granted. The agent sees neither the name, nor the date of birth, nor the ID document.
+4. If the same QR code is shown a second time, it is refused (`already_used`).
+
+## In the API
+
+[Check a QR code](/en/api-reference/scan/presentations) is available to pilots.

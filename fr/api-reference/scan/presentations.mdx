@@ -1,0 +1,53 @@
+---
+title: "Contrôler un QR"
+description: "POST /v1/scan/presentations"
+tag: "Disponible pour les pilotes"
+---
+
+<Check>Disponible pour les pilotes : vous pouvez appeler cette route avec une clé de votre organisation.</Check>
+
+Vérifiez le QR qu'une personne présente depuis son application Trayce, à l'entrée d'un lieu ou au guichet. Vous recevez seulement ce qu'elle a choisi de partager, jamais ses documents.
+
+```bash
+POST https://api.trayce.africa/v1/scan/presentations
+```
+
+Permission requise : `scan:read`
+
+## Paramètres
+
+<ParamField body="qr" type="string" required>
+Le contenu du QR scanné (512 caractères au maximum).
+</ParamField>
+
+## Exemple de requête
+
+```bash
+curl -X POST https://api.trayce.africa/v1/scan/presentations \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "qr": "trc1.eyJ2IjoxLC…"
+}'
+```
+
+## Réponse
+
+```json
+{
+  "valid": true,
+  "subject": "sub_4LkP2…",
+  "previous_presentation_at": null,
+  "proofs": {
+    "authentic": true,
+    "identity": { "verified": true, "expires_at": "2031-04-30" }
+  },
+  "not_shared": ["identity.nationality"],
+  "nationality": null,
+  "sex": null,
+  "age_over_18": true,
+  "age_over_21": true
+}
+```
+
+Un QR est valable deux minutes et une seule fois. S'il est refusé, la réponse vaut `{ "valid": false, "reason": "…" }` avec l'une de ces raisons : `invalid_token`, `unknown_key`, `key_revoked`, `invalid_signature`, `expired`, `not_yet_valid`, `already_used`. L'âge est toujours donné en oui ou non, jamais la date de naissance. `previous_presentation_at` signale un passage précédent chez vous, par exemple un QR prêté.

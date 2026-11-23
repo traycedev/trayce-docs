@@ -1,43 +1,12 @@
 ---
-title: "Changelog"
-icon: "newspaper"
-description: "Version history and updates for the Trayce API."
+title: "What's new"
+icon: "history"
+description: "Changes to the documentation and the API."
 ---
 
-## Versioning
+## November 2026
 
-The Trayce API uses URL path versioning: `/v1/`, `/v2/`, etc. Non-breaking changes are introduced in the current version. Breaking changes result in a new version.
-
-## v1 : Current version
-
-**October 2026**
-
-Initial release of the Trayce Business API.
-
-### Primitives
-
-- **send**: document transmission with secure links and notifications
-- **collect**: structured document collection via Workflows
-
-### Available workflows
-
-- `IDENTITY_VERIFICATION`
-- `KYC`
-- `KYB`
-- `TENANT_APPLICATION`
-- `CIVIL_STATUS_DOCUMENT_ANALYSIS`
-- `CUSTOM`
-
-### Resources
-
-- Apps, Collections, Persons, Links, Documents, Results, Webhooks
-
-### Analysis
-
-- AI Engine: classification, extraction, verification, consistency
-- Business Rules
-- Scoring
-
-<Note>
-  This changelog will be updated with each significant API evolution.
-</Note>
+- New documentation, in preview: Send, Collect, Verify, Connect, Scan and the N1, N2, N3 verification levels.
+- Routes renamed: `/v1/emissions` becomes `/v1/send`, `/v1/verify/presentations` becomes `/v1/scan/presentations`.
+- Each route says whether it is available to pilots or planned.
+- Removed from the offer: business verification.

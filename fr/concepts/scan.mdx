@@ -1,0 +1,32 @@
+---
+title: "Scan"
+icon: "scan-line"
+description: "Contrôler sur place le QR présenté par une personne."
+---
+
+À l'entrée d'un lieu, au guichet ou lors d'un événement, la personne présente un QR depuis son application Trayce. Vous le contrôlez sans jamais voir ses documents.
+
+## Comment ça marche
+
+1. La personne affiche son QR. Il change régulièrement et ne vaut que deux minutes, une seule fois.
+2. Vous le scannez avec l'application **Trayce Scan** ou avec votre propre outil, par l'API.
+3. Vous recevez le résultat : valide ou non, identité vérifiée ou non, majeur ou non, selon ce que la personne a choisi de partager.
+
+## Ce qui est garanti
+
+- **Aucun document montré** : seulement des réponses, par exemple « majeur : oui ».
+- **Pas de QR copié** : un QR déjà utilisé ou trop ancien est refusé.
+- **Repassage signalé** : un passage précédent chez vous est indiqué, utile pour repérer un QR prêté.
+
+## Exemple : l'entrée d'un festival
+
+Un festival interdit aux mineurs contrôle l'âge à l'entrée.
+
+1. Le spectateur ouvre son application et affiche son QR.
+2. L'agent le scanne avec Trayce Scan, ou la borne d'entrée appelle [Contrôler un QR](/fr/api-reference/scan/presentations).
+3. La réponse indique `age_over_18: true` : l'entrée est accordée. L'agent ne voit ni le nom, ni la date de naissance, ni la pièce d'identité.
+4. Si le même QR est présenté une seconde fois, il est refusé (`already_used`).
+
+## Dans l'API
+
+[Contrôler un QR](/fr/api-reference/scan/presentations) est disponible pour les pilotes.

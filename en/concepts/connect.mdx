@@ -1,0 +1,32 @@
+---
+title: "Connect"
+icon: "user-check"
+description: "Receive an identity already verified, with the person's consent."
+---
+
+Your customers may have already verified their identity in Trayce. With Connect, they share it with you in one step, with no new verification.
+
+## How it works
+
+1. You request an identity, in full or in part: full identity, over 18 or not, nationality.
+2. The person sees in their app who is asking, for what and why.
+3. They accept or decline.
+4. If they accept, you only receive what they agreed to share.
+
+## What is guaranteed
+
+- **Nothing without consent**: every share is requested and accepted.
+- **The minimum**: for an age check, you receive "over 18: yes", never the date of birth.
+- **An identifier of your own**: the person has a different identifier for each organisation, which cannot be used to track them elsewhere.
+
+## Example: opening an account
+
+Khady Sarr opens an account with Banque Horizon from the bank's website.
+
+1. She enters her phone number. The bank calls [Request an identity](/en/api-reference/connect/create) with `claims: ["identity"]` and the reason "Opening your account".
+2. Khady sees in her app: "Banque Horizon would like to verify your identity", with what will be shared.
+3. She accepts. The bank receives her identity, already verified by Trayce, and opens the account without asking her again for a photo of her ID or a selfie.
+
+## In the API
+
+Connect routes are planned: [request an identity](/en/api-reference/connect/create), [get the request](/en/api-reference/connect/get).

@@ -1,83 +1,54 @@
 ---
 title: "Collect"
 icon: "inbox"
-description: "Collect documents and information from one or more people through a structured workflow."
+description: "Request documents, already verified when they arrive."
 ---
 
-## What collect does
+With Collect, you request documents from a person: ID document, payslips, proof of address.
 
-**collect** creates a structured request for documents, information, personal data, and supporting evidence. A Collection may involve one person or several people.
+## How it works
 
-## Collection lifecycle
+1. You create a request: the documents you need, a message, a deadline.
+2. The person replies from their Trayce app, or through a link if they do not have Trayce yet.
+3. The documents arrive in your workspace, **each with its verification**.
 
-```
-DRAFT
-  ↓
-ACTIVE
-  ↓
-IN_PROGRESS
-  ↓
-SUBMITTED
-  ↓
-PROCESSING
-  ↓
-COMPLETED
-```
+## Verify is included
 
-Alternative states: `EXPIRED`, `CANCELLED`, `REQUIRES_ACTION`, `REVIEW_REQUIRED`, `FAILED`.
+Every document received is verified automatically, with no extra call:
+- it is analysed (**N1**);
+- if it was issued in Trayce, its signature is checked (**N2**);
+- you can request source confirmation (**N3**) for the documents that matter.
 
-## Collection structure
+See [verification levels](/en/concepts/verify).
 
-```
-COLLECTION
-├── Workflow
-├── Main Applicant
-│   ├── Identity
-│   ├── Documents
-│   └── Data
-├── Additional Persons
-│   ├── Person 1
-│   │   ├── Documents
-│   │   └── Data
-│   └── Person 2
-│       ├── Documents
-│       └── Data
-├── Requirements
-├── Analysis
-├── Business Rules
-├── Scoring
-├── Result
-└── Links
+## What is guaranteed
+
+- The person chooses what they send and sees who to.
+- Documents are encrypted for your organisation: Trayce cannot read them.
+
+## Example: a rental application
+
+A property agency asks Aïssatou Ba, who is applying for a rental, for the documents of her application.
+
+1. The agency creates the request with [Request documents](/en/api-reference/collect/create):
+
+```json
+{
+  "recipient_phone": "+221771234567",
+  "documents": [
+    { "type": "national_id" },
+    { "type": "payslip", "count": 3 },
+    { "type": "proof_of_address" }
+  ],
+  "message": "Documents for your rental application.",
+  "external_id": "LOC-2026-118"
+}
 ```
 
-## Multi-person collection
+2. Aïssatou replies from her app in a few taps: her documents are already there.
+3. The agency receives the `collect.submitted` event, then reads the [received documents](/en/api-reference/collect/documents): payslips issued by the employer in Trayce arrive at level **N2**, the proof of address at level **N1**.
+4. For the payslips, the agency requests [source confirmation](/en/api-reference/verify/confirm): the employer confirms, and they move to level **N3**.
 
-A Collection is not limited to a single participant. Additional people can be added after the Collection is created. Each person can receive a dedicated access link, and their documents are associated with the correct participant within the same Collection.
+## In the API
 
-## Related concepts
-
-<CardGroup cols={2}>
-  <Card title="Workflows" icon="diagram-project" href="/en/concepts/workflows">
-    What a Workflow defines.
-  </Card>
-  <Card title="Persons" icon="users" href="/en/concepts/persons">
-    Roles and participant management.
-  </Card>
-  <Card title="Collection Links" icon="link" href="/en/concepts/links">
-    Secure access to the Collection.
-  </Card>
-  <Card title="Documents" icon="file" href="/en/concepts/documents">
-    Documents attached to a Collection.
-  </Card>
-</CardGroup>
-
-## collect API
-
-```
-POST  /collections
-GET   /collections
-GET   /collections/{collection_id}
-PATCH /collections/{collection_id}
-POST  /collections/{collection_id}/cancel
-POST  /collections/{collection_id}/resend-notification
-```
+[Get a request](/en/api-reference/collect/get) is available to pilots. Creating a request and reading documents are planned: pilots can already follow this flow from their Trayce Business workspace.

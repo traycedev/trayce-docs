@@ -1,0 +1,30 @@
+---
+title: "List webhooks"
+description: "GET /v1/webhooks"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Your organisation's webhooks.
+
+```bash
+GET https://api.trayce.africa/v1/webhooks
+```
+
+Required permission: `webhooks:read`
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": "whk_0c7e…",
+      "url": "https://exemple.sn/trayce/webhooks",
+      "events": ["collect.submitted", "verify.completed"],
+      "created_at": "2026-11-23T10:00:00Z"
+    }
+  ]
+}
+```

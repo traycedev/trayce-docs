@@ -1,0 +1,41 @@
+---
+title: "Résultat d'une vérification"
+description: "GET /v1/verify/documents/{id}"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Le résultat d'une vérification, qu'elle vienne de Collect ou d'un document importé.
+
+```bash
+GET https://api.trayce.africa/v1/verify/documents/{id}
+```
+
+Permission requise : `verify:read`
+
+## Paramètres
+
+<ParamField path="id" type="string" required>
+Identifiant de la vérification.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "id": "vrf_51c0…",
+  "status": "completed",
+  "level": "N3",
+  "checks": {
+    "analysis": "passed",
+    "signature": "verified",
+    "source": "confirmed"
+  },
+  "issuer": { "name": "Teranga Services" },
+  "findings": [],
+  "confirmed_at": "2026-11-25T09:40:12Z"
+}
+```
+
+Valeurs de `checks` : `analysis` (`passed`, `failed`, `inconclusive`), `signature` (`verified`, `invalid`, `not_applicable`), `source` (`not_requested`, `pending`, `confirmed`, `denied`, `unavailable`).

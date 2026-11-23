@@ -1,107 +1,34 @@
 ---
 title: "Send"
 icon: "send"
-description: "Transmettre un document à un utilisateur Trayce de façon sécurisée."
+description: "Émettre des documents signés vers les personnes."
 ---
 
-## Ce que fait send
+Avec Send, votre organisation émet des documents signés : bulletins de salaire, attestations, contrats, factures, relevés.
 
-**send** est une capacité générique pour transmettre un document à un utilisateur Trayce. Elle n'est pas spécialisée par secteur ou cas d'usage.
+## Comment ça marche
 
-### Exemples de documents
+1. Vous émettez un document vers le numéro de téléphone de la personne.
+2. Il arrive dans son application Trayce, déjà classé, au niveau **N2** : signature vérifiée (voir les [niveaux](/fr/concepts/verify)).
+3. Si elle n'a pas encore Trayce, elle reçoit un lien pour le récupérer, puis l'application.
+4. Vous suivez chaque étape : remis, ouvert, accepté ou refusé.
 
-- Bulletin de salaire
-- Contrat
-- Certificat
-- Diplôme
-- Relevé bancaire
-- Facture
-- Document administratif
-- Document RH
+## Ce qui est garanti
 
-## Résolution du destinataire
+- **Signé** : la personne, et toute organisation à qui elle le présentera, peut vérifier qu'il vient bien de vous et qu'il n'a pas été modifié.
+- **Chiffré de bout en bout** : Trayce transporte le document sans pouvoir le lire.
+- **Révocable** : vous pouvez retirer un document émis par erreur.
 
-Un document peut être associé à un destinataire via :
-- un numéro de téléphone
-- un identifiant utilisateur
-- un identifiant de compte Trayce
+## Exemple : les bulletins de salaire
 
-### Si le destinataire n'a pas de compte Trayce
+Teranga Services émet chaque mois les bulletins de ses 120 salariés depuis son logiciel de paie.
 
-Trayce gère automatiquement les cas où le destinataire n'est pas encore inscrit :
-- Invitation envoyée par notification
-- Lien d'accès sécurisé généré
-- Notification WhatsApp (V1)
-- Création ou activation de compte
+1. À la clôture de la paie, le logiciel appelle [Émettre un document](/fr/api-reference/send/create) pour chaque salarié, avec `doc_type: "payslip"` et le numéro de paie en `external_id`.
+2. Moussa Fall reçoit son bulletin dans son application Trayce, rangé dans **Travail**.
+3. Le mois suivant, il demande un prêt : il partage ses trois derniers bulletins avec sa banque, qui les reçoit au niveau N2, sans rien avoir à vérifier à la main.
+4. Le service RH voit dans son suivi qui a ouvert et accepté son bulletin.
 
-## Cycle de vie d'un document
+## Dans l'API
 
-```
-PENDING → PROCESSING → AVAILABLE → DOWNLOADED
-                   ↘ FAILED
-                       REVOKED
-                       EXPIRED
-```
-
-| Statut | Description |
-|---|---|
-| `PENDING` | Le document a été créé et attend traitement. |
-| `PROCESSING` | Le document est en cours de traitement. |
-| `AVAILABLE` | Le document est disponible pour le destinataire. |
-| `DOWNLOADED` | Le document a été téléchargé. |
-| `FAILED` | Le traitement ou la livraison a échoué. |
-| `REVOKED` | L'accès au document a été révoqué. |
-| `EXPIRED` | Le document ou son accès a expiré. |
-
-## Liens de téléchargement sécurisés
-
-Chaque accès à un document se fait via un lien de téléchargement sécurisé avec les propriétés suivantes :
-
-- **Unique** : généré pour chaque demande de téléchargement
-- **Sécurisé** : protégé contre l'accès non autorisé
-- **Révocable** : peut être annulé à tout moment
-- **Expirable** : durée de validité configurable
-- **Traçable** : chaque accès et téléchargement est enregistré
-
-## Notifications
-
-Les notifications informent le destinataire qu'un document est disponible.
-
-### Contenu de la notification
-- Nom de l'entreprise
-- Titre du document
-- Message personnalisé
-- Lien sécurisé
-
-### Statuts de notification
-
-| Statut | Signification |
-|---|---|
-| `PENDING` | La notification attend d'être envoyée. |
-| `SENT` | La notification a été envoyée. |
-| `DELIVERED` | La livraison a été confirmée. |
-| `READ` | La notification a été lue. |
-| `FAILED` | La livraison a échoué. |
-
-WhatsApp est le canal prévu pour la V1.
-
-## API send
-
-```
-POST   /documents
-GET    /documents
-GET    /documents/{document_id}
-DELETE /documents/{document_id}
-POST   /documents/{document_id}/revoke
-POST   /documents/{document_id}/download-link
-POST   /documents/{document_id}/notify
-```
-
-<CardGroup cols={2}>
-  <Card title="Envoyer un document" icon="paper-plane" href="/fr/api-reference/documents/send-create">
-    `POST /documents`
-  </Card>
-  <Card title="Guide : send" icon="book" href="/fr/guides/send-document">
-    Tutoriel complet : créer, notifier et suivre un document.
-  </Card>
-</CardGroup>
+- [Émettre un document](/fr/api-reference/send/create) : disponible pour les pilotes en mode test.
+- Le dépôt du fichier chiffré et l'envoi réel par l'API ouvriront avec le SDK. En attendant, les pilotes émettent depuis leur espace Trayce Business.

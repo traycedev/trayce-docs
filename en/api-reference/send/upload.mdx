@@ -1,0 +1,49 @@
+---
+title: "Prepare an upload"
+description: "POST /v1/send/uploads"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Get an upload address for the encrypted file you are about to send. Encryption happens on your side, with the SDK: Trayce never receives the document in clear.
+
+```bash
+POST https://api.trayce.africa/v1/send/uploads
+```
+
+Required permission: `send:write`
+
+## Parameters
+
+<ParamField body="content_type" type="string" required>
+`application/pdf`, `image/jpeg` or `image/png`.
+</ParamField>
+
+<ParamField body="size" type="integer" required>
+Size of the encrypted file, in bytes (10 MB maximum).
+</ParamField>
+
+## Example request
+
+```bash
+curl -X POST https://api.trayce.africa/v1/send/uploads \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "content_type": "application/pdf",
+  "size": 184320
+}'
+```
+
+## Response
+
+```json
+{
+  "upload_id": "upl_7f3c2a91",
+  "upload_url": "https://uploads.trayce.africa/…",
+  "expires_at": "2026-11-23T10:15:00Z"
+}
+```
+
+Upload the encrypted file to `upload_url` with a `PUT` request, then pass `upload_id` to [Send a document](/en/api-reference/send/create). The Node.js SDK does both steps for you.

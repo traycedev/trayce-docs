@@ -1,0 +1,43 @@
+---
+title: "Get a sent document"
+description: "GET /v1/send/{id}"
+tag: "Available to pilots"
+---
+
+<Check>Available to pilots: you can call this route with a key from your organisation.</Check>
+
+The state of a sent document and the date of each step.
+
+```bash
+GET https://api.trayce.africa/v1/send/{id}
+```
+
+Required permission: `send:read`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the sent document.
+</ParamField>
+
+## Response
+
+```json
+{
+  "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+  "status": "viewed",
+  "mode": "live",
+  "doc_type": "payslip",
+  "recipient_phone": "+221771234567",
+  "external_id": "PAIE-2026-11-0042",
+  "expires_at": "2026-12-07T10:00:00Z",
+  "created_at": "2026-11-23T10:00:00Z",
+  "delivered_at": "2026-11-23T10:00:04Z",
+  "viewed_at": "2026-11-23T12:31:10Z",
+  "accepted_at": null,
+  "declined_at": null,
+  "revoked_at": null
+}
+```
+
+Statuses: `queued` (created), `delivered` (arrived in the app), `viewed` (opened), `accepted` (kept in the vault), `declined` (refused by the person), `revoked` (withdrawn by you), `expired` (not claimed in time).

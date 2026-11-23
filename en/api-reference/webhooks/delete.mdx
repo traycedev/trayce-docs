@@ -1,0 +1,30 @@
+---
+title: "Delete a webhook"
+description: "DELETE /v1/webhooks/{id}"
+tag: "Planned"
+---
+
+<Note>Planned: this route is not open yet. It is described to help you prepare your integration and may still change.</Note>
+
+Stop sending events to this address.
+
+```bash
+DELETE https://api.trayce.africa/v1/webhooks/{id}
+```
+
+Required permission: `webhooks:write`
+
+## Parameters
+
+<ParamField path="id" type="string" required>
+ID of the webhook.
+</ParamField>
+
+## Response
+
+```json
+{
+  "id": "whk_0c7e…",
+  "deleted": true
+}
+```

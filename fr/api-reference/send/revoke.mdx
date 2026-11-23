@@ -1,0 +1,46 @@
+---
+title: "Retirer un envoi"
+description: "POST /v1/send/{id}/revoke"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Retirez un document émis par erreur ou devenu caduc. La personne ne peut plus l'ouvrir et il est marqué comme retiré dans son application.
+
+```bash
+POST https://api.trayce.africa/v1/send/{id}/revoke
+```
+
+Permission requise : `send:write`
+
+## Paramètres
+
+<ParamField path="id" type="string" required>
+Identifiant de l'envoi.
+</ParamField>
+
+<ParamField body="reason" type="string">
+Motif affiché à la personne (200 caractères au maximum).
+</ParamField>
+
+## Exemple de requête
+
+```bash
+curl -X POST https://api.trayce.africa/v1/send/{id}/revoke \
+  -H "Authorization: Bearer trc_test_…" \
+  -H "Content-Type: application/json" \
+  -d '{
+  "reason": "Document remplacé par une version corrigée."
+}'
+```
+
+## Réponse
+
+```json
+{
+  "id": "8d0c6f1e-2b7a-4c3e-9a51-5f2e0b7d4c18",
+  "status": "revoked",
+  "revoked_at": "2026-11-24T09:12:00Z"
+}
+```

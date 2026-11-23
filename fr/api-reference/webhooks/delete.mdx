@@ -1,0 +1,30 @@
+---
+title: "Supprimer un webhook"
+description: "DELETE /v1/webhooks/{id}"
+tag: "Prévue"
+---
+
+<Note>Prévue : cette route n'est pas encore ouverte. Elle est décrite pour vous aider à préparer votre intégration et peut encore évoluer.</Note>
+
+Arrêtez l'envoi des événements vers cette adresse.
+
+```bash
+DELETE https://api.trayce.africa/v1/webhooks/{id}
+```
+
+Permission requise : `webhooks:write`
+
+## Paramètres
+
+<ParamField path="id" type="string" required>
+Identifiant du webhook.
+</ParamField>
+
+## Réponse
+
+```json
+{
+  "id": "whk_0c7e…",
+  "deleted": true
+}
+```

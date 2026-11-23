@@ -1,107 +1,34 @@
 ---
 title: "Send"
 icon: "send"
-description: "Transmit a document to a Trayce user securely."
+description: "Issue signed documents to people."
 ---
 
-## What send does
+With Send, your organisation issues signed documents: payslips, certificates, contracts, invoices, statements.
 
-**send** is a generic capability for transmitting a document to a Trayce user. It is not specialised by sector or use case.
+## How it works
 
-### Document examples
+1. You send a document to the person's phone number.
+2. It arrives in their Trayce app, already filed, at level **N2**: signature verified (see [levels](/en/concepts/verify)).
+3. If they do not have Trayce yet, they receive a link to claim it, then the app.
+4. You follow each step: delivered, opened, accepted or declined.
 
-- Payslip
-- Contract
-- Certificate
-- Diploma
-- Bank statement
-- Invoice
-- Administrative document
-- HR document
+## What is guaranteed
 
-## Recipient resolution
+- **Signed**: the person, and any organisation they show it to, can check it really comes from you and has not been changed.
+- **End-to-end encrypted**: Trayce carries the document without being able to read it.
+- **Revocable**: you can withdraw a document sent by mistake.
 
-A document can be associated with a recipient via:
-- A phone number
-- A user identifier
-- A Trayce account identifier
+## Example: payslips
 
-### If the recipient has no Trayce account
+Teranga Services issues its 120 employees' payslips every month from its payroll software.
 
-Trayce handles the case where the recipient is not yet registered:
-- Invitation sent by notification
-- Secure access link generated
-- WhatsApp notification (V1)
-- Account creation or activation
+1. When payroll closes, the software calls [Send a document](/en/api-reference/send/create) for each employee, with `doc_type: "payslip"` and the payroll number as `external_id`.
+2. Moussa Fall receives his payslip in his Trayce app, filed under **Work**.
+3. The following month, he applies for a loan: he shares his last three payslips with his bank, which receives them at level N2, with nothing to check by hand.
+4. HR sees in its tracking who opened and accepted their payslip.
 
-## Document lifecycle
+## In the API
 
-```
-PENDING → PROCESSING → AVAILABLE → DOWNLOADED
-                   ↘ FAILED
-                       REVOKED
-                       EXPIRED
-```
-
-| Status | Description |
-|---|---|
-| `PENDING` | The document has been created and is awaiting processing. |
-| `PROCESSING` | The document is being processed. |
-| `AVAILABLE` | The document is available to the recipient. |
-| `DOWNLOADED` | The document has been downloaded. |
-| `FAILED` | Processing or delivery failed. |
-| `REVOKED` | Access to the document has been revoked. |
-| `EXPIRED` | The document or its access has expired. |
-
-## Secure download links
-
-Each document access uses a secure download link with the following properties:
-
-- **Unique** : generated for each download request
-- **Secure** : protected against unauthorised access
-- **Revocable** : can be cancelled at any time
-- **Expirable** : configurable validity period
-- **Traceable** : every access and download is recorded
-
-## Notifications
-
-Notifications inform the recipient that a document is available.
-
-### Notification content
-- Company name
-- Document title
-- Custom message
-- Secure link
-
-### Notification statuses
-
-| Status | Meaning |
-|---|---|
-| `PENDING` | Notification is waiting to be sent. |
-| `SENT` | Notification was sent. |
-| `DELIVERED` | Delivery was confirmed. |
-| `READ` | Notification was read. |
-| `FAILED` | Delivery failed. |
-
-WhatsApp is the planned channel for V1.
-
-## send API
-
-```
-POST   /documents
-GET    /documents
-GET    /documents/{document_id}
-DELETE /documents/{document_id}
-POST   /documents/{document_id}/revoke
-POST   /documents/{document_id}/download-link
-POST   /documents/{document_id}/notify
-```
-
-<CardGroup cols={2}>
-  <Card title="Send a document" icon="paper-plane" href="/en/api-reference/documents/send-create">
-    `POST /documents`
-  </Card>
-  <Card title="Guide : send" icon="book" href="/en/guides/send-document">
-    Full tutorial: create, notify and track a document.
-  </Card>
-</CardGroup>
+- [Send a document](/en/api-reference/send/create): available to pilots in test mode.
+- Encrypted upload and live sending through the API open with the SDK. Until then, pilots send from their Trayce Business workspace.
