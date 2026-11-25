@@ -3,15 +3,18 @@
   "theme": "mint",
   "name": "Trayce Docs",
   "logo": {
-    "dark": "/logo/dark.png",
-    "light": "/logo/light.png"
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
   },
   "colors": {
-    "primary": "#348ca8",
-    "light": "#54abb6",
-    "dark": "#1e6a82"
+    "primary": "#2F7F8A",
+    "light": "#54ABB6",
+    "dark": "#11294A"
   },
-  "favicon": "/favicon.png",
+  "fonts": {
+    "family": "Plus Jakarta Sans"
+  },
+  "favicon": "/favicon.svg",
   "appearance": {
     "default": "system"
   },
