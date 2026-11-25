@@ -1,12 +1,12 @@
 ---
-title: "Check a QR code"
+title: "Check a Pass"
 description: "POST /v1/scan/presentations"
 tag: "Available to pilots"
 ---
 
 <Check>Available to pilots: you can call this route with a key from your organisation.</Check>
 
-Check the QR code a person shows from their Trayce app, at an entrance or a desk. You only receive what they chose to share, never their documents.
+Check the Pass a person shows from their Trayce app, at an entrance or a desk. You only receive what they chose to share, never their documents.
 
 ```bash
 POST https://api.trayce.africa/v1/scan/presentations
@@ -17,7 +17,7 @@ Required permission: `scan:read`
 ## Parameters
 
 <ParamField body="qr" type="string" required>
-The content of the scanned QR code (512 characters maximum).
+The content of the scanned Pass, that is the text read from the QR code (512 characters maximum).
 </ParamField>
 
 ## Example request
@@ -50,4 +50,4 @@ curl -X POST https://api.trayce.africa/v1/scan/presentations \
 }
 ```
 
-A QR code is valid for two minutes, once. If it is refused, the response is `{ "valid": false, "reason": "…" }` with one of these reasons: `invalid_token`, `unknown_key`, `key_revoked`, `invalid_signature`, `expired`, `not_yet_valid`, `already_used`. Age is always a yes or no, never the date of birth. `previous_presentation_at` flags an earlier visit to you, for example a lent QR code.
+A Pass is valid for two minutes, once. If it is refused, the response is `{ "valid": false, "reason": "…" }` with one of these reasons: `invalid_token`, `unknown_key`, `key_revoked`, `invalid_signature`, `expired`, `not_yet_valid`, `already_used`. Age is always a yes or no, never the date of birth. `previous_presentation_at` flags an earlier visit to you, for example a lent Pass.
